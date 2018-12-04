@@ -1,4 +1,3 @@
-
 def a1():
     inp = open("inp/adv-1.inp").readlines()
     b = 0
@@ -16,7 +15,6 @@ def a1():
             olds.add(b)
         if not notFound:
             break
-
 
 def a2():
     inp = [l.strip() for l in open("inp/adv-2.inp").readlines()]
@@ -40,7 +38,6 @@ def a2():
             if val in vals:
                 print val, ctr, vals[val]
             vals[val] = ctr
-
 
 def a3():
     import re
@@ -67,3 +64,48 @@ def a3():
                 tot[(cx + x, cy + y)] = cid
     print len(dupes)
     print ids.difference(dupIds)
+
+def a4():
+    from collections import defaultdict
+    import re
+    inp = [l.strip() for l in open("inp/adv-4.inp").readlines()]
+    r = re.compile(r"\[(\d+)-(\d+)-(\d+) (\d+):(\d+)\] ([^\n]*)")
+
+    cron = dict()
+    for line in inp:
+        m = r.match(line)
+        if not m:
+            print "reg exp fail"
+        dyead, dmonth, dday, dhour, dmin, text = m.groups()
+        cron[(dmonth, dday, dhour, dmin)] = text
+
+    sk = sorted(cron.keys())
+    agents = dict()
+    agentActive = "umuero"
+    agentStatus = 1 # awake
+    lastDate = ("1518", "01", "00", "00", "00")
+    for dt in sk:
+        text = cron[dt]
+        if text.startswith("Guard"):
+            agentActive = text.split()[1]
+            if agentActive not in agents:
+                agents[agentActive] = defaultdict(int)
+            agentStatus = 1
+        if text == "falls asleep":
+            agentStatus = 0
+        if text == "wakes up":
+            agents[agentActive]['sleep'] += int(dt[-1]) - int(lastDate[-1])
+            for i in range(int(dt[-1]) - int(lastDate[-1])):
+                agents[agentActive][int(lastDate[-1]) + i] += 1
+            agentStatus = 1
+        lastDate = dt
+
+    maxSleep = sorted([(agent, ad.get("sleep", 0)) for agent, ad in agents.items()], key=lambda x: x[1], reverse=True)[0]
+    maxMin = sorted([(minute, val) for minute, val in agents[maxSleep[0]].items()], key=lambda x: x[1], reverse=True)[1]
+    print maxSleep[0], maxMin[0], int(maxSleep[0][1:]) * int(maxMin[0])
+
+    maxMin2 = sorted([(minute, val, agent) for agent in agents.keys() for minute, val in agents[agent].items() if minute != "sleep"], key=lambda x: x[1], reverse=True)[0]
+    print maxMin2, int(maxMin2[2][1:]) * int(maxMin2[0])
+
+
+
