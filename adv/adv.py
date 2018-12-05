@@ -109,3 +109,27 @@ def a4():
 
 
 
+def a5():
+    import copy
+    inp = open("inp/adv-5.inp").read().strip()
+    stack = []
+    rem = dict()
+    for c in inp:
+        if c.lower() not in rem:
+            rem[c.lower()] = copy.copy(stack)
+        for rc, rstack in rem.items():
+            if c.lower() == rc:
+                continue
+            if len(rstack) > 0 and rstack[-1].lower() == c.lower() and rstack[-1] != c:
+                rstack.pop()
+            else:
+                rstack.append(c)
+
+        if len(stack) > 0 and stack[-1].lower() == c.lower() and stack[-1] != c:
+            stack.pop()
+        else:
+            stack.append(c)
+
+    print len(stack)
+    print sorted([(len(rstack), rc) for rc, rstack in rem.items()])[0]
+
