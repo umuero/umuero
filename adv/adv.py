@@ -107,8 +107,6 @@ def a4():
     maxMin2 = sorted([(minute, val, agent) for agent in agents.keys() for minute, val in agents[agent].items() if minute != "sleep"], key=lambda x: x[1], reverse=True)[0]
     print maxMin2, int(maxMin2[2][1:]) * int(maxMin2[0])
 
-
-
 def a5():
     import copy
     inp = open("inp/adv-5.inp").read().strip()
@@ -133,3 +131,33 @@ def a5():
     print len(stack)
     print sorted([(len(rstack), rc) for rc, rstack in rem.items()])[0]
 
+def a6():
+    from collections import Counter
+    inp = [l.strip().split(", ") for l in open("inp/adv-6.inp").readlines()]
+    points = [(int(i[0]), int(i[1])) for i in inp]
+    def near(px, py):
+        dists = sorted([(abs(x-px)+abs(y-py), x, y) for x,y in points])
+        if dists[0][0] == dists[1][0]:
+            return "."
+        return dists[0][1], dists[0][2]
+    def dsum(px, py):
+        return sum([abs(x-px)+abs(y-py) for x,y in points])
+    # maxX, maxY -> loop ? tatsiz
+    res = dict()
+    dCtr = 0
+    infs = set()
+    maxX = sorted(points, key=lambda x: x[0], reverse=True)[0][0]
+    maxY = sorted(points, key=lambda x: x[1], reverse=True)[0][1]
+    for x in range(maxX+1):
+        for y in range(maxY+1):
+            res[x,y] = near(x, y)
+            if x == 0 or y == 0 or x == maxX or y == maxY:
+                infs.add(res[x,y])
+            if dsum(x, y) < 10000:
+                dCtr += 1
+    stat = sorted(Counter(res.values()).items(), key=lambda x:x[1], reverse=True)
+    for p, dist in stat:
+        if p not in infs and p != '.':
+            print dist, p
+            break
+    print dCtr
