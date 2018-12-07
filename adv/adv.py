@@ -161,3 +161,47 @@ def a6():
             print dist, p
             break
     print dCtr
+
+def a7():
+    inp = [(l.split()[1],l.split(" ")[7]) for l in open("inp/adv-7.inp").readlines()]
+    keys = set()
+    req = dict()
+    for x, y in inp:
+        keys.add(x)
+        keys.add(y)
+        if y not in req:
+            req[y] = []
+        req[y].append(x)
+
+    order = []
+    def firstOrder(finished):
+        for k in sk:
+            if k in order:
+                continue
+            if k not in req:
+                return k
+            if len(set(req[k]).difference(set(finished))) == 0:
+                return k
+        return "."
+
+    sk = sorted(keys)
+    for i in sk:
+        order.append(firstOrder(order))
+    print "".join(order)
+
+    sec = 0
+    ww = [0] * 5
+    order = []
+    finish = dict()
+    while len(sk) > len(finish):
+        for wctr, ws in enumerate(ww):
+            if ws <= sec:
+                o = firstOrder([i for i in finish.keys() if finish[i] <= sec])
+                if o == ".":
+                    continue
+                order.append(o)
+                ww[wctr] = sec + ord(o) - 4 # -64 + 60
+                print sec, wctr, o, ww[wctr]
+                finish[o] = ww[wctr]
+        sec += 1
+    print max(finish.values())
