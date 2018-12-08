@@ -205,3 +205,29 @@ def a7():
                 finish[o] = ww[wctr]
         sec += 1
     print max(finish.values())
+
+def a8():
+    inp = [int(l) for l in open("inp/adv-8.inp").read().split()]
+    # inp = [int(l) for l in open("inp/adv-8.ex").read().split()]
+    def processTree(ind):
+        ch, mt = inp[ind], inp[ind + 1]
+        msum, val = 0, 0
+        chs = dict()
+        tctr = 2
+        for i in range(ch):
+            ret = processTree(ind + tctr)
+            chs[i+1] = ret
+            tctr += ret[0]
+            msum += ret[1]
+        for i in range(mt):
+            msum += inp[ind + tctr + i]
+            # print ch, inp[ind + tctr + i]
+            if ch > 0 and inp[ind + tctr + i] <= ch:
+                val += chs[inp[ind + tctr + i]][2]
+        if ch == 0:
+            val = msum
+        tctr += mt
+        return tctr, msum, val
+    print processTree(0)
+
+
