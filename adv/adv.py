@@ -230,4 +230,92 @@ def a8():
         return tctr, msum, val
     print processTree(0)
 
+def a9():
+    class N:
+        def __init__(self, val=None):
+            self.v = val
+            self.p = None
+            self.n = None
+    st = N(0)
+    st.n = st
+    st.p = st
+    head = st
+    # numP, lastM = 5, 25 # 32
+    # numP, lastM = 10, 1618 # 8317
+    # numP, lastM = 13, 7999 # 146373
+    numP, lastM = 432, 71019
+    # numP, lastM = 432, 7101900
+    pl = [0] * numP
+
+    for nextM in range(lastM + 1)[1:]:
+        pCtr = nextM % numP
+        if nextM % 10000 == 0:
+            print nextM
+        if nextM % 23 == 0:
+            head = head.p.p.p.p.p.p
+            pl[pCtr] += head.p.v + nextM
+            head.p.p.n = head
+            head.p = head.p.p
+        else:
+            n = N(nextM)
+            n.p = head.n
+            n.n = head.n.n
+            head.n.n = n
+            n.n.p = n
+            head = n
+    print max(pl)
+
+def a10():
+    import re
+    inp = [l.strip() for l in open("inp/adv-10.inp").readlines()]
+    pl = dict()
+    r = re.compile(r"position=<([^>]+)>\W*velocity=<([^>]+)>")
+    for pctr, line in enumerate(inp):
+        m = r.match(line)
+        if not m:
+            print "reg exp fail", line
+        x, v = m.groups()
+        pl["%d" % pctr] = (int(x.split(",")[0]),int(x.split(",")[-1]),int(v.split(",")[0]),int(v.split(",")[-1]))
+
+    sec = 0
+    cont = True
+    while cont:
+        print "====", sec
+        sk = sorted(pl.keys())
+        mult = 1
+        if pl["0"][0] > 1000:
+            mult = 100
+        sec += 1 * mult
+        for pn in sk:
+            p = pl[pn]
+            pl[pn] = (p[0] + p[2] * mult, p[1] + p[3] * mult, p[2], p[3])
+        aff = 0
+        for p in pl.values():
+            for x in pl.values():
+                if x == p:
+                    continue
+                if (abs(p[0] - x[0]) == 1 and p[1] == x[1]) or (abs(p[1] - x[1]) == 1 and p[0] == x[0]):
+                    print p, x
+                    aff += 1
+        print aff, len(pl)
+        if aff > len(pl) * 1.5:
+            cont = False
+            dd = set()
+            for p in pl.values():
+                dd.add((p[0], p[1]))
+            sx = sorted(dd)
+            minX = sx[0][0]
+            maxX = sx[-1][0]
+            sx = sorted(dd, key=lambda x:x[1])
+            minY = sx[0][1]
+            maxY = sx[-1][1]
+            for y in range(minY - 1, maxY + 2):
+                for x in range(minX - 1, maxX + 2):
+                    if (x, y) in dd:
+                        print "X",
+                    else:
+                        print ".",
+                print ""
+        print sec
+
 
