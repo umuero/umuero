@@ -319,3 +319,33 @@ def a10():
         print sec
 
 
+def a11():
+    serial = 7347
+    def powerL(px, py, ser):
+        rackId = px + 10
+        return ((((rackId * py) + ser) * rackId) / 100 % 10) - 5
+    dt = {(x,y):powerL(x,y,serial) for y in range(1,301) for x in range(1,301)}
+    dts = dict()
+    for x in range(1,301):
+        for y in range(1,301):
+            dts[x,y] = dt[x,y] + dts.get((x,y-1),0) + dts.get((x-1,y),0) - dts.get((x-1, y-1), 0)
+    max = -10
+    curXY = 0,0
+    for x in range(1,299):
+        for y in range(1,299):
+            curS = dts[x+2,y+2] + dts.get((x-1,y-1),0) - dts.get((x+2,y-1),0) - dts.get((x-1,y+2),0)
+            if curS > max:
+                max = curS
+                curXY = x,y
+    print curXY, max
+
+    max2 = -10
+    curXYD = 0,0,0
+    for d in range(1,301):
+        for x in range(1,301-d):
+            for y in range(1,301-d):
+                curS = dts[x+d-1,y+d-1] + dts.get((x-1,y-1),0) - dts.get((x+d-1,y-1),0) - dts.get((x-1,y+d-1),0)
+                if curS > max2:
+                    max2 = curS
+                    curXYD = x,y,d
+    print curXYD, max2
