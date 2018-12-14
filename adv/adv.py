@@ -352,7 +352,6 @@ def a11():
 
 def a12():
     import copy
-    # inp = [l.strip().split() for l in open("inp/adv-12.ex").readlines()]
     inp = [l.strip().split() for l in open("inp/adv-12.inp").readlines()]
     state = inp[0][-1]
     st = {c:i for c,i in enumerate(state)}
