@@ -349,3 +349,82 @@ def a11():
                     max2 = curS
                     curXYD = x,y,d
     print curXYD, max2
+
+def a12():
+    import copy
+    # inp = [l.strip().split() for l in open("inp/adv-12.ex").readlines()]
+    inp = [l.strip().split() for l in open("inp/adv-12.inp").readlines()]
+    state = inp[0][-1]
+    st = {c:i for c,i in enumerate(state)}
+    r = {i[0]: i[2] for i in inp[2:]}
+    print "0", "".join([st[i] for i in sorted(st.keys())])
+    for gen in range(1,21):
+        if gen % 10000 == 0:
+            print gen, "".join([st[i] for i in sorted(st.keys())])
+        newSt = copy.copy(st)
+        sk = sorted([i for i in st.keys() if st[i] == "#"])
+        for i in range(min(sk) - 4, max(sk) + 5):
+            ss = "".join([st.get(i + c, '.') for c in range(-2, 3)])
+            if ss in r:
+                newSt[i] = r[ss]
+            else:
+                newSt[i] = "."
+        st = newSt
+    tot = 0
+    for i,v in st.items():
+        if v == "#":
+            tot += i
+    print tot
+
+    """
+    #part2 2 dict ile ilerle copy yok; rule'lari string join degil score ile match bak; 16x1 + 8x2 + 4x3 + 2x4 + x5
+    # previous states ile match mi bakalim ?
+    rr = dict()
+    score =         * 2 + x
+    2 dict --; [dict, dict] clear
+    for k in r:
+    for gen in range(1,50000000001):
+    """
+
+def a13():
+    inp = [l.strip().split() for l in open("inp/adv-13.inp").readlines()]
+
+def a14():
+    # def prn(st, e1, e2):
+    #     pr = ["", ".", ":", "~"]
+    #     print " ".join([str(i) + pr[(c==e1) + 2*(c==e2)]  for c,i in enumerate(st)])
+    st = list("37")
+    e1, e2, llen = 0, 1, 2
+    goal = 513401
+    while len(st) < 10 + goal:
+        score = int(st[e1]) + int(st[e2])
+        st.extend("%d" % score)
+        e1 = (e1 + 1 + int(st[e1])) % len(st)
+        e2 = (e2 + 1 + int(st[e2])) % len(st)
+    print "".join(st[goal:goal+10])
+
+    from collections import deque
+    st = list("37")
+    e1, e2, llen = 0, 1, 2
+    gl = "513401"
+    last = deque(st[-len(gl):])
+
+    while True:
+        score = int(st[e1]) + int(st[e2])
+        found = False
+        for c in str(score):
+            st.append(c)
+            last.append(c)
+            if len(last) > len(gl):
+                last.popleft()
+            if gl == "".join(last):
+                found = True
+                break
+        if found:
+            break
+        e1 = (e1 + 1 + int(st[e1])) % len(st)
+        e2 = (e2 + 1 + int(st[e2])) % len(st)
+        # print " ".join([str(i) + pr[(c==e1) + 2*(c==e2)]  for c,i in enumerate(st)])
+    print len(st) - len(gl)
+
+a13()
