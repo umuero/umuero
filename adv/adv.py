@@ -351,42 +351,105 @@ def a11():
     print curXYD, max2
 
 def a12():
-    import copy
     inp = [l.strip().split() for l in open("inp/adv-12.inp").readlines()]
     state = inp[0][-1]
-    st = {c:i for c,i in enumerate(state)}
-    r = {i[0]: i[2] for i in inp[2:]}
-    print "0", "".join([st[i] for i in sorted(st.keys())])
+    st = {c:i for c,i in enumerate(state) if i=='#'}
+    r = {i[0]: i[2] for i in inp[2:] if i[2] == '#'}
+
+    print "0", "".join([st.get(i, '.') for i in range(min(st.keys()) - 1, max(st.keys()) + 2)])
     for gen in range(1,21):
-        if gen % 10000 == 0:
-            print gen, "".join([st[i] for i in sorted(st.keys())])
-        newSt = copy.copy(st)
-        sk = sorted([i for i in st.keys() if st[i] == "#"])
-        for i in range(min(sk) - 4, max(sk) + 5):
+        newSt = dict()
+        for i in range(min(st.keys()) - 4, max(st.keys()) + 5):
             ss = "".join([st.get(i + c, '.') for c in range(-2, 3)])
             if ss in r:
                 newSt[i] = r[ss]
-            else:
-                newSt[i] = "."
         st = newSt
-    tot = 0
-    for i,v in st.items():
-        if v == "#":
-            tot += i
-    print tot
+    print sum(st.keys())
 
-    """
-    #part2 2 dict ile ilerle copy yok; rule'lari string join degil score ile match bak; 16x1 + 8x2 + 4x3 + 2x4 + x5
-    # previous states ile match mi bakalim ?
-    rr = dict()
-    score =         * 2 + x
-    2 dict --; [dict, dict] clear
-    for k in r:
-    for gen in range(1,50000000001):
-    """
+    state = inp[0][-1]
+    st = {c:i for c,i in enumerate(state) if i=='#'}
+    r = {i[0]: i[2] for i in inp[2:] if i[2] == '#'}
+
+    print "0", "".join([st.get(i, '.') for i in range(min(st.keys()) - 1, max(st.keys()) + 2)])
+    linear = []
+    for gen in range(1,4001):
+        newSt = dict()
+        for i in range(min(st.keys()) - 4, max(st.keys()) + 5):
+            ss = "".join([st.get(i + c, '.') for c in range(-2, 3)])
+            if ss in r:
+                newSt[i] = r[ss]
+        st = newSt
+        if gen % 100 == 0:
+            print gen, sum(st.keys())
+            linear.append((gen, sum(st.keys())))
+
+    l1 = linear[-1]
+    l2 = linear[-2]
+    print l1[1] + (l1[1] - l2[1]) * (50000000000 - l1[0])/ (l1[0] - l2[0])
 
 def a13():
-    inp = [l.strip().split() for l in open("inp/adv-13.inp").readlines()]
+    inp = open("inp/adv-13.inp").readlines()
+    # inp = open("inp/adv-13.ex").readlines()
+    trans = {">": "-", "<": "-", "v": "|", "^": "|"}
+    tr = { # ['L', 'S', 'R']
+        (">", "/"): "^",
+        ("v", "/"): "<",
+        ("<", "/"): "v",
+        ("^", "/"): ">",
+        (">", "\\"): "v",
+        ("v", "\\"): ">",
+        ("<", "\\"): "^",
+        ("^", "\\"): "<",
+        (">", "+"): "^>v",
+        ("v", "+"): ">v<",
+        ("<", "+"): "v<^",
+        ("^", "+"): "<^>"}
+    agents = []
+    m = dict()
+    for lCtr, line in enumerate(inp):
+        for hCtr, x in enumerate(line):
+            if x == ' ' or x == '\n':
+                continue
+            if x in trans:
+                agents.append({"l": lCtr, "h": hCtr, "d": x, "o": 0})
+            m[lCtr,hCtr] = trans.get(x, x)
+
+    tick = 0
+    while len(agents) > 1:
+        ags = sorted([(x['l'], x['h'], i) for i, x in enumerate(agents)])
+        xy = [(a[0], a[1]) for a in ags]
+        for aIndex in ags:
+            ag = agents[aIndex[2]]
+            if 'c' in ag:
+                continue
+            xy.remove((ag['l'], ag['h']))
+            if ag['d'] == '>':
+                ag['h'] += 1
+            if ag['d'] == '<':
+                ag['h'] -= 1
+            if ag['d'] == '^':
+                ag['l'] -= 1
+            if ag['d'] == 'v':
+                ag['l'] += 1
+            if (ag['l'], ag['h']) in xy:
+                print (ag['l'], ag['h'])
+                for cag in agents:
+                    if cag['l'] == ag['l'] and cag['h'] == ag['h']:
+                        print "removing", cag
+                        cag['c'] = True
+            xy.append((ag['l'], ag['h']))
+            mc = m[ag['l'], ag['h']]
+            if (ag['d'], mc) in tr:
+                if mc == '+':
+                    ag['d'] = tr[ag['d'], mc][ag['o']]
+                    ag['o'] += 1
+                    ag['o'] = ag['o'] % 3
+                else:
+                    ag['d'] = tr[ag['d'], mc]
+        agents = [i for i in agents if 'c' not in i]
+        tick += 1
+        print tick, [(i['l'],i['h'],i['d'],i['o']) for i in agents]
+
 
 def a14():
     # def prn(st, e1, e2):
@@ -403,8 +466,8 @@ def a14():
     print "".join(st[goal:goal+10])
 
     from collections import deque
-    st = list("37")
-    e1, e2, llen = 0, 1, 2
+    # st = list("37")
+    # e1, e2, llen = 0, 1, 2
     gl = "513401"
     last = deque(st[-len(gl):])
 
