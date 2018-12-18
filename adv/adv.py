@@ -489,4 +489,97 @@ def a14():
         # print " ".join([str(i) + pr[(c==e1) + 2*(c==e2)]  for c,i in enumerate(st)])
     print len(st) - len(gl)
 
-a13()
+def a15():
+    inp = open("inp/adv-15.inp").readlines()
+    inp = open("inp/adv-15.ex").readlines()
+    trans = {"G": ".", "E": "."}
+    ad = 3
+    hp = 200
+    tr = { # ['L', 'S', 'R']
+        (">", "/"): "^",
+        ("v", "/"): "<",
+        ("<", "/"): "v",
+        ("^", "/"): ">"
+    }
+    agents = []
+    m = dict()
+    for lCtr, line in enumerate(inp):
+        for hCtr, x in enumerate(line):
+            if x == '#' or x == '\n':
+                continue
+            if x in trans:
+                agents.append({"l": lCtr, "h": hCtr, "d": x})
+            m[lCtr,hCtr] = trans.get(x, x)
+
+    tick = 0
+    while len(agents) > 1:
+        ags = sorted([(x['l'], x['h'], i) for i, x in enumerate(agents)])
+        xy = [(a[0], a[1]) for a in ags]
+        for aIndex in ags:
+            ag = agents[aIndex[2]]
+            if 'c' in ag:
+                continue
+
+
+def a18():
+    inp = open("inp/adv-18.inp").readlines()
+    # inp = open("inp/adv-18.ex").readlines()
+    def conv(mm, xx, yy):
+        n = mm.get((xx-1, yy-1), '') + mm.get((xx-1, yy), '') + mm.get((xx-1, yy+1), '') + mm.get((xx, yy-1), '') + mm.get((xx, yy+1), '') + mm.get((xx+1, yy-1), '') + mm.get((xx+1, yy), '') + mm.get((xx+1, yy+1), '')
+        if mm[xx, yy] == '.' and n.count('|') >= 3:
+            return '|'
+        if mm[xx, yy] == '|' and n.count('#') >= 3:
+            return '#'
+        if mm[xx, yy] == '#' and (n.count('|') == 0 or n.count('#') == 0):
+            return '.'
+        return mm[xx,yy]
+
+    m = [dict(), dict()]
+    for lCtr, line in enumerate(inp):
+        for hCtr, x in enumerate(line):
+            m[0][lCtr,hCtr] = x
+
+    mnt = 0
+    print "===", mnt
+    for y in range(10):
+        print "".join([m[mnt%2][x,y] for x in range(10)])
+    while mnt < 10:
+        # m[mnt % 2] -> m[mnt % 2 + 1]
+        for x,y in m[mnt%2].keys():
+            m[(mnt + 1) % 2][(x,y)] = conv(m[mnt%2], x, y)
+        mnt += 1
+        print "===", mnt
+        for x in range(10):
+            print "".join([m[mnt%2][x,y] for y in range(10)])
+    mp = "".join(m[mnt%2].values())
+    print mp.count("#") * mp.count("|")
+
+    olds = dict()
+    m = [dict(), dict()]
+    for lCtr, line in enumerate(inp):
+        for hCtr, x in enumerate(line):
+            m[0][lCtr,hCtr] = x
+    olds["".join([m[mnt%2][x,y] for x in range(10) for y in range(10)])] = mnt
+
+    mnt = 0
+    lp = 0
+    print "===", mnt
+    while mnt < 1000000000:
+        # m[mnt % 2] -> m[mnt % 2 + 1]
+        for x,y in m[mnt%2].keys():
+            m[(mnt + 1) % 2][(x,y)] = conv(m[mnt%2], x, y)
+        mnt += 1
+        print "===", mnt
+        for x in range(10):
+            print "".join([m[mnt%2][x,y] for y in range(10)])
+        mp = "".join([v for c,v in sorted(m[mnt%2].items()) ])
+        if lp == 0 and mp in olds:
+            print "found loop in", mnt, olds[mp]
+            lp = mnt - olds[mp]
+            mnt += ((1000000000 - mnt) / lp) * lp
+            print "new mnt ", mnt, lp
+        olds[mp] = mnt
+    mp = "".join(m[mnt%2].values())
+    print mp.count("#") * mp.count("|")
+
+a18()
