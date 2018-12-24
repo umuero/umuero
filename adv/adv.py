@@ -705,6 +705,108 @@ def a23():
     print abs(theOne[0]) + abs(theOne[1]) + abs(theOne[2])
 
 def a24():
-    pass
+    import re
+    inp = open("inp/adv-24.inp").readlines()
+    # inp = open("inp/adv-24.ex").readlines()
+    r = re.compile(r"(\d+) units each with (\d+) hit points([^\d]+)with an attack that does (\d+) (\w+) damage at initiative (\d+)")
+    def tryWar(bst):
+        war = dict()
+        army = 'D'
+        armyId = 0
+        for line in inp:
+            line = line.strip()
+            if not line:
+                continue
+            if line == 'Immune System:':
+                army = 'D'
+                continue
+            if line == 'Infection:':
+                army = 'A'
+                continue
+            m = r.match(line)
+            mg = m.groups()
+            ex = mg[2]
+            dmg = int(mg[3])
+            if army == 'D':
+                dmg += bst
+            weak = []
+            immune = []
+            last = ''
+            for extra in ex.strip(" ()").split():
+                extra = extra.strip(" ,;")
+                if extra == 'to':
+                    continue
+                if extra in ['weak', 'immune']:
+                    last = extra
+                else:
+                    if last == 'weak':
+                        weak.append(extra)
+                    elif last == 'immune':
+                        immune.append(extra)
+                    else:
+                        print last, extra, "fail"
+            war[armyId] = {'id': armyId, 'army': army, 'num': int(mg[0]), 'hp': int(mg[1]), 'weak': weak, 'imm': immune, 'dmg': dmg, 'attType': mg[4], 'ini': int(mg[5])}
+            armyId += 1
 
-a24()
+        numA, numD = sum([i['num'] for i in war.values() if i['army'] == 'A']), sum([i['num'] for i in war.values() if i['army'] == 'D'])
+        while numA != 0 and numD != 0:
+            print "======", numA, numD
+            sortedTarget = sorted(war.values(), key=lambda x: (x['num'] * x['dmg'], x['ini']), reverse=True)
+            for gr in sortedTarget:
+                if gr['num'] == 0:
+                    continue
+                maxDmg = (0, 0)
+                for tar in sortedTarget:
+                    if tar['army'] == gr['army'] or tar['num'] == 0:
+                        continue
+                    if 'selected' in tar and tar['selected']: # 2 adam birine saldirmiyomus
+                        continue
+                    mult = 1
+                    if gr['attType'] in tar['weak']:
+                        mult = 2
+                    if gr['attType'] in tar['imm']:
+                        mult = 0
+                    dmg = gr['dmg'] * gr['num'] * mult
+                    if dmg > maxDmg[0]:
+                        maxDmg = (dmg, tar['id'])
+                if maxDmg[0] > 0:
+                    war[maxDmg[1]]['selected'] = True
+                    gr['target'] = maxDmg[1]
+            initiative = sorted(war.values(), key=lambda x: x['ini'], reverse=True)
+            for gr in initiative:
+                if 'target' not in gr:
+                    continue
+                gr = war[gr['id']]
+                tar = war[gr['target']]
+                mult = 1
+                if gr['attType'] in tar['weak']:
+                    mult = 2
+                if gr['attType'] in tar['imm']:
+                    mult = 0
+                dmg = gr['dmg'] * gr['num'] * mult
+                # print "killed", min(dmg / tar['hp'], tar['num']), gr['id'], tar['id']
+                war[gr['target']]['num'] -= dmg / tar['hp']
+                if war[gr['target']]['num'] < 0:
+                    war[gr['target']]['num'] = 0
+                del tar['selected']
+                del gr['target']
+
+            numA2, numD2 = sum([i['num'] for i in war.values() if i['army'] == 'A']), sum([i['num'] for i in war.values() if i['army'] == 'D'])
+            if numA == numA2 and numD == numD2:
+                print "immune stuck ",
+                return numA - numD
+            numA = numA2
+            numD = numD2
+        print "END", numA, numD
+        return numA - numD
+
+    print tryWar(0)
+    print tryWar(34)
+    # boost = 20
+    # while True:
+    #     print "==== boost", boost
+    #     if tryWar(boost) > 0:
+    #         boost += 1
+    #     else:
+    #         break
+    # print boost
