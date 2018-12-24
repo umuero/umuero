@@ -594,7 +594,83 @@ def a16():
         rr = opcode(rr, foundOps[op], a, b, c)
     print rr
 
-#a17
+def a17():
+    import re
+    r = re.compile(r"(\w)\=(\d+), \w\=(\d+)\.\.(\d+)")
+    inp = open("inp/adv-17.inp").readlines()
+
+    def pr():
+        for y in range(maxY+1):
+            print "".join([m.get((x,y), ".") for x in range(minX-1, maxX+2)])
+
+    sx, sy = 500, 0
+    m = dict()
+    for line in inp:
+        mg = r.match(line).groups()
+        print mg
+        for i in range(int(mg[2]), int(mg[3]) + 1):
+            if mg[0] == 'x':
+                m[int(mg[1]), i] = '#'
+            else:
+                m[i, int(mg[1])] = '#'
+
+    minX = min(sorted([i[0] for i in m.keys()]))
+    maxX = max(sorted([i[0] for i in m.keys()]))
+    minY = min(sorted([i[1] for i in m.keys()]))
+    maxY = max(sorted([i[1] for i in m.keys()]))
+
+    br = [(sx, sy)]
+    active = []
+    lastActive = ""
+    while len(br):
+        p = br.pop(0)
+        m[p[0], p[1]] = '|'
+        active.append((p[0], p[1]))
+        if (p[0], p[1] + 1) not in m or m[p[0], p[1] + 1] == '|':
+            # alt bos assagi devam
+            if (p[0], p[1] + 1) not in m and p[1] < maxY + 2:
+                br.append((p[0], p[1] + 1))
+        else:
+            # alt su yada, tas (sag sol yayil)
+            if (p[0] + 1, p[1]) not in m:
+                br.append((p[0] + 1, p[1]))
+            if (p[0] - 1, p[1]) not in m:
+                br.append((p[0] - 1, p[1]))
+        print "======", len(br), p
+        # pr()
+        if len(br) == 0 and len(active) > 0:
+            currActive = "".join([str(i) for i in sorted(active)])
+            if currActive == lastActive:
+                break
+            lastActive = currActive
+            # aktif sular durulacak
+            for a in active:
+                still = True
+                ctr = 0
+                while True:
+                    ctr += 1
+                    if (a[0] + ctr, a[1]) not in m:
+                        still = False
+                        break
+                    if m[a[0] + ctr, a[1]] == '#':
+                        break
+                ctr = 0
+                while True:
+                    ctr += 1
+                    if (a[0] - ctr, a[1]) not in m:
+                        still = False
+                        break
+                    if m[a[0] - ctr, a[1]] == '#':
+                        break
+                if not still:
+                    br.append(a)
+                else:
+                    m[a[0], a[1]] = "~"
+            active = []
+
+    p1 = "".join([m.get((x,y), ".") for x in range(minX-1, maxX+2) for y in range(minY, maxY+1)])
+    print p1.count('~') + p1.count("|")
+    print p1.count('~')
 
 def a18():
     inp = open("inp/adv-18.inp").readlines()
@@ -890,6 +966,45 @@ def a24():
     # print boost
 
 
+def a19():
+    from collections import defaultdict
+    inp = open("inp/adv-19.inp").readlines()
+    # inp = open("inp/adv-19.ex").readlines()
+    cmds = []
+    ipp = -1
+    for line in inp:
+        ps = line.split()
+        if ps[0] == "#ip":
+            ipp = int(ps[1])
+            continue
+        cmds.append((ps[0], int(ps[1]), int(ps[2]), int(ps[3])))
 
-#a21
-# def opcode(regs, op, a, b, c):  # [1,1,2,2], 'addr', 0, 0, 0
+    ip = 0
+    rr = [0,0,0,0,0,0]
+    #rr = [1,0,0,0,0,0]
+    ctrs = defaultdict(int)
+    while ip < len(cmds):
+        rr[ipp] = ip
+        ctrs[ip] += 1
+        opcode(rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3])
+        # loop ileri sarmaca
+        if ip == 10 and ctrs[ip] > 100:
+            if rr[3] + 10000 < rr[5]:
+                rr[3] += 10000
+        if ip == 12 and ctrs[ip] > 3:
+            if rr[1] + 10000 < rr[5]:
+                rr[1] += 10000
+        print ip, rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3]
+        ip = rr[ipp]
+        ip += 1
+    print rr
+    #part2: reg5 + 1
+    # 10551356 ama deil 
+
+# a19()
+
+#def a21():
+    # def opcode(regs, op, a, b, c):  # [1,1,2,2], 'addr', 0, 0, 0
+
+
+
