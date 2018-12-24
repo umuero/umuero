@@ -582,4 +582,129 @@ def a18():
     mp = "".join(m[mnt%2].values())
     print mp.count("#") * mp.count("|")
 
-a18()
+
+
+def a22():
+    d, tx, ty = 8103, 9, 758
+    m = {(0,0): 'M', (tx, ty): 'T'}
+    g = {}
+    def er(x,y):
+        return (g[x,y] + d) % 20183
+    def gI(x, y):
+        if x == 0 and y == 0: return 0
+        if x == tx and y == ty: return 0
+        if y == 0: return x * 16807
+        if x == 0: return y * 48271
+        return er(x-1, y) * er(x, y-1)
+
+    part1 = 0
+    for y in range(ty+1):
+        for x in range(tx+1):
+            g[x,y] = gI(x,y)
+            tt = er(x,y) % 3
+            part1 += tt
+            if tt == 0: m[x,y] = '.' # rocky
+            if tt == 1: m[x,y] = '=' # wet
+            if tt == 2: m[x,y] = '|' # narrow
+    print part1
+
+    maxX = 100 # extend margin
+    for y in range(0, ty+maxX+1):
+        for x in range(0, tx+maxX+1):
+            g[x,y] = gI(x,y)
+            tt = er(x,y) % 3
+            if tt == 0: m[x,y] = '.' # rocky
+            if tt == 1: m[x,y] = '=' # wet
+            if tt == 2: m[x,y] = '|' # narrow
+
+    for y in range(10):
+        print "".join([m[x,y] for x in range(tx+1)])
+
+    ok = {'.': 'TG', '=': 'GN', '|': 'TN'}
+    br = [(0, 'T', 0,0)] # min, gear, pos
+    prevs = dict()
+    while len(br):
+        curr = br.pop(0)
+        if curr[1] == 'T' and curr[2] == tx and curr[3] == ty:
+            print curr
+            break
+        if (curr[1], curr[2], curr[3]) in prevs:
+            continue
+        print curr, len(br)
+        prevs[curr[1], curr[2], curr[3]] = curr[0]
+        if ('T', curr[2], curr[3]) not in prevs and 'T' in ok[m[curr[2], curr[3]]]:
+            br.append((curr[0] + 7, 'T', curr[2], curr[3]))
+        if ('G', curr[2], curr[3]) not in prevs and 'G' in ok[m[curr[2], curr[3]]]:
+            br.append((curr[0] + 7, 'G', curr[2], curr[3]))
+        if ('N', curr[2], curr[3]) not in prevs and 'N' in ok[m[curr[2], curr[3]]]:
+            br.append((curr[0] + 7, 'N', curr[2], curr[3]))
+
+        if curr[2] < tx + maxX and (curr[1], curr[2] + 1, curr[3]) not in prevs and curr[1] in ok[m[curr[2] + 1, curr[3]]]:
+            # prevs.add((curr[1], curr[2] + 1, curr[3]))
+            br.append((curr[0] + 1, curr[1], curr[2] + 1, curr[3]))
+
+        if curr[2] > 0 and (curr[1], curr[2] - 1, curr[3]) not in prevs and curr[1] in ok[m[curr[2] - 1, curr[3]]]:
+            # prevs.add((curr[1], curr[2] - 1, curr[3]))
+            br.append((curr[0] + 1, curr[1], curr[2] - 1, curr[3]))
+
+        if curr[3] < ty + maxX and (curr[1], curr[2], curr[3] + 1) not in prevs and curr[1] in ok[m[curr[2], curr[3] + 1]]:
+            # prevs.add((curr[1], curr[2], curr[3] + 1))
+            br.append((curr[0] + 1, curr[1], curr[2], curr[3] + 1))
+
+        if curr[3] > 0 and (curr[1], curr[2], curr[3] - 1) not in prevs and curr[1] in ok[m[curr[2], curr[3] - 1]]:
+            # prevs.add((curr[1], curr[2], curr[3] - 1))
+            br.append((curr[0] + 1, curr[1], curr[2], curr[3] - 1))
+        br = sorted(br)
+
+def a23():
+    import re
+    from itertools import product
+    inp = open("inp/adv-23.inp").readlines()
+    def p1(m1):
+        ctr = 0
+        for m2 in ps:
+            if abs(m1[0] - m2[0]) + abs(m1[1] - m2[1]) + abs(m1[2] - m2[2]) <= m1[3]:
+                ctr += 1
+        return ctr
+    r = re.compile(r"pos=<([\d-]+),([\d-]+),([\d-]+)>, r=(\d+)")
+    ps = []
+    for line in inp:
+        m = r.match(line)
+        if not m:
+            print "reg exp fail", line
+        ps.append([int(i) for i in m.groups()])
+
+    h = sorted(ps, key=lambda x: x[3], reverse=True)[0]
+    print p1(h)
+
+    def p2(m1):
+        ctr = 0
+        for m2 in ps:
+            if abs(m1[0] - m2[0]) + abs(m1[1] - m2[1]) + abs(m1[2] - m2[2]) <= m2[3]:
+                ctr += 1
+        return ctr
+    sortedX = sorted([i[0] for i in ps])
+    sortedY = sorted([i[1] for i in ps])
+    sortedZ = sorted([i[2] for i in ps])
+    rng = h[3]
+    sample = product(range(sortedX[0], sortedX[-1]+1, rng), range(sortedY[0], sortedY[-1]+1, rng), range(sortedZ[0], sortedZ[-1]+1, rng))
+    while rng > 1:
+        print "===", rng
+        sampleMax = 0
+        goodOnes = []
+        for p in sample:
+            score = p2(p)
+            print p, score
+            if score > sampleMax:
+                sampleMax = score
+                goodOnes = [p]
+        print goodOnes, sampleMax
+        rng = rng / 2
+        theOne = goodOnes[0]
+        sample = product(range(theOne[0] - 2*rng, theOne[0] + 1 + 2*rng, rng), range(theOne[1] - 2*rng, theOne[1] + 1 + 2*rng, rng), range(theOne[2] - 2*rng, theOne[2] + 1 + 2*rng, rng))
+    print abs(theOne[0]) + abs(theOne[1]) + abs(theOne[2])
+
+def a24():
+    pass
+
+a24()
