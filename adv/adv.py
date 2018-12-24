@@ -520,6 +520,81 @@ def a15():
             if 'c' in ag:
                 continue
 
+def opcode(regs, op, a, b, c):
+    if op == 'addr':
+        regs[c] = regs[a] + regs[b]
+    if op == 'addi':
+        regs[c] = regs[a] + b
+    if op == 'mulr':
+        regs[c] = regs[a] * regs[b]
+    if op == 'muli':
+        regs[c] = regs[a] * b
+    if op == 'banr':
+        regs[c] = regs[a] & regs[b]
+    if op == 'bani':
+        regs[c] = regs[a] & b
+    if op == 'borr':
+        regs[c] = regs[a] | regs[b]
+    if op == 'bori':
+        regs[c] = regs[a] | b
+    if op == 'setr':
+        regs[c] = regs[a]
+    if op == 'seti':
+        regs[c] = a
+    if op == 'gtir':
+        regs[c] = int(a > regs[b])
+    if op == 'gtri':
+        regs[c] = int(regs[a] > b)
+    if op == 'gtrr':
+        regs[c] = int(regs[a] > regs[b])
+    if op == 'eqir':
+        regs[c] = int(a == regs[b])
+    if op == 'eqri':
+        regs[c] = int(regs[a] == b)
+    if op == 'eqrr':
+        regs[c] = int(regs[a] == regs[b])
+    return regs
+
+def a16():
+    import re
+    from collections import defaultdict
+    inp = open("inp/adv-16.inp").read()
+    opDict = defaultdict(set)
+    def tryOps(regs, oplist, nextR):
+        ctr = 0
+        for op in ['addr','addi','mulr','muli','banr','bani','borr','bori','setr','seti','gtir','gtri','gtrr','eqir','eqri','eqrr']:
+            if nextR == opcode([i for i in regs], op, oplist[1], oplist[2], oplist[3]):
+                ctr += 1
+                opDict[oplist[0]].add(op)
+        return ctr
+
+    r = re.compile(r"Before: \[(\d+), (\d+), (\d+), (\d+)\]\n(\d+) (\d+) (\d+) (\d+)\nAfter:  \[(\d+), (\d+), (\d+), (\d+)\]")
+    ops = []
+    opCtr = 0
+    for m in r.findall(inp):
+        vl = [int(i) for i in m]
+        exc = (vl[:4], vl[4:8], vl[8:])
+        ops.append(exc)
+        if tryOps(exc[0], exc[1], exc[2]) >= 3:
+            opCtr += 1
+    print opCtr
+    print opDict
+    foundOps = dict()
+    while len(foundOps) < 16:
+        print "loop foundOps", len(foundOps)
+        for opId, opSet in sorted(opDict.items(), key=lambda x: len(x[1])):
+            opSet = opSet.difference(foundOps.values())
+            if len(opSet) == 1:
+                foundOps[opId] = list(opSet)[0]
+
+    rr = [0, 0, 0, 0]
+    part2Index = inp.find('\n\n\n')
+    for opStr in inp[part2Index:].strip().split("\n"):
+        op, a, b, c = [int(i) for i in opStr.split()]
+        rr = opcode(rr, foundOps[op], a, b, c)
+    print rr
+
+#a17
 
 def a18():
     inp = open("inp/adv-18.inp").readlines()
@@ -582,6 +657,9 @@ def a18():
     mp = "".join(m[mnt%2].values())
     print mp.count("#") * mp.count("|")
 
+#a19
+#a20
+#a21
 
 
 def a22():
@@ -810,3 +888,8 @@ def a24():
     #     else:
     #         break
     # print boost
+
+
+
+#a21
+# def opcode(regs, op, a, b, c):  # [1,1,2,2], 'addr', 0, 0, 0
