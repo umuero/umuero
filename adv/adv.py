@@ -1073,3 +1073,75 @@ def a25():
 #a15  - goblin elf war
 #a20  - room regexp
 
+def a20():
+    inpStr = open("inp/adv-20.inp").read()
+    inpStr = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$"
+    # inpStr = "^ENWWW(NEEE|SSE(EE|N))$"
+    lenStr = len(inpStr)
+    print inpStr, lenStr
+    m = {(0, 0): 'X'}
+    def consume(x, y, index, branchEnd=()):
+        initial = (x,y,index)
+        while index < lenStr:
+            print "index", index
+            if inpStr[index] == '$':
+                break
+            if inpStr[index] == '^':
+                index += 1
+
+            if inpStr[index] == 'N':
+                m[x, y-1] = '-'
+                y -= 2
+            if inpStr[index] == 'S':
+                m[x, y+1] = '-'
+                y += 2
+            if inpStr[index] == 'W':
+                m[x-1, y] = '|'
+                x -= 2
+            if inpStr[index] == 'E':
+                m[x+1, y] = '|'
+                x += 2
+            if inpStr[index] in 'NSWE':
+                m[x, y] = '.'
+                index += 1
+
+            if inpStr[index] == '|' or inpStr[index] == ')':
+                consume(x,y,branchEnd[0], branchEnd[1:])
+                break
+            if inpStr[index] == '(':
+                depth = 0
+                brEnd = None
+                childs = [index+1]
+                for ind in range(index+1, lenStr):
+                    if inpStr[ind] == '(':
+                        depth += 1
+                    if inpStr[ind] == ')':
+                        depth -= 1
+                    if depth < 0:
+                        brEnd = ind + 1
+                        break
+                    if inpStr[ind] == '|' and depth == 0:
+                        childs.append(ind+1)
+                print "forking", childs, brEnd, branchEnd
+                for ch in childs:
+                    if brEnd is None:
+                        print "!! wtf !!"
+                    consume(x,y,ch,(brEnd, branchEnd))
+                break
+
+    def pr():
+        minX = min(sorted([i[0] for i in m.keys()]))
+        maxX = max(sorted([i[0] for i in m.keys()]))
+        minY = min(sorted([i[1] for i in m.keys()]))
+        maxY = max(sorted([i[1] for i in m.keys()]))
+        for y in range(minY-1, maxY+2):
+            print "".join([m.get((x,y), "#") for x in range(minX-1, maxX+2)])
+
+    consume(0, 0, 0)
+    pr()
+    import json
+    f = open('partial', 'w')
+    json.dump([str(i) + v for i,v in m.items()], f)
+    f.close()
+
+a20()
