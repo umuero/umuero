@@ -733,10 +733,86 @@ def a18():
     mp = "".join(m[mnt%2].values())
     print mp.count("#") * mp.count("|")
 
-#a19
-#a20
-#a21
+def a19():
+    from collections import defaultdict
+    inp = open("inp/adv-19.inp").readlines()
+    # inp = open("inp/adv-19.ex").readlines()
+    cmds = []
+    ipp = -1
+    for line in inp:
+        ps = line.split()
+        if ps[0] == "#ip":
+            ipp = int(ps[1])
+            continue
+        cmds.append((ps[0], int(ps[1]), int(ps[2]), int(ps[3])))
 
+    ip = 0
+    rr = [0,0,0,0,0,0]
+    ctrs = defaultdict(int)
+    while ip < len(cmds):
+        rr[ipp] = ip
+        ctrs[ip] += 1
+        opcode(rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3])
+        # loop ileri sarmaca
+        if ip == 10:
+            # fast forward
+            if rr[1] * rr[3] < rr[5] - rr[1] - 10:
+                rr[3] = rr[5] / rr[1]
+            # break inner loop
+            if rr[1] * rr[3] > rr[5]:
+                rr[3] = rr[5]
+        print ip, rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3]
+        ip = rr[ipp]
+        ip += 1
+    print rr
+    #part2: reg5 common denominator toplami
+    t, c = 0, 10550400 + rr[5]
+    for i in range(1, c+1):
+        if c%i==0:
+            t += i
+    print t
+
+#a20
+
+def a21():
+    inp = open("inp/adv-21.inp").readlines()
+    cmds = []
+    ipp = -1
+    for line in inp:
+        ps = line.split()
+        if ps[0] == "#ip":
+            ipp = int(ps[1])
+            continue
+        cmds.append((ps[0], int(ps[1]), int(ps[2]), int(ps[3])))
+
+    ip = 0
+    rr = [935350,0,0,0,0,0]
+    while ip < len(cmds):
+        rr[ipp] = ip
+        opcode(rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3])
+        if ip == 28: # only rr[0] call
+            print rr
+            break
+        print ip, rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3]
+        ip = rr[ipp]
+        ip += 1
+    print rr
+
+    # compiled code
+    current = 0
+    seen = set()
+    while True:
+        prev = current | 65536
+        current = 832312
+        while True:
+            current = (current + (prev & 255))*65899 & 16777215;
+            if prev < 256:
+                break
+            prev /= 256
+        if current in seen:
+            break
+        seen.add(current)
+        print current
 
 def a22():
     d, tx, ty = 8103, 9, 758
@@ -956,55 +1032,44 @@ def a24():
 
     print tryWar(0)
     print tryWar(34)
-    # boost = 20
-    # while True:
-    #     print "==== boost", boost
-    #     if tryWar(boost) > 0:
-    #         boost += 1
-    #     else:
-    #         break
-    # print boost
+    for boost in range(20, 50):
+        # print "==== boost", boost
+        if tryWar(boost) < 0:
+            print boost
+            break
 
+def a25():
+    # inp = ["-1,2,2,0", "0,0,2,-2", "0,0,0,-2", "-1,2,0,0", "-2,-2,-2,2", "3,0,2,-1", "-1,3,2,2", "-1,0,-1,0", "0,2,1,-2", "3,0,0,0"] # 4
+    # inp = ["1,-1,0,1", "2,0,-1,0", "3,2,-1,0", "0,0,3,1", "0,0,-1,-1", "2,3,-2,0", "-2,2,0,0", "2,-2,0,-1", "1,-1,0,-1", "3,2,0,2"] # 3
+    # inp = ["1,-1,-1,-2", "-2,-2,0,1", "0,2,1,3", "-2,3,-2,1", "0,2,3,-2", "-1,-1,1,-2", "0,-2,-1,0", "-2,2,3,-1", "1,2,2,0", "-1,-2,0,-2"] # 8
+    inp = open("inp/adv-25.inp").readlines()
+    def d(p1, p2):
+        return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1]) + abs(p1[2] - p2[2]) + abs(p1[3] - p2[3])
 
-def a19():
-    from collections import defaultdict
-    inp = open("inp/adv-19.inp").readlines()
-    # inp = open("inp/adv-19.ex").readlines()
-    cmds = []
-    ipp = -1
+    p = []
+    cons = dict()
     for line in inp:
-        ps = line.split()
-        if ps[0] == "#ip":
-            ipp = int(ps[1])
-            continue
-        cmds.append((ps[0], int(ps[1]), int(ps[2]), int(ps[3])))
+        p.append(tuple([int(i) for i in line.split(",")]))
 
-    ip = 0
-    rr = [0,0,0,0,0,0]
-    #rr = [1,0,0,0,0,0]
-    ctrs = defaultdict(int)
-    while ip < len(cmds):
-        rr[ipp] = ip
-        ctrs[ip] += 1
-        opcode(rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3])
-        # loop ileri sarmaca
-        if ip == 10 and ctrs[ip] > 100:
-            if rr[3] + 10000 < rr[5]:
-                rr[3] += 10000
-        if ip == 12 and ctrs[ip] > 3:
-            if rr[1] + 10000 < rr[5]:
-                rr[1] += 10000
-        print ip, rr, cmds[ip][0], cmds[ip][1], cmds[ip][2], cmds[ip][3]
-        ip = rr[ipp]
-        ip += 1
-    print rr
-    #part2: reg5 + 1
-    # 10551356 ama deil 
-
-# a19()
-
-#def a21():
-    # def opcode(regs, op, a, b, c):  # [1,1,2,2], 'addr', 0, 0, 0
+    for h in p:
+        if h not in cons:
+            cons[h] = {h}
+        for dd in p:
+            if d(h, dd) <= 3:
+                if dd in cons:
+                    for aff in cons[dd]:
+                        cons[h].add(aff)
+                        cons[aff] = cons[h]
+                else:
+                    cons[h].add(dd)
+                    cons[dd] = cons[h]
+    sset = set()
+    for c in cons.values():
+        sset.add("".join([str(i) for i in sorted(c)]))
+    print len(sset)
 
 
+
+#a15  - goblin elf war
+#a20  - room regexp
 
