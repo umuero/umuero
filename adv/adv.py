@@ -772,7 +772,98 @@ def a19():
             t += i
     print t
 
-#a20
+def a20():
+    inpStr = open("inp/adv-20.inp").read()
+    # inpStr = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$"
+    # inpStr = "^ENWWW(NEEE|SSE(EE|N))$"
+    lenStr = len(inpStr)
+    m = {(0, 0): 'X'}
+    def consume(pos, index):
+        while index < lenStr:
+            newPos = set()
+            if inpStr[index] == '^':
+                index += 1
+            if inpStr[index] == '$':
+                return pos
+            print "index",  index, inpStr[index], pos
+
+            if inpStr[index] == 'N':
+                for p in pos:
+                    m[p[0], p[1]-1] = '-'
+                    newPos.add((p[0], p[1]-2))
+            if inpStr[index] == 'S':
+                for p in pos:
+                    m[p[0], p[1]+1] = '-'
+                    newPos.add((p[0], p[1]+2))
+            if inpStr[index] == 'W':
+                for p in pos:
+                    m[p[0]-1, p[1]] = '|'
+                    newPos.add((p[0]-2, p[1]))
+            if inpStr[index] == 'E':
+                for p in pos:
+                    m[p[0]+1, p[1]] = '|'
+                    newPos.add((p[0]+2, p[1]))
+            if inpStr[index] in 'NSWE':
+                for p in newPos:
+                    m[p[0], p[1]] = '.'
+                index += 1
+                pos = newPos
+                continue
+
+            if inpStr[index] == '|' or inpStr[index] == ')':
+                return pos
+            if inpStr[index] == '(':
+                depth = 0
+                brEnd = None
+                childs = [index+1]
+                for ind in range(index+1, lenStr):
+                    if inpStr[ind] == '(':
+                        depth += 1
+                    if inpStr[ind] == ')':
+                        depth -= 1
+                    if depth < 0:
+                        brEnd = ind + 1
+                        break
+                    if inpStr[ind] == '|' and depth == 0:
+                        childs.append(ind+1)
+                print "forking", childs, pos, brEnd
+                for ch in childs:
+                    chPos = consume(pos, ch)
+                    print "fork ret", chPos
+                    newPos = newPos.union(chPos)
+                index = brEnd
+                pos = newPos
+
+    def pr():
+        minX = min(sorted([i[0] for i in m.keys()]))
+        maxX = max(sorted([i[0] for i in m.keys()]))
+        minY = min(sorted([i[1] for i in m.keys()]))
+        maxY = max(sorted([i[1] for i in m.keys()]))
+        for y in range(minY-1, maxY+2):
+            print "".join([m.get((x,y), "#") for x in range(minX-1, maxX+2)])
+
+    consume({(0,0)}, 0)
+    p2 = 0
+    pos = {(0,0)}
+    dist = 0
+    while pos:
+        newPos = set()
+        for p in pos:
+            m[p[0], p[1]] = str(dist)
+            if dist >= 1000:
+                p2 += 1
+            if m.get((p[0]-1, p[1]), '') == '|' and m[p[0]-2, p[1]] == '.':
+                newPos.add((p[0]-2, p[1]))
+            if m.get((p[0]+1, p[1]), '') == '|' and m[p[0]+2, p[1]] == '.':
+                newPos.add((p[0]+2, p[1]))
+            if m.get((p[0], p[1]-1), '') == '-' and m[p[0], p[1]-2] == '.':
+                newPos.add((p[0], p[1]-2))
+            if m.get((p[0], p[1]+1), '') == '-' and m[p[0], p[1]+2] == '.':
+                newPos.add((p[0], p[1]+2))
+        pos = newPos
+        dist += 1
+    print dist-1, p2
+    # pr()
 
 def a21():
     inp = open("inp/adv-21.inp").readlines()
@@ -1068,80 +1159,109 @@ def a25():
         sset.add("".join([str(i) for i in sorted(c)]))
     print len(sset)
 
-
-
-#a15  - goblin elf war
-#a20  - room regexp
-
-def a20():
-    inpStr = open("inp/adv-20.inp").read()
-    inpStr = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$"
-    # inpStr = "^ENWWW(NEEE|SSE(EE|N))$"
-    lenStr = len(inpStr)
-    print inpStr, lenStr
-    m = {(0, 0): 'X'}
-    def consume(x, y, index, branchEnd=()):
-        initial = (x,y,index)
-        while index < lenStr:
-            print "index", index
-            if inpStr[index] == '$':
-                break
-            if inpStr[index] == '^':
-                index += 1
-
-            if inpStr[index] == 'N':
-                m[x, y-1] = '-'
-                y -= 2
-            if inpStr[index] == 'S':
-                m[x, y+1] = '-'
-                y += 2
-            if inpStr[index] == 'W':
-                m[x-1, y] = '|'
-                x -= 2
-            if inpStr[index] == 'E':
-                m[x+1, y] = '|'
-                x += 2
-            if inpStr[index] in 'NSWE':
-                m[x, y] = '.'
-                index += 1
-
-            if inpStr[index] == '|' or inpStr[index] == ')':
-                consume(x,y,branchEnd[0], branchEnd[1:])
-                break
-            if inpStr[index] == '(':
-                depth = 0
-                brEnd = None
-                childs = [index+1]
-                for ind in range(index+1, lenStr):
-                    if inpStr[ind] == '(':
-                        depth += 1
-                    if inpStr[ind] == ')':
-                        depth -= 1
-                    if depth < 0:
-                        brEnd = ind + 1
-                        break
-                    if inpStr[ind] == '|' and depth == 0:
-                        childs.append(ind+1)
-                print "forking", childs, brEnd, branchEnd
-                for ch in childs:
-                    if brEnd is None:
-                        print "!! wtf !!"
-                    consume(x,y,ch,(brEnd, branchEnd))
-                break
+def a15():
+    inp, test = open("inp/adv-15.inp").readlines(), "0"
+    inp, test = open("inp/adv-15.ex").readlines(), "37 * 982 = 36334"
+    # inp, test = open("inp/adv-15.ex2").readlines(), "46 * 859 = 39514"
+    # inp, test = open("inp/adv-15.ex3").readlines(), "54 * 536 = 28944"
+    # inp, test = open("inp/adv-15.ex4").readlines(), "20 * 937 = 18740"
+    hp, dmg = 200, 3
+    agents = []
+    m = dict()
+    for lCtr, line in enumerate(inp):
+        for hCtr, x in enumerate(line):
+            if x == '\n':
+                continue
+            if x in ['G', 'E']:
+                agents.append({"l": lCtr, "h": hCtr, "type": x, "hp": hp, "dmg": dmg, "ind": len(agents)})
+            m[lCtr,hCtr] = x
 
     def pr():
         minX = min(sorted([i[0] for i in m.keys()]))
         maxX = max(sorted([i[0] for i in m.keys()]))
         minY = min(sorted([i[1] for i in m.keys()]))
         maxY = max(sorted([i[1] for i in m.keys()]))
-        for y in range(minY-1, maxY+2):
-            print "".join([m.get((x,y), "#") for x in range(minX-1, maxX+2)])
+        for x in range(minX, maxX+1):
+            print "".join([m.get((x,y), "#") for y in range(minY, maxY+1)])
 
-    consume(0, 0, 0)
+    def adjacent(p):
+        return [(p[0]-1, p[1]), (p[0], p[1]-1), (p[0], p[1]+1), (p[0]+1, p[1])]
+
+    def breadth(ag):
+        dm = {(ag['l'], ag['h']): 0}
+        level = [(ag['l'], ag['h'])]
+        dist = 0
+        while level:
+            newLevel = set()
+            for p in level:
+                dm[p[0], p[1]] = dist
+                for ap in adjacent(p):
+                    if ap not in dm and m[ap] != '#':
+                        if m[ap] == '.':
+                            newLevel.add(ap)
+                        elif m[ap] != ag['type']:
+                            print "found enemy attack location at from", p, ag
+                            # dm uzerinde dist-1 arayarak geri sar, dist 1 move location
+                            for i in range(dist, 0, -1):
+                                for bt in adjacent(p):
+                                    if dm.get(bt, 0) == i:
+                                        p = bt
+                                        break
+                            return p
+            level = sorted(newLevel)
+            dist += 1
+
+    def nearTarget(ag, agents):
+        minEn = {'hp': hp + 1, 'ro': -1, 'ind': -1}
+        for ap in adjacent((ag['l'], ag['h'])):
+            if m[ap] == ('G' if ag['type'] == 'E' else 'E'):
+                # esitligi round basi order belli ediyo
+                enemy = [x for x in agents if x['l'] == ap[0] and x['h'] == ap[1]][0]
+                if (minEn['hp'], minEn['ro']) > (enemy['hp'], enemy['ro']):
+                    minEn = enemy
+        return minEn['ind']
     pr()
-    import json
-    f = open('partial', 'w')
-    json.dump([str(i) + v for i,v in m.items()], f)
-    f.close()
 
-a20()
+    tick = 0
+    while len(agents) > 1:
+        sortedAgents = sorted([(x['l'], x['h'], i) for i, x in enumerate(agents)])
+        for roundOrd, ag in enumerate(sortedAgents):
+            agents[ag[2]]['ro'] = roundOrd
+        for aL, aH, aIndex in sortedAgents:
+            ag = agents[aIndex]
+            if ag['hp'] == -1:
+                continue
+            # oldugu tur atack ediyo mu la bu
+            if ag['hp'] == 0:
+                ag['hp'] = -1
+
+            nearEnemyId = nearTarget(ag, agents)
+            if nearEnemyId == -1:
+                # move - breadth first enemy adjacent - reading order
+                nextPos = breadth(ag)
+                print "moving", ag, nextPos
+                if nextPos is not None:
+                    m[ag['l'], ag['h']] = '.'
+                    ag['l'] = nextPos[0]
+                    ag['h'] = nextPos[1]
+                    m[ag['l'], ag['h']] = ag['type']
+                    nearEnemyId = nearTarget(ag, agents)
+
+            if nearEnemyId != -1:
+                # attack - adjacent min(hp) enemy -- in reading order
+                print "attack", ag, agents[nearEnemyId]
+                agents[nearEnemyId]['hp'] -= ag['dmg']
+                if agents[nearEnemyId]['hp'] <= 0:
+                    agents[nearEnemyId]['hp'] = 0
+                    m[agents[nearEnemyId]['l'], agents[nearEnemyId]['h']] = '.'
+        pr()
+        tick += 1
+        hpE = sum([i['hp'] for i in agents if i['type'] == 'E' and i['hp'] > 0])
+        hpG = sum([i['hp'] for i in agents if i['type'] == 'G' and i['hp'] > 0])
+        if hpE == 0 or hpG == 0:
+            break
+    print test
+    print tick, sum([a['hp'] for a in agents if a['hp'] > 0])
+    print tick * sum([a['hp'] for a in agents if a['hp'] > 0])
+
+a15()
