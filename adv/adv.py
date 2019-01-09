@@ -1,3 +1,4 @@
+#https://adventofcode.com/2018
 def a1():
     inp = open("inp/adv-1.inp").readlines()
     b = 0
@@ -489,36 +490,112 @@ def a14():
         # print " ".join([str(i) + pr[(c==e1) + 2*(c==e2)]  for c,i in enumerate(st)])
     print len(st) - len(gl)
 
+
 def a15():
-    inp = open("inp/adv-15.inp").readlines()
-    inp = open("inp/adv-15.ex").readlines()
-    trans = {"G": ".", "E": "."}
-    ad = 3
-    hp = 200
-    tr = { # ['L', 'S', 'R']
-        (">", "/"): "^",
-        ("v", "/"): "<",
-        ("<", "/"): "v",
-        ("^", "/"): ">"
-    }
+    inp, test = open("inp/adv-15.inp").readlines(), "90 * 2555 = 229950"
+    # inp, test = open("inp/adv-15.ex").readlines(), "37 * 982 = 36334" # OK
+    # inp, test = open("inp/adv-15.ex2").readlines(), "46 * 859 = 39514" # OK
+    # inp, test = open("inp/adv-15.ex3").readlines(), "54 * 536 = 28944" # OK
+    # inp, test = open("inp/adv-15.ex4").readlines(), "20 * 937 = 18740" # OK
+    hp, dmg = 200, 3
+    boost = 13
     agents = []
     m = dict()
     for lCtr, line in enumerate(inp):
         for hCtr, x in enumerate(line):
-            if x == '#' or x == '\n':
+            if x == '\n':
                 continue
-            if x in trans:
-                agents.append({"l": lCtr, "h": hCtr, "d": x})
-            m[lCtr,hCtr] = trans.get(x, x)
+            if x == 'G':
+                agents.append({"l": lCtr, "h": hCtr, "type": x, "hp": hp, "dmg": dmg, "ind": len(agents)})
+            if x == 'E':
+                agents.append({"l": lCtr, "h": hCtr, "type": x, "hp": hp, "dmg": boost, "ind": len(agents)})
+            m[lCtr,hCtr] = x
+
+    def pr():
+        minX = min(sorted([i[0] for i in m.keys()]))
+        maxX = max(sorted([i[0] for i in m.keys()]))
+        minY = min(sorted([i[1] for i in m.keys()]))
+        maxY = max(sorted([i[1] for i in m.keys()]))
+        for x in range(minX, maxX+1):
+            print "".join([m.get((x,y), "#") for y in range(minY, maxY+1)])
+
+    def adjacent(p):
+        return [(p[0]-1, p[1]), (p[0], p[1]-1), (p[0], p[1]+1), (p[0]+1, p[1])]
+
+    def breadth(ag):
+        dm = {(ag['l'], ag['h']): 0}
+        level = [(ag['l'], ag['h'])]
+        dist = 0
+        while level:
+            newLevel = set()
+            for p in level:
+                dm[p[0], p[1]] = dist
+                for ap in adjacent(p):
+                    if ap not in dm and m[ap] != '#':
+                        if m[ap] == '.':
+                            newLevel.add(ap)
+                        elif m[ap] != ag['type']:
+                            # print "found enemy attack location at from", p, ag
+                            # dm uzerinde dist-1 arayarak geri sar, dist 1 move location
+                            for i in range(dist, 0, -1):
+                                for bt in adjacent(p):
+                                    if dm.get(bt, 0) == i:
+                                        p = bt
+                                        break
+                            return p
+            level = sorted(newLevel)
+            dist += 1
+
+    def nearTarget(ag, agents):
+        minEn = {'hp': hp + 1, 'ro': -1, 'ind': -1}
+        for ap in adjacent((ag['l'], ag['h'])):
+            if m[ap] == ('G' if ag['type'] == 'E' else 'E'):
+                # esitligi round basi order belli ediyo
+                enemy = [x for x in agents if x['l'] == ap[0] and x['h'] == ap[1] and x['hp'] > 0][0]
+                if (minEn['hp'], minEn['ro']) > (enemy['hp'], enemy['ro']):
+                    minEn = enemy
+        return minEn['ind']
+    pr()
 
     tick = 0
     while len(agents) > 1:
-        ags = sorted([(x['l'], x['h'], i) for i, x in enumerate(agents)])
-        xy = [(a[0], a[1]) for a in ags]
-        for aIndex in ags:
-            ag = agents[aIndex[2]]
-            if 'c' in ag:
+        sortedAgents = sorted([(x['l'], x['h'], i) for i, x in enumerate(agents)])
+        for roundOrd, ag in enumerate(sortedAgents):
+            agents[ag[2]]['ro'] = roundOrd
+        for aL, aH, aIndex in sortedAgents:
+            ag = agents[aIndex]
+            if ag['hp'] == 0:
                 continue
+
+            nearEnemyId = nearTarget(ag, agents)
+            if nearEnemyId == -1:
+                # move - breadth first enemy adjacent - reading order
+                nextPos = breadth(ag)
+                print "moving", ag, nextPos
+                if nextPos is not None:
+                    m[ag['l'], ag['h']] = '.'
+                    ag['l'] = nextPos[0]
+                    ag['h'] = nextPos[1]
+                    m[ag['l'], ag['h']] = ag['type']
+                    nearEnemyId = nearTarget(ag, agents)
+
+            if nearEnemyId != -1:
+                # attack - adjacent min(hp) enemy -- in reading order
+                print "attack", ag, agents[nearEnemyId]
+                agents[nearEnemyId]['hp'] -= ag['dmg']
+                if agents[nearEnemyId]['hp'] <= 0:
+                    agents[nearEnemyId]['hp'] = 0
+                    m[agents[nearEnemyId]['l'], agents[nearEnemyId]['h']] = '.'
+        pr()
+        hpE = sum([i['hp'] for i in agents if i['type'] == 'E' and i['hp'] > 0])
+        hpG = sum([i['hp'] for i in agents if i['type'] == 'G' and i['hp'] > 0])
+        if hpE == 0 or hpG == 0:
+            break
+        tick += 1
+
+    print test, boost, sum([1 for i in agents if i['type'] == 'E']), sum([1 for i in agents if i['type'] == 'E' and i['hp'] > 0])
+    print tick, sum([a['hp'] for a in agents if a['hp'] > 0])
+    print tick * sum([a['hp'] for a in agents if a['hp'] > 0])
 
 def opcode(regs, op, a, b, c):
     if op == 'addr':
@@ -1158,110 +1235,3 @@ def a25():
     for c in cons.values():
         sset.add("".join([str(i) for i in sorted(c)]))
     print len(sset)
-
-def a15():
-    inp, test = open("inp/adv-15.inp").readlines(), "0"
-    inp, test = open("inp/adv-15.ex").readlines(), "37 * 982 = 36334"
-    # inp, test = open("inp/adv-15.ex2").readlines(), "46 * 859 = 39514"
-    # inp, test = open("inp/adv-15.ex3").readlines(), "54 * 536 = 28944"
-    # inp, test = open("inp/adv-15.ex4").readlines(), "20 * 937 = 18740"
-    hp, dmg = 200, 3
-    agents = []
-    m = dict()
-    for lCtr, line in enumerate(inp):
-        for hCtr, x in enumerate(line):
-            if x == '\n':
-                continue
-            if x in ['G', 'E']:
-                agents.append({"l": lCtr, "h": hCtr, "type": x, "hp": hp, "dmg": dmg, "ind": len(agents)})
-            m[lCtr,hCtr] = x
-
-    def pr():
-        minX = min(sorted([i[0] for i in m.keys()]))
-        maxX = max(sorted([i[0] for i in m.keys()]))
-        minY = min(sorted([i[1] for i in m.keys()]))
-        maxY = max(sorted([i[1] for i in m.keys()]))
-        for x in range(minX, maxX+1):
-            print "".join([m.get((x,y), "#") for y in range(minY, maxY+1)])
-
-    def adjacent(p):
-        return [(p[0]-1, p[1]), (p[0], p[1]-1), (p[0], p[1]+1), (p[0]+1, p[1])]
-
-    def breadth(ag):
-        dm = {(ag['l'], ag['h']): 0}
-        level = [(ag['l'], ag['h'])]
-        dist = 0
-        while level:
-            newLevel = set()
-            for p in level:
-                dm[p[0], p[1]] = dist
-                for ap in adjacent(p):
-                    if ap not in dm and m[ap] != '#':
-                        if m[ap] == '.':
-                            newLevel.add(ap)
-                        elif m[ap] != ag['type']:
-                            print "found enemy attack location at from", p, ag
-                            # dm uzerinde dist-1 arayarak geri sar, dist 1 move location
-                            for i in range(dist, 0, -1):
-                                for bt in adjacent(p):
-                                    if dm.get(bt, 0) == i:
-                                        p = bt
-                                        break
-                            return p
-            level = sorted(newLevel)
-            dist += 1
-
-    def nearTarget(ag, agents):
-        minEn = {'hp': hp + 1, 'ro': -1, 'ind': -1}
-        for ap in adjacent((ag['l'], ag['h'])):
-            if m[ap] == ('G' if ag['type'] == 'E' else 'E'):
-                # esitligi round basi order belli ediyo
-                enemy = [x for x in agents if x['l'] == ap[0] and x['h'] == ap[1]][0]
-                if (minEn['hp'], minEn['ro']) > (enemy['hp'], enemy['ro']):
-                    minEn = enemy
-        return minEn['ind']
-    pr()
-
-    tick = 0
-    while len(agents) > 1:
-        sortedAgents = sorted([(x['l'], x['h'], i) for i, x in enumerate(agents)])
-        for roundOrd, ag in enumerate(sortedAgents):
-            agents[ag[2]]['ro'] = roundOrd
-        for aL, aH, aIndex in sortedAgents:
-            ag = agents[aIndex]
-            if ag['hp'] == -1:
-                continue
-            # oldugu tur atack ediyo mu la bu
-            if ag['hp'] == 0:
-                ag['hp'] = -1
-
-            nearEnemyId = nearTarget(ag, agents)
-            if nearEnemyId == -1:
-                # move - breadth first enemy adjacent - reading order
-                nextPos = breadth(ag)
-                print "moving", ag, nextPos
-                if nextPos is not None:
-                    m[ag['l'], ag['h']] = '.'
-                    ag['l'] = nextPos[0]
-                    ag['h'] = nextPos[1]
-                    m[ag['l'], ag['h']] = ag['type']
-                    nearEnemyId = nearTarget(ag, agents)
-
-            if nearEnemyId != -1:
-                # attack - adjacent min(hp) enemy -- in reading order
-                print "attack", ag, agents[nearEnemyId]
-                agents[nearEnemyId]['hp'] -= ag['dmg']
-                if agents[nearEnemyId]['hp'] <= 0:
-                    agents[nearEnemyId]['hp'] = 0
-                    m[agents[nearEnemyId]['l'], agents[nearEnemyId]['h']] = '.'
-        pr()
-        tick += 1
-        hpE = sum([i['hp'] for i in agents if i['type'] == 'E' and i['hp'] > 0])
-        hpG = sum([i['hp'] for i in agents if i['type'] == 'G' and i['hp'] > 0])
-        if hpE == 0 or hpG == 0:
-            break
-    print test
-    print tick, sum([a['hp'] for a in agents if a['hp'] > 0])
-    print tick * sum([a['hp'] for a in agents if a['hp'] > 0])
-
-a15()
