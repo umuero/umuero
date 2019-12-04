@@ -58,40 +58,54 @@ def a3():
     m = dict()
     cross = []
     for lctr, line in enumerate(lines):
-        x, y = 0, 0
+        x, y, d = 0, 0, 0
         for cmd in line:
             length = int(cmd[1:])
             if cmd[0] == "R":
                 for i in range(1, length + 1):
-                    if (x + i, y) in m:
-                        cross.append((x+i, y))
-                        print(x + i, y)
-                    m[(x + i, y)] = lctr
+                    if m.get((x+i, y), (lctr, 0))[0] != lctr:
+                        cross.append((x+i, y, m[x+i, y][1], d+i))
+                    else:
+                        m[(x + i, y)] = (lctr, d + i)
                 x += length
             if cmd[0] == "L":
                 for i in range(1, length + 1):
-                    if (x - i, y) in m:
-                        cross.append((x-i, y))
-                        print(x - i, y)
-                    m[(x - i, y)] = lctr
+                    if m.get((x-i, y), (lctr, 0))[0] != lctr:
+                        cross.append((x-i, y, m[x-i, y][1], d+i))
+                    else:
+                        m[(x - i, y)] = (lctr, d + i)
                 x -= length
             if cmd[0] == "U":
                 for i in range(1, length + 1):
-                    if (x, y + i) in m:
-                        cross.append((x, y+i))
-                        print(x, y + i)
-                    m[(x, y + i)] = lctr
+                    if m.get((x, y+i), (lctr, 0))[0] != lctr:
+                        cross.append((x, y+i, m[x, y+i][1], d+i))
+                    else:
+                        m[(x, y + i)] = (lctr, d + i)
                 y += length
             if cmd[0] == "D":
                 for i in range(1, length + 1):
-                    if (x, y - i) in m:
-                        cross.append((x, y-i))
-                        print(x, y - i)
-                    m[(x, y - i)] = lctr
+                    if m.get((x, y-i), (lctr, 0))[0] != lctr:
+                        cross.append((x, y-i, m[x, y-i][1], d+i))
+                    else:
+                        m[(x, y - i)] = (lctr, d + i)
                 y -= length
-    print(cross)
+            d += length
+    # print(cross)
     print(sorted([abs(i[0]) + abs(i[1]) for i in cross])[0])
+    print(sorted([(i[2] + i[3], abs(i[0]) + abs(i[1])) for i in cross])[0])
 
-
-a3()
+# --------------------------------------------------------------------
+def a4(pMin, pMax):
+    ctr = 0
+    for p in range(pMin, pMax):
+        chars = str(p)
+        if sorted(chars) != list(chars):
+            continue
+        # if not sum([chars[i] == chars[i+1] for i in range(len(chars)-1)]): # P1
+        if 2 not in [chars.count(i) for i in chars]: # P2
+            continue
+        ctr += 1
+    print(ctr)
+    
+a4(183564, 657474)
 
