@@ -95,7 +95,7 @@ def a3():
     print(sorted([(i[2] + i[3], abs(i[0]) + abs(i[1])) for i in cross])[0])
 
 # --------------------------------------------------------------------
-def a4(pMin, pMax):
+def a4(pMin=183564, pMax=657474):
     ctr = 0
     for p in range(pMin, pMax):
         chars = str(p)
@@ -107,5 +107,5 @@ def a4(pMin, pMax):
         ctr += 1
     print(ctr)
     
-a4(183564, 657474)
+a4()
 
