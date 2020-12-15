@@ -1,6 +1,6 @@
 # https://adventofcode.com/2019
 
-# -- INTCODE A2-A5 ---------------------------------------------------
+# -- INTCODE A2-A5-A7 ---------------------------------------------------
 def intcode_run(mem):
     index = 0
     lastIndex = -1
@@ -153,6 +153,12 @@ def orbital_path(m, node):
         return [node]
     return orbital_path(m, m[node]) + [node]
 
+def a7():
+    arr = [int(i) for i in open("inp/inp07").read().split(",")]
+    intcode_run(arr)
 
-a6()
+a7()
 
+
+def a8():
+    arr = [int(i) for i in open("inp/inp07").read()]
