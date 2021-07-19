@@ -213,4 +213,135 @@ def a9():
     print i0, i1
     print min(arr[i0:i1]) + max(arr[i0:i1])
 
-a9()
+def a10():
+    arr = [int(i) for i in open("inp/inp10").readlines()]
+    valid = 0
+    sarr = sorted(arr)
+    diff = defaultdict(int)
+    for ctr, val in enumerate(sarr):
+        if val - valid <= 3:
+            diff[val - valid] += 1
+            valid = val
+    diff[3] += 1  # device
+    print diff
+    print diff[1] * diff[3]
+
+    sarr.insert(0, 0)
+    sarr.append(sarr[-1] + 3)
+    df = [sarr[i] - sarr[i-1] for i in range(len(sarr))]
+    df[0] = 3
+    cons = []
+    cctr = 0
+    for d in df:
+        if d == 1:
+            cctr += 1
+        else:
+            if cctr:
+                cons.append(cctr)
+                cctr = 0
+    total = 1
+    for i in cons:
+        if i == 2:
+            total *= 2
+        if i == 3:
+            total *= 4
+        if i == 4:
+            total *= 7
+    print total
+
+def a11():
+    inp = open("inp/inp11").readlines()
+    seats = set()
+    for lCtr, line in enumerate(inp):
+        for hCtr, x in enumerate(line):
+            if x == '.' or x == '\n':
+                continue
+            seats.add((lCtr, hCtr))
+    lmax = len(inp)
+    hmax = len(inp[0])
+    changes = 1
+    occupied = set()
+    while changes != 0:
+        changes = 0
+        occupiedNext = set()
+        for p in seats:
+            occ = 0
+            for x in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+                s = tuple(map(sum, zip(p, x)))  # (p[0] + x[0], p[1] + x[1])
+                while s not in seats:
+                    s = tuple(map(sum, zip(s, x)))
+                    if not (0 <= s[0] <= lmax):
+                        break
+                    if not (0 <= s[1] <= hmax):
+                        break
+                if s in occupied:
+                    occ += 1
+            if p not in occupied:
+                if occ == 0:
+                    changes += 1
+                    occupiedNext.add(p)
+            else:
+                if occ >= 5:
+                    changes += 1
+                else:
+                    occupiedNext.add(p)
+        print "iteration:", changes
+        occupied = occupiedNext
+    print len(occupied)
+
+def a12():
+    inp = open("inp/inp12").readlines()
+    x, y = 0, 0  # E(x+); N(y+)
+    direction = 0
+    for line in inp:
+        c = line[0]
+        num = int(line[1:])
+        if c == 'N' or (c == 'F' and direction == 270):
+            y += num
+        if c == 'S' or (c == 'F' and direction == 90):
+            y -= num
+        if c == 'E' or (c == 'F' and direction == 0):
+            x += num
+        if c == 'W' or (c == 'F' and direction == 180):
+            x -= num
+        if c == 'R':
+            direction += num
+            direction = direction % 360
+        if c == 'L':
+            direction -= num
+            direction = direction % 360
+    print "p1", x, y, abs(x) + abs(y)
+
+    x, y = 0, 0  # E(x+); N(y+)
+    wayX, wayY = 10, 1
+    for line in inp:
+        c = line[0]
+        num = int(line[1:])
+        if c == 'N':
+            wayY += num
+        if c == 'S':
+            wayY -= num
+        if c == 'E':
+            wayX += num
+        if c == 'W':
+            wayX -= num
+        if c == 'R' or c == 'L':
+            direction = 0
+            if c == 'R':
+                direction += num
+            if c == 'L':
+                direction -= num
+            direction = direction % 360
+            if direction == 90:
+                wayX, wayY = wayY, -wayX
+            if direction == 180:
+                wayX, wayY = -wayX, -wayY
+            if direction == 270:
+                wayX, wayY = -wayY, wayX
+        if c == 'F':
+            x += wayX * num
+            y += wayY * num
+
+    print "p2", x, y, abs(x) + abs(y)
+
+a12()

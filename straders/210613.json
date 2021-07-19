@@ -1,0 +1,5491 @@
+{
+  "distances": {
+    "NA7-GH|NA7-TH|1": [
+      9,
+      94
+    ],
+    "NA7-GH|NA7-TH|3": [
+      6,
+      62
+    ],
+    "NA7-GH|NA7-W-ZY1|3": [
+      14,
+      117
+    ],
+    "NA7-TH|NA7-GH|3": [
+      6,
+      62
+    ],
+    "NA7-TH|NA7-W-ZY1|1": [
+      24,
+      269
+    ],
+    "NA7-TH|NA7-W-ZY1|3": [
+      18,
+      149
+    ],
+    "NA7-W-ZY1|NA7-GH|1": [
+      17,
+      205
+    ],
+    "NA7-W-ZY1|NA7-GH|3": [
+      13,
+      117
+    ],
+    "NA7-W-ZY1|NA7-TH|3": [
+      17,
+      149
+    ],
+    "NA7-W-ZY1|ZY1-W-NA7|1": [
+      0,
+      103
+    ],
+    "NA7-W-ZY1|ZY1-W-NA7|3": [
+      0,
+      103
+    ],
+    "OE-BO|OE-CR|1": [
+      14,
+      320
+    ],
+    "OE-BO|OE-KO|1": [
+      10,
+      224
+    ],
+    "OE-BO|OE-KO|3": [
+      8,
+      78
+    ],
+    "OE-BO|OE-NY|1": [
+      13,
+      299
+    ],
+    "OE-BO|OE-PM-TR|1": [
+      11,
+      254
+    ],
+    "OE-BO|OE-PM|1": [
+      11,
+      260
+    ],
+    "OE-BO|OE-UC-AD|1": [
+      21,
+      482
+    ],
+    "OE-BO|OE-UC-OB|1": [
+      22,
+      491
+    ],
+    "OE-BO|OE-UC|1": [
+      21,
+      488
+    ],
+    "OE-BO|OE-W-XV|3": [
+      19,
+      164
+    ],
+    "OE-CR|OE-KO|1": [
+      10,
+      197
+    ],
+    "OE-CR|OE-NY|1": [
+      13,
+      248
+    ],
+    "OE-CR|OE-PM-TR|1": [
+      7,
+      70
+    ],
+    "OE-CR|OE-PM|1": [
+      6,
+      107
+    ],
+    "OE-CR|OE-PM|3": [
+      5,
+      49
+    ],
+    "OE-CR|OE-UC-AD|1": [
+      11,
+      116
+    ],
+    "OE-CR|OE-UC|1": [
+      11,
+      121
+    ],
+    "OE-CR|OE-W-XV|3": [
+      11,
+      95
+    ],
+    "OE-KO|OE-CR|1": [
+      10,
+      197
+    ],
+    "OE-KO|OE-NY|1": [
+      16,
+      329
+    ],
+    "OE-KO|OE-PM-TR|1": [
+      7,
+      116
+    ],
+    "OE-KO|OE-PM|1": [
+      7,
+      119
+    ],
+    "OE-KO|OE-UC-AD|1": [
+      16,
+      170
+    ],
+    "OE-KO|OE-UC-OB|1": [
+      16,
+      323
+    ],
+    "OE-KO|OE-UC|1": [
+      16,
+      317
+    ],
+    "OE-KO|OE-W-XV|3": [
+      14,
+      120
+    ],
+    "OE-NY|OE-CR|1": [
+      11,
+      248
+    ],
+    "OE-NY|OE-KO|1": [
+      14,
+      329
+    ],
+    "OE-NY|OE-PM-TR|1": [
+      11,
+      263
+    ],
+    "OE-NY|OE-PM|1": [
+      12,
+      266
+    ],
+    "OE-NY|OE-UC-AD|1": [
+      18,
+      218
+    ],
+    "OE-NY|OE-UC-OB|1": [
+      18,
+      413
+    ],
+    "OE-NY|OE-UC|1": [
+      18,
+      413
+    ],
+    "OE-NY|OE-W-XV|3": [
+      16,
+      145
+    ],
+    "OE-PM-TR|OE-CR|1": [
+      5,
+      110
+    ],
+    "OE-PM-TR|OE-KO|1": [
+      5,
+      116
+    ],
+    "OE-PM-TR|OE-NY|1": [
+      11,
+      263
+    ],
+    "OE-PM-TR|OE-PM|1": [
+      1,
+      35
+    ],
+    "OE-PM-TR|OE-UC-AD|3": [
+      9,
+      86
+    ],
+    "OE-PM-TR|OE-UC-OB|1": [
+      12,
+      269
+    ],
+    "OE-PM-TR|OE-UC-OB|3": [
+      9,
+      89
+    ],
+    "OE-PM-TR|OE-UC|1": [
+      11,
+      263
+    ],
+    "OE-PM-TR|OE-W-XV|1": [
+      15,
+      187
+    ],
+    "OE-PM-TR|OE-W-XV|3": [
+      12,
+      108
+    ],
+    "OE-PM|OE-CR|1": [
+      6,
+      107
+    ],
+    "OE-PM|OE-KO|1": [
+      7,
+      119
+    ],
+    "OE-PM|OE-NY|1": [
+      14,
+      266
+    ],
+    "OE-PM|OE-NY|3": [
+      10,
+      89
+    ],
+    "OE-PM|OE-PM-TR|1": [
+      3,
+      35
+    ],
+    "OE-PM|OE-UC-AD|1": [
+      13,
+      251
+    ],
+    "OE-PM|OE-UC-OB|1": [
+      13,
+      260
+    ],
+    "OE-PM|OE-UC|1": [
+      13,
+      257
+    ],
+    "OE-PM|OE-W-XV|3": [
+      12,
+      107
+    ],
+    "OE-UC-AD|OE-BO|1": [
+      21,
+      256
+    ],
+    "OE-UC-AD|OE-CR|1": [
+      9,
+      203
+    ],
+    "OE-UC-AD|OE-CR|3": [
+      7,
+      73
+    ],
+    "OE-UC-AD|OE-KO|1": [
+      14,
+      311
+    ],
+    "OE-UC-AD|OE-KO|3": [
+      10,
+      100
+    ],
+    "OE-UC-AD|OE-NY|1": [
+      18,
+      407
+    ],
+    "OE-UC-AD|OE-PM-TR|1": [
+      11,
+      257
+    ],
+    "OE-UC-AD|OE-PM|1": [
+      11,
+      251
+    ],
+    "OE-UC-AD|OE-UC-OB|1": [
+      2,
+      41
+    ],
+    "OE-UC-AD|OE-UC|1": [
+      1,
+      35
+    ],
+    "OE-UC-AD|OE-UC|3": [
+      1,
+      31
+    ],
+    "OE-UC-AD|OE-W-XV|1": [
+      5,
+      74
+    ],
+    "OE-UC-AD|OE-W-XV|3": [
+      4,
+      52
+    ],
+    "OE-UC-OB|OE-CR|1": [
+      9,
+      212
+    ],
+    "OE-UC-OB|OE-KO|1": [
+      14,
+      323
+    ],
+    "OE-UC-OB|OE-KO|3": [
+      11,
+      103
+    ],
+    "OE-UC-OB|OE-NY|1": [
+      18,
+      413
+    ],
+    "OE-UC-OB|OE-PM-TR|1": [
+      12,
+      269
+    ],
+    "OE-UC-OB|OE-PM|1": [
+      11,
+      260
+    ],
+    "OE-UC-OB|OE-UC-AD|1": [
+      2,
+      41
+    ],
+    "OE-UC-OB|OE-UC|1": [
+      1,
+      38
+    ],
+    "OE-UC-OB|OE-W-XV|3": [
+      4,
+      50
+    ],
+    "OE-UC|OE-BO|1": [
+      23,
+      488
+    ],
+    "OE-UC|OE-BO|3": [
+      17,
+      144
+    ],
+    "OE-UC|OE-NY|1": [
+      20,
+      413
+    ],
+    "OE-UC|OE-NY|3": [
+      15,
+      125
+    ],
+    "OE-UC|OE-PM-TR|3": [
+      10,
+      88
+    ],
+    "OE-UC|OE-UC-AD|3": [
+      2,
+      31
+    ],
+    "OE-UC|OE-UC-OB|3": [
+      2,
+      32
+    ],
+    "OE-UC|OE-W-XV|3": [
+      5,
+      50
+    ],
+    "OE-W-XV|OE-BO|3": [
+      19,
+      164
+    ],
+    "OE-W-XV|OE-CR|3": [
+      10,
+      95
+    ],
+    "OE-W-XV|OE-KO|3": [
+      13,
+      120
+    ],
+    "OE-W-XV|OE-NY|1": [
+      22,
+      260
+    ],
+    "OE-W-XV|OE-NY|3": [
+      16,
+      145
+    ],
+    "OE-W-XV|OE-PM-TR|3": [
+      12,
+      108
+    ],
+    "OE-W-XV|OE-PM|3": [
+      11,
+      107
+    ],
+    "OE-W-XV|OE-UC-AD|1": [
+      5,
+      74
+    ],
+    "OE-W-XV|OE-UC-AD|3": [
+      4,
+      52
+    ],
+    "OE-W-XV|OE-UC-OB|3": [
+      4,
+      50
+    ],
+    "OE-W-XV|OE-UC|3": [
+      4,
+      50
+    ],
+    "OE-W-XV|XV-W-OE|1": [
+      0,
+      103
+    ],
+    "OE-W-XV|XV-W-OE|3": [
+      0,
+      103
+    ],
+    "XV-BN|XV-CB|1": [
+      8,
+      112
+    ],
+    "XV-BN|XV-CB|3": [
+      7,
+      71
+    ],
+    "XV-BN|XV-W-OE|3": [
+      5,
+      62
+    ],
+    "XV-BN|XV-W-ZY1|1": [
+      26,
+      307
+    ],
+    "XV-BN|XV-W-ZY1|3": [
+      20,
+      168
+    ],
+    "XV-CB-IT|XV-BN|3": [
+      7,
+      71
+    ],
+    "XV-CB-IT|XV-OS|1": [
+      11,
+      140
+    ],
+    "XV-CB-IT|XV-ST|1": [
+      9,
+      121
+    ],
+    "XV-CB-IT|XV-W-ZY1|1": [
+      25,
+      299
+    ],
+    "XV-CB-IT|XV-W-ZY1|3": [
+      19,
+      164
+    ],
+    "XV-CB-IT|XV-XA|3": [
+      9,
+      90
+    ],
+    "XV-CB-NM|XV-CB-IT|3": [
+      1,
+      32
+    ],
+    "XV-CB-NM|XV-OS|1": [
+      10,
+      136
+    ],
+    "XV-CB-NM|XV-ST-BG|1": [
+      9,
+      118
+    ],
+    "XV-CB-NM|XV-ST-BG|3": [
+      7,
+      74
+    ],
+    "XV-CB-NM|XV-ST|3": [
+      7,
+      73
+    ],
+    "XV-CB-NM|XV-W-OE|3": [
+      8,
+      83
+    ],
+    "XV-CB-NM|XV-W-ZY1|1": [
+      25,
+      295
+    ],
+    "XV-CB-NM|XV-W-ZY1|3": [
+      19,
+      162
+    ],
+    "XV-CB-NM|XV-XA|3": [
+      9,
+      87
+    ],
+    "XV-CB|XV-CB-IT|1": [
+      3,
+      34
+    ],
+    "XV-CB|XV-CB-NM|3": [
+      2,
+      32
+    ],
+    "XV-CB|XV-OS|3": [
+      9,
+      83
+    ],
+    "XV-CB|XV-SN|1": [
+      14,
+      152
+    ],
+    "XV-CB|XV-W-OE|3": [
+      9,
+      81
+    ],
+    "XV-CB|XV-W-ZY1|3": [
+      20,
+      162
+    ],
+    "XV-CB|XV-XA|3": [
+      10,
+      89
+    ],
+    "XV-OS|XV-BN|3": [
+      11,
+      93
+    ],
+    "XV-OS|XV-W-OE|3": [
+      8,
+      71
+    ],
+    "XV-OS|XV-W-ZY1|3": [
+      13,
+      110
+    ],
+    "XV-OS|XV-XA|1": [
+      11,
+      121
+    ],
+    "XV-OS|XV-XA|3": [
+      8,
+      75
+    ],
+    "XV-SN|XV-CB-NM|1": [
+      14,
+      149
+    ],
+    "XV-SN|XV-ST|3": [
+      7,
+      68
+    ],
+    "XV-SN|XV-W-OE|3": [
+      15,
+      125
+    ],
+    "XV-SN|XV-W-ZY1|3": [
+      18,
+      147
+    ],
+    "XV-ST-BG|XV-CB-IT|1": [
+      9,
+      124
+    ],
+    "XV-ST-BG|XV-CB|3": [
+      7,
+      74
+    ],
+    "XV-ST-BG|XV-SN|3": [
+      6,
+      65
+    ],
+    "XV-ST-BG|XV-W-OE|3": [
+      9,
+      92
+    ],
+    "XV-ST-BG|XV-W-ZY1|1": [
+      18,
+      218
+    ],
+    "XV-ST-BG|XV-W-ZY1|3": [
+      14,
+      124
+    ],
+    "XV-ST-BG|XV-XA|3": [
+      4,
+      49
+    ],
+    "XV-ST|XV-CB-IT|3": [
+      8,
+      75
+    ],
+    "XV-ST|XV-CB-NM|1": [
+      11,
+      116
+    ],
+    "XV-ST|XV-CB-NM|3": [
+      8,
+      73
+    ],
+    "XV-ST|XV-CB|3": [
+      8,
+      74
+    ],
+    "XV-ST|XV-SN|3": [
+      7,
+      68
+    ],
+    "XV-ST|XV-ST-BG|3": [
+      2,
+      32
+    ],
+    "XV-ST|XV-W-OE|1": [
+      14,
+      149
+    ],
+    "XV-ST|XV-W-OE|3": [
+      10,
+      89
+    ],
+    "XV-ST|XV-W-ZY1|3": [
+      15,
+      124
+    ],
+    "XV-ST|XV-XA|1": [
+      7,
+      73
+    ],
+    "XV-ST|XV-XA|3": [
+      5,
+      51
+    ],
+    "XV-W-OE|OE-W-XV|1": [
+      0,
+      103
+    ],
+    "XV-W-OE|OE-W-XV|3": [
+      0,
+      103
+    ],
+    "XV-W-OE|XV-BN|1": [
+      7,
+      94
+    ],
+    "XV-W-OE|XV-BN|3": [
+      5,
+      62
+    ],
+    "XV-W-OE|XV-CB-NM|3": [
+      8,
+      83
+    ],
+    "XV-W-OE|XV-CB|3": [
+      8,
+      81
+    ],
+    "XV-W-OE|XV-OS|3": [
+      7,
+      71
+    ],
+    "XV-W-OE|XV-SN|3": [
+      14,
+      125
+    ],
+    "XV-W-OE|XV-ST-BG|1": [
+      12,
+      154
+    ],
+    "XV-W-OE|XV-ST-BG|3": [
+      9,
+      92
+    ],
+    "XV-W-OE|XV-ST|3": [
+      9,
+      89
+    ],
+    "XV-W-OE|XV-W-ZY1|1": [
+      20,
+      247
+    ],
+    "XV-W-OE|XV-W-ZY1|3": [
+      16,
+      138
+    ],
+    "XV-W-OE|XV-XA|3": [
+      12,
+      111
+    ],
+    "XV-W-ZY1|XV-BN|1": [
+      26,
+      307
+    ],
+    "XV-W-ZY1|XV-BN|3": [
+      20,
+      168
+    ],
+    "XV-W-ZY1|XV-CB-IT|1": [
+      25,
+      299
+    ],
+    "XV-W-ZY1|XV-CB-NM|1": [
+      25,
+      295
+    ],
+    "XV-W-ZY1|XV-CB-NM|3": [
+      19,
+      162
+    ],
+    "XV-W-ZY1|XV-CB|3": [
+      19,
+      162
+    ],
+    "XV-W-ZY1|XV-OS|3": [
+      12,
+      110
+    ],
+    "XV-W-ZY1|XV-SN|1": [
+      22,
+      265
+    ],
+    "XV-W-ZY1|XV-SN|3": [
+      17,
+      147
+    ],
+    "XV-W-ZY1|XV-ST-BG|3": [
+      14,
+      124
+    ],
+    "XV-W-ZY1|XV-ST|3": [
+      14,
+      124
+    ],
+    "XV-W-ZY1|XV-W-OE|1": [
+      20,
+      247
+    ],
+    "XV-W-ZY1|XV-W-OE|3": [
+      16,
+      138
+    ],
+    "XV-W-ZY1|XV-XA|3": [
+      14,
+      127
+    ],
+    "XV-W-ZY1|ZY1-W-XV|1": [
+      0,
+      103
+    ],
+    "XV-W-ZY1|ZY1-W-XV|3": [
+      0,
+      103
+    ],
+    "XV-XA|XV-BN|1": [
+      19,
+      214
+    ],
+    "XV-XA|XV-CB-NM|3": [
+      10,
+      87
+    ],
+    "XV-XA|XV-OS|3": [
+      8,
+      75
+    ],
+    "XV-XA|XV-SN|3": [
+      5,
+      50
+    ],
+    "XV-XA|XV-ST-BG|3": [
+      5,
+      49
+    ],
+    "XV-XA|XV-ST|1": [
+      7,
+      73
+    ],
+    "XV-XA|XV-W-OE|1": [
+      18,
+      193
+    ],
+    "XV-XA|XV-W-OE|3": [
+      13,
+      111
+    ],
+    "XV-XA|XV-W-ZY1|3": [
+      15,
+      127
+    ],
+    "ZY1-C3T|ZY1-GH-MD|1": [
+      12,
+      149
+    ],
+    "ZY1-ECC|ZY1-LS|1": [
+      10,
+      136
+    ],
+    "ZY1-ECC|ZY1-W-XV|1": [
+      22,
+      268
+    ],
+    "ZY1-GG-CY|ZY1-GG-LAO|1": [
+      1,
+      34
+    ],
+    "ZY1-GG-CY|ZY1-W-NA7|1": [
+      12,
+      154
+    ],
+    "ZY1-GG-LAO|ZY1-GG-CY|1": [
+      1,
+      34
+    ],
+    "ZY1-GG-LAO|ZY1-GH-NT|1": [
+      4,
+      62
+    ],
+    "ZY1-GG-LAO|ZY1-VC|1": [
+      11,
+      142
+    ],
+    "ZY1-GG|ZY1-GG-LAO|1": [
+      3,
+      32
+    ],
+    "ZY1-GG|ZY1-W-NA7|3": [
+      10,
+      90
+    ],
+    "ZY1-GG|ZY1-W-XV|3": [
+      12,
+      106
+    ],
+    "ZY1-GH-HD|ZY1-GH-MD|1": [
+      2,
+      37
+    ],
+    "ZY1-GH-HD|ZY1-VC|1": [
+      14,
+      172
+    ],
+    "ZY1-GH-MD|ZY1-ECC|1": [
+      13,
+      167
+    ],
+    "ZY1-GH-MD|ZY1-W-XV|1": [
+      12,
+      149
+    ],
+    "ZY1-GH-NT|ZY1-ECC|1": [
+      13,
+      167
+    ],
+    "ZY1-GH-NT|ZY1-GH-HD|1": [
+      1,
+      32
+    ],
+    "ZY1-GH|ZY1-GH-NT|1": [
+      3,
+      32
+    ],
+    "ZY1-GH|ZY1-W-NA7|3": [
+      11,
+      98
+    ],
+    "ZY1-GH|ZY1-W-XV|3": [
+      10,
+      91
+    ],
+    "ZY1-LS|ZY1-W-NA7|1": [
+      15,
+      184
+    ],
+    "ZY1-M57Z|ZY1-C3T|1": [
+      6,
+      82
+    ],
+    "ZY1-M57Z|ZY1-GH-HD|1": [
+      11,
+      143
+    ],
+    "ZY1-T85|ZY1-M57Z|1": [
+      8,
+      112
+    ],
+    "ZY1-T85|ZY1-W-XV|1": [
+      23,
+      275
+    ],
+    "ZY1-VC|ZY1-M57Z|1": [
+      9,
+      119
+    ],
+    "ZY1-VC|ZY1-T85|1": [
+      3,
+      50
+    ],
+    "ZY1-VZ|ZY1-GH|1": [
+      8,
+      103
+    ],
+    "ZY1-W-NA7|NA7-W-ZY1|1": [
+      0,
+      103
+    ],
+    "ZY1-W-NA7|NA7-W-ZY1|3": [
+      0,
+      103
+    ],
+    "ZY1-W-NA7|ZY1-GG|1": [
+      12,
+      151
+    ],
+    "ZY1-W-NA7|ZY1-GG|3": [
+      9,
+      90
+    ],
+    "ZY1-W-NA7|ZY1-GH|3": [
+      10,
+      98
+    ],
+    "ZY1-W-NA7|ZY1-W-XV|1": [
+      20,
+      245
+    ],
+    "ZY1-W-NA7|ZY1-W-XV|3": [
+      15,
+      137
+    ],
+    "ZY1-W-XV|XV-W-ZY1|1": [
+      0,
+      103
+    ],
+    "ZY1-W-XV|XV-W-ZY1|3": [
+      0,
+      103
+    ],
+    "ZY1-W-XV|ZY1-C3T|1": [
+      18,
+      215
+    ],
+    "ZY1-W-XV|ZY1-GG-CY|1": [
+      15,
+      182
+    ],
+    "ZY1-W-XV|ZY1-GG-LAO|1": [
+      15,
+      185
+    ],
+    "ZY1-W-XV|ZY1-GG|3": [
+      11,
+      106
+    ],
+    "ZY1-W-XV|ZY1-GH|3": [
+      9,
+      91
+    ],
+    "ZY1-W-XV|ZY1-T85|1": [
+      23,
+      275
+    ],
+    "ZY1-W-XV|ZY1-VZ|1": [
+      15,
+      184
+    ],
+    "ZY1-W-XV|ZY1-W-NA7|1": [
+      20,
+      245
+    ],
+    "ZY1-W-XV|ZY1-W-NA7|3": [
+      15,
+      137
+    ]
+  },
+  "galaxies": {
+    "NA7": {
+      "OE": [
+        "NA7-W-ZY1",
+        "ZY1-W-XV",
+        "XV-W-OE"
+      ],
+      "XV": [
+        "NA7-W-ZY1",
+        "ZY1-W-XV"
+      ],
+      "ZY1": [
+        "NA7-W-ZY1"
+      ]
+    },
+    "OE": {
+      "NA7": [
+        "OE-W-XV",
+        "XV-W-ZY1",
+        "ZY1-W-NA7"
+      ],
+      "XV": [
+        "OE-W-XV"
+      ],
+      "ZY1": [
+        "OE-W-XV",
+        "XV-W-ZY1"
+      ]
+    },
+    "XV": {
+      "NA7": [
+        "XV-W-ZY1",
+        "ZY1-W-NA7"
+      ],
+      "OE": [
+        "XV-W-OE"
+      ],
+      "ZY1": [
+        "XV-W-ZY1"
+      ]
+    },
+    "ZY1": {
+      "NA7": [
+        "ZY1-W-NA7"
+      ],
+      "OE": [
+        "ZY1-W-XV",
+        "XV-W-OE"
+      ],
+      "XV": [
+        "ZY1-W-XV"
+      ]
+    }
+  },
+  "goods": {
+    "BIOMETRIC_FIREARMS": {
+      "OE-PM": {
+        "pricePerUnit": 98,
+        "purchasePricePerUnit": 109,
+        "quantityAvailable": 20136,
+        "sellPricePerUnit": 87,
+        "spread": 11,
+        "symbol": "BIOMETRIC_FIREARMS",
+        "volumePerUnit": 1
+      },
+      "XV-OS": {
+        "pricePerUnit": 172,
+        "purchasePricePerUnit": 183,
+        "quantityAvailable": 6825,
+        "sellPricePerUnit": 161,
+        "spread": 11,
+        "symbol": "BIOMETRIC_FIREARMS",
+        "volumePerUnit": 1
+      },
+      "max": 201,
+      "maxSpread": 12,
+      "min": 88,
+      "minSpread": 11,
+      "name": "Biometric Firearms",
+      "symbol": "BIOMETRIC_FIREARMS",
+      "volumePerUnit": 1
+    },
+    "CHEMICALS": {
+      "OE-KO": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 22811,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "OE-UC-OB": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 53812,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "XV-SN": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 74458,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "XV-ST": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 22030,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "ZY1-GG": {
+        "pricePerUnit": 37,
+        "purchasePricePerUnit": 38,
+        "quantityAvailable": 17129,
+        "sellPricePerUnit": 36,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "max": 44,
+      "maxSpread": 2,
+      "min": 6,
+      "minSpread": 1,
+      "name": "Chemicals",
+      "symbol": "CHEMICALS",
+      "volumePerUnit": 1
+    },
+    "CONSTRUCTION_MATERIALS": {
+      "OE-KO": {
+        "pricePerUnit": 64,
+        "purchasePricePerUnit": 67,
+        "quantityAvailable": 49356,
+        "sellPricePerUnit": 61,
+        "spread": 3,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "OE-PM-TR": {
+        "pricePerUnit": 91,
+        "purchasePricePerUnit": 94,
+        "quantityAvailable": 32119,
+        "sellPricePerUnit": 88,
+        "spread": 3,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "XV-CB-NM": {
+        "pricePerUnit": 100,
+        "purchasePricePerUnit": 104,
+        "quantityAvailable": 24088,
+        "sellPricePerUnit": 96,
+        "spread": 4,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "XV-XA": {
+        "pricePerUnit": 74,
+        "purchasePricePerUnit": 77,
+        "quantityAvailable": 37337,
+        "sellPricePerUnit": 71,
+        "spread": 3,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH": {
+        "pricePerUnit": 121,
+        "purchasePricePerUnit": 125,
+        "quantityAvailable": 10228,
+        "sellPricePerUnit": 117,
+        "spread": 4,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "max": 140,
+      "maxSpread": 4,
+      "min": 34,
+      "minSpread": 3,
+      "name": "Construction Materials",
+      "symbol": "CONSTRUCTION_MATERIALS",
+      "volumePerUnit": 1
+    },
+    "CONSUMER_GOODS": {
+      "OE-KO": {
+        "pricePerUnit": 41,
+        "purchasePricePerUnit": 46,
+        "quantityAvailable": 30557,
+        "sellPricePerUnit": 36,
+        "spread": 5,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "OE-PM": {
+        "pricePerUnit": 79,
+        "purchasePricePerUnit": 84,
+        "quantityAvailable": 10684,
+        "sellPricePerUnit": 74,
+        "spread": 5,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "XV-CB-IT": {
+        "pricePerUnit": 40,
+        "purchasePricePerUnit": 44,
+        "quantityAvailable": 32472,
+        "sellPricePerUnit": 36,
+        "spread": 4,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "XV-OS": {
+        "pricePerUnit": 70,
+        "purchasePricePerUnit": 74,
+        "quantityAvailable": 17783,
+        "sellPricePerUnit": 66,
+        "spread": 4,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "max": 101,
+      "maxSpread": 5,
+      "min": 18,
+      "minSpread": 3,
+      "name": "Consumer Goods",
+      "symbol": "CONSUMER_GOODS",
+      "volumePerUnit": 1
+    },
+    "DRONES": {
+      "OE-PM": {
+        "pricePerUnit": 35,
+        "purchasePricePerUnit": 37,
+        "quantityAvailable": 53171,
+        "sellPricePerUnit": 33,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "OE-UC-AD": {
+        "pricePerUnit": 63,
+        "purchasePricePerUnit": 65,
+        "quantityAvailable": 8225,
+        "sellPricePerUnit": 61,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "OE-UC-OB": {
+        "pricePerUnit": 58,
+        "purchasePricePerUnit": 59,
+        "quantityAvailable": 15269,
+        "sellPricePerUnit": 57,
+        "spread": 1,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "XV-BN": {
+        "pricePerUnit": 63,
+        "purchasePricePerUnit": 65,
+        "quantityAvailable": 8914,
+        "sellPricePerUnit": 61,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "XV-OS": {
+        "pricePerUnit": 40,
+        "purchasePricePerUnit": 41,
+        "quantityAvailable": 37040,
+        "sellPricePerUnit": 39,
+        "spread": 1,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "XV-SN": {
+        "pricePerUnit": 64,
+        "purchasePricePerUnit": 66,
+        "quantityAvailable": 6991,
+        "sellPricePerUnit": 62,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "XV-XA": {
+        "pricePerUnit": 59,
+        "purchasePricePerUnit": 61,
+        "quantityAvailable": 13819,
+        "sellPricePerUnit": 57,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH": {
+        "pricePerUnit": 63,
+        "purchasePricePerUnit": 64,
+        "quantityAvailable": 8866,
+        "sellPricePerUnit": 62,
+        "spread": 1,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "max": 70,
+      "maxSpread": 2,
+      "min": 22,
+      "minSpread": 1,
+      "name": "Drones",
+      "symbol": "DRONES",
+      "volumePerUnit": 1
+    },
+    "ELECTRONICS": {
+      "NA7-TH": {
+        "pricePerUnit": 237,
+        "purchasePricePerUnit": 244,
+        "quantityAvailable": 871,
+        "sellPricePerUnit": 230,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "OE-UC": {
+        "pricePerUnit": 80,
+        "purchasePricePerUnit": 87,
+        "quantityAvailable": 43347,
+        "sellPricePerUnit": 73,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "XV-ST": {
+        "pricePerUnit": 83,
+        "purchasePricePerUnit": 90,
+        "quantityAvailable": 45080,
+        "sellPricePerUnit": 76,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH": {
+        "pricePerUnit": 230,
+        "purchasePricePerUnit": 237,
+        "quantityAvailable": 2795,
+        "sellPricePerUnit": 223,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "max": 240,
+      "maxSpread": 8,
+      "min": 80,
+      "minSpread": 6,
+      "name": "Electronics",
+      "symbol": "ELECTRONICS",
+      "volumePerUnit": 1
+    },
+    "EXOTIC_PLASMA": {
+      "OE-BO": {
+        "pricePerUnit": 2937,
+        "purchasePricePerUnit": 3054,
+        "quantityAvailable": 390,
+        "sellPricePerUnit": 2820,
+        "spread": 117,
+        "symbol": "EXOTIC_PLASMA",
+        "volumePerUnit": 4
+      },
+      "XV-BN": {
+        "pricePerUnit": 1656,
+        "purchasePricePerUnit": 1804,
+        "quantityAvailable": 17609,
+        "sellPricePerUnit": 1508,
+        "spread": 148,
+        "symbol": "EXOTIC_PLASMA",
+        "volumePerUnit": 4
+      },
+      "max": 2959,
+      "maxSpread": 149,
+      "min": 1602,
+      "minSpread": 117,
+      "name": "Exotic Plasma",
+      "symbol": "EXOTIC_PLASMA",
+      "volumePerUnit": 4
+    },
+    "EXPLOSIVES": {
+      "OE-KO": {
+        "pricePerUnit": 42,
+        "purchasePricePerUnit": 45,
+        "quantityAvailable": 34413,
+        "sellPricePerUnit": 39,
+        "spread": 3,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "OE-NY": {
+        "pricePerUnit": 62,
+        "purchasePricePerUnit": 64,
+        "quantityAvailable": 26541,
+        "sellPricePerUnit": 60,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "XV-CB-NM": {
+        "pricePerUnit": 75,
+        "purchasePricePerUnit": 77,
+        "quantityAvailable": 14076,
+        "sellPricePerUnit": 73,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "XV-ST-BG": {
+        "pricePerUnit": 65,
+        "purchasePricePerUnit": 67,
+        "quantityAvailable": 26275,
+        "sellPricePerUnit": 63,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "XV-XA": {
+        "pricePerUnit": 49,
+        "purchasePricePerUnit": 51,
+        "quantityAvailable": 40386,
+        "sellPricePerUnit": 47,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "ZY1-GG": {
+        "pricePerUnit": 87,
+        "purchasePricePerUnit": 89,
+        "quantityAvailable": 4885,
+        "sellPricePerUnit": 85,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "max": 92,
+      "maxSpread": 3,
+      "min": 15,
+      "minSpread": 2,
+      "name": "Explosives",
+      "symbol": "EXPLOSIVES",
+      "volumePerUnit": 1
+    },
+    "FOOD": {
+      "OE-CR": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 49810,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "OE-KO": {
+        "pricePerUnit": 32,
+        "purchasePricePerUnit": 33,
+        "quantityAvailable": 5047,
+        "sellPricePerUnit": 31,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "OE-NY": {
+        "pricePerUnit": 30,
+        "purchasePricePerUnit": 31,
+        "quantityAvailable": 10886,
+        "sellPricePerUnit": 29,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "XV-SN": {
+        "pricePerUnit": 8,
+        "purchasePricePerUnit": 9,
+        "quantityAvailable": 70539,
+        "sellPricePerUnit": 7,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "XV-ST": {
+        "pricePerUnit": 31,
+        "purchasePricePerUnit": 32,
+        "quantityAvailable": 8138,
+        "sellPricePerUnit": 30,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "ZY1-GG": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 1419,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "max": 35,
+      "maxSpread": 2,
+      "min": 6,
+      "minSpread": 1,
+      "name": "Food",
+      "symbol": "FOOD",
+      "volumePerUnit": 1
+    },
+    "FUEL": {
+      "NA7-GH": {
+        "pricePerUnit": 20,
+        "purchasePricePerUnit": 21,
+        "quantityAvailable": 41638,
+        "sellPricePerUnit": 19,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "NA7-TH": {
+        "pricePerUnit": 9,
+        "purchasePricePerUnit": 10,
+        "quantityAvailable": 70163,
+        "sellPricePerUnit": 8,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "NA7-W-ZY1": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 57416,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-BO": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 71607,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-CR": {
+        "pricePerUnit": 8,
+        "purchasePricePerUnit": 9,
+        "quantityAvailable": 67032,
+        "sellPricePerUnit": 7,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-KO": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 60417,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-NY": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 76901,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-PM": {
+        "pricePerUnit": 9,
+        "purchasePricePerUnit": 10,
+        "quantityAvailable": 76604,
+        "sellPricePerUnit": 8,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-PM-TR": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 82227,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-UC": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 75344,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-UC-AD": {
+        "pricePerUnit": 11,
+        "purchasePricePerUnit": 12,
+        "quantityAvailable": 58623,
+        "sellPricePerUnit": 10,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-UC-OB": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 63658,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "OE-W-XV": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 77609,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-BN": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 66162,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-CB": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 69669,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-CB-IT": {
+        "pricePerUnit": 8,
+        "purchasePricePerUnit": 9,
+        "quantityAvailable": 78535,
+        "sellPricePerUnit": 7,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-CB-NM": {
+        "pricePerUnit": 11,
+        "purchasePricePerUnit": 12,
+        "quantityAvailable": 74361,
+        "sellPricePerUnit": 10,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-OS": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 64832,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-SN": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 63747,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-ST": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 68786,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-ST-BG": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 71237,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-W-OE": {
+        "pricePerUnit": 17,
+        "purchasePricePerUnit": 18,
+        "quantityAvailable": 53079,
+        "sellPricePerUnit": 16,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-W-ZY1": {
+        "pricePerUnit": 19,
+        "purchasePricePerUnit": 20,
+        "quantityAvailable": 46760,
+        "sellPricePerUnit": 18,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "XV-XA": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 59609,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-C3T": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 58761,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-ECC": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 55708,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-GG": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 51851,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-GG-CY": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 55922,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-GG-LAO": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 65420,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 51199,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH-HD": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 60187,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH-MD": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 72810,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH-NT": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 52667,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-LS": {
+        "pricePerUnit": 2,
+        "purchasePricePerUnit": 3,
+        "quantityAvailable": 82400,
+        "sellPricePerUnit": 1,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-M57Z": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 66845,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-T85": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 67747,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-VC": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 68565,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-VZ": {
+        "pricePerUnit": 2,
+        "purchasePricePerUnit": 3,
+        "quantityAvailable": 88720,
+        "sellPricePerUnit": 1,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-W-NA7": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 64241,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "ZY1-W-XV": {
+        "pricePerUnit": 17,
+        "purchasePricePerUnit": 18,
+        "quantityAvailable": 60623,
+        "sellPricePerUnit": 16,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "max": 22,
+      "maxSpread": 2,
+      "min": 2,
+      "minSpread": 1,
+      "name": "Fuel",
+      "symbol": "FUEL",
+      "volumePerUnit": 1
+    },
+    "FUSION_REACTORS": {
+      "OE-PM-TR": {
+        "pricePerUnit": 20122,
+        "purchasePricePerUnit": 20313,
+        "quantityAvailable": 2905,
+        "sellPricePerUnit": 19931,
+        "spread": 191,
+        "symbol": "FUSION_REACTORS",
+        "volumePerUnit": 6
+      },
+      "XV-CB": {
+        "pricePerUnit": 18309,
+        "purchasePricePerUnit": 18505,
+        "quantityAvailable": 21396,
+        "sellPricePerUnit": 18113,
+        "spread": 196,
+        "symbol": "FUSION_REACTORS",
+        "volumePerUnit": 6
+      },
+      "max": 20385,
+      "maxSpread": 196,
+      "min": 18022,
+      "minSpread": 191,
+      "name": "Fusion Reactors",
+      "symbol": "FUSION_REACTORS",
+      "volumePerUnit": 6
+    },
+    "MACHINERY": {
+      "OE-BO": {
+        "pricePerUnit": 438,
+        "purchasePricePerUnit": 449,
+        "quantityAvailable": 18627,
+        "sellPricePerUnit": 427,
+        "spread": 11,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "OE-UC": {
+        "pricePerUnit": 398,
+        "purchasePricePerUnit": 411,
+        "quantityAvailable": 22802,
+        "sellPricePerUnit": 385,
+        "spread": 13,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "XV-CB-IT": {
+        "pricePerUnit": 485,
+        "purchasePricePerUnit": 497,
+        "quantityAvailable": 9589,
+        "sellPricePerUnit": 473,
+        "spread": 12,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "XV-SN": {
+        "pricePerUnit": 474,
+        "purchasePricePerUnit": 483,
+        "quantityAvailable": 14080,
+        "sellPricePerUnit": 465,
+        "spread": 9,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "XV-ST": {
+        "pricePerUnit": 415,
+        "purchasePricePerUnit": 427,
+        "quantityAvailable": 20419,
+        "sellPricePerUnit": 403,
+        "spread": 12,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "ZY1-GG": {
+        "pricePerUnit": 500,
+        "purchasePricePerUnit": 510,
+        "quantityAvailable": 7800,
+        "sellPricePerUnit": 490,
+        "spread": 10,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "max": 540,
+      "maxSpread": 13,
+      "min": 330,
+      "minSpread": 9,
+      "name": "Machinery",
+      "symbol": "MACHINERY",
+      "volumePerUnit": 2
+    },
+    "METALS": {
+      "OE-KO": {
+        "pricePerUnit": 28,
+        "purchasePricePerUnit": 29,
+        "quantityAvailable": 26809,
+        "sellPricePerUnit": 27,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "OE-NY": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 62454,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "OE-PM": {
+        "pricePerUnit": 37,
+        "purchasePricePerUnit": 38,
+        "quantityAvailable": 11758,
+        "sellPricePerUnit": 36,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "OE-PM-TR": {
+        "pricePerUnit": 19,
+        "purchasePricePerUnit": 20,
+        "quantityAvailable": 58163,
+        "sellPricePerUnit": 18,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "XV-CB-NM": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 68342,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "XV-ST": {
+        "pricePerUnit": 29,
+        "purchasePricePerUnit": 30,
+        "quantityAvailable": 33152,
+        "sellPricePerUnit": 28,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "XV-ST-BG": {
+        "pricePerUnit": 23,
+        "purchasePricePerUnit": 24,
+        "quantityAvailable": 38733,
+        "sellPricePerUnit": 22,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 20122,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "max": 42,
+      "maxSpread": 2,
+      "min": 3,
+      "minSpread": 1,
+      "name": "Metals",
+      "symbol": "METALS",
+      "volumePerUnit": 1
+    },
+    "NANOBOTS": {
+      "NA7-GH": {
+        "pricePerUnit": 330,
+        "purchasePricePerUnit": 354,
+        "quantityAvailable": 20,
+        "sellPricePerUnit": 306,
+        "spread": 24,
+        "symbol": "NANOBOTS",
+        "volumePerUnit": 1
+      },
+      "XV-CB": {
+        "pricePerUnit": 92,
+        "purchasePricePerUnit": 119,
+        "quantityAvailable": 17847,
+        "sellPricePerUnit": 65,
+        "spread": 27,
+        "symbol": "NANOBOTS",
+        "volumePerUnit": 1
+      },
+      "max": 330,
+      "maxSpread": 27,
+      "min": 90,
+      "minSpread": 24,
+      "name": "Nanobots",
+      "symbol": "NANOBOTS",
+      "volumePerUnit": 1
+    },
+    "NARCOTICS": {
+      "OE-NY": {
+        "pricePerUnit": 115,
+        "purchasePricePerUnit": 119,
+        "quantityAvailable": 12,
+        "sellPricePerUnit": 111,
+        "spread": 4,
+        "symbol": "NARCOTICS",
+        "volumePerUnit": 1
+      },
+      "XV-XA": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 21,
+        "quantityAvailable": 43013,
+        "sellPricePerUnit": 11,
+        "spread": 5,
+        "symbol": "NARCOTICS",
+        "volumePerUnit": 1
+      },
+      "max": 115,
+      "maxSpread": 5,
+      "min": 15,
+      "minSpread": 3,
+      "name": "Narcotics",
+      "symbol": "NARCOTICS",
+      "volumePerUnit": 1
+    },
+    "PRECISION_INSTRUMENTS": {
+      "NA7-TH": {
+        "pricePerUnit": 415,
+        "purchasePricePerUnit": 438,
+        "quantityAvailable": 435,
+        "sellPricePerUnit": 392,
+        "spread": 23,
+        "symbol": "PRECISION_INSTRUMENTS",
+        "volumePerUnit": 1
+      },
+      "XV-OS": {
+        "pricePerUnit": 125,
+        "purchasePricePerUnit": 150,
+        "quantityAvailable": 23739,
+        "sellPricePerUnit": 100,
+        "spread": 25,
+        "symbol": "PRECISION_INSTRUMENTS",
+        "volumePerUnit": 1
+      },
+      "max": 420,
+      "maxSpread": 25,
+      "min": 120,
+      "minSpread": 23,
+      "name": "Precision Instruments",
+      "symbol": "PRECISION_INSTRUMENTS",
+      "volumePerUnit": 1
+    },
+    "PROTEIN_SYNTHESIZERS": {
+      "OE-CR": {
+        "pricePerUnit": 355,
+        "purchasePricePerUnit": 382,
+        "quantityAvailable": 20,
+        "sellPricePerUnit": 328,
+        "spread": 27,
+        "symbol": "PROTEIN_SYNTHESIZERS",
+        "volumePerUnit": 1
+      },
+      "XV-SN": {
+        "pricePerUnit": 103,
+        "purchasePricePerUnit": 127,
+        "quantityAvailable": 21391,
+        "sellPricePerUnit": 79,
+        "spread": 24,
+        "symbol": "PROTEIN_SYNTHESIZERS",
+        "volumePerUnit": 1
+      },
+      "max": 355,
+      "maxSpread": 27,
+      "min": 95,
+      "minSpread": 23,
+      "name": "Protein Synthesizers",
+      "symbol": "PROTEIN_SYNTHESIZERS",
+      "volumePerUnit": 1
+    },
+    "RARE_METALS": {
+      "NA7-GH": {
+        "pricePerUnit": 160,
+        "purchasePricePerUnit": 166,
+        "quantityAvailable": 14,
+        "sellPricePerUnit": 154,
+        "spread": 6,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "NA7-TH": {
+        "pricePerUnit": 46,
+        "purchasePricePerUnit": 53,
+        "quantityAvailable": 35510,
+        "sellPricePerUnit": 39,
+        "spread": 7,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "OE-NY": {
+        "pricePerUnit": 88,
+        "purchasePricePerUnit": 94,
+        "quantityAvailable": 25523,
+        "sellPricePerUnit": 82,
+        "spread": 6,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "OE-UC-OB": {
+        "pricePerUnit": 108,
+        "purchasePricePerUnit": 113,
+        "quantityAvailable": 20227,
+        "sellPricePerUnit": 103,
+        "spread": 5,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "XV-CB-NM": {
+        "pricePerUnit": 95,
+        "purchasePricePerUnit": 102,
+        "quantityAvailable": 19905,
+        "sellPricePerUnit": 88,
+        "spread": 7,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "XV-XA": {
+        "pricePerUnit": 104,
+        "purchasePricePerUnit": 109,
+        "quantityAvailable": 20763,
+        "sellPricePerUnit": 99,
+        "spread": 5,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "ZY1-GG": {
+        "pricePerUnit": 155,
+        "purchasePricePerUnit": 160,
+        "quantityAvailable": 2045,
+        "sellPricePerUnit": 150,
+        "spread": 5,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "max": 160,
+      "maxSpread": 7,
+      "min": 40,
+      "minSpread": 5,
+      "name": "Rare Metals",
+      "symbol": "RARE_METALS",
+      "volumePerUnit": 1
+    },
+    "RESEARCH": {
+      "XV-CB": {
+        "pricePerUnit": 2742,
+        "purchasePricePerUnit": 2946,
+        "quantityAvailable": 2926,
+        "sellPricePerUnit": 2538,
+        "spread": 204,
+        "symbol": "RESEARCH",
+        "volumePerUnit": 1
+      },
+      "ZY1-GH": {
+        "pricePerUnit": 2792,
+        "purchasePricePerUnit": 3045,
+        "quantityAvailable": 1964,
+        "sellPricePerUnit": 2539,
+        "spread": 253,
+        "symbol": "RESEARCH",
+        "volumePerUnit": 1
+      },
+      "max": 3038,
+      "maxSpread": 253,
+      "min": 2321,
+      "minSpread": 203,
+      "name": "Research",
+      "symbol": "RESEARCH",
+      "volumePerUnit": 1
+    },
+    "SHIP_PARTS": {
+      "OE-UC": {
+        "pricePerUnit": 2423,
+        "purchasePricePerUnit": 2482,
+        "quantityAvailable": 4638,
+        "sellPricePerUnit": 2364,
+        "spread": 59,
+        "symbol": "SHIP_PARTS",
+        "volumePerUnit": 4
+      },
+      "XV-ST-BG": {
+        "pricePerUnit": 1530,
+        "purchasePricePerUnit": 1586,
+        "quantityAvailable": 36543,
+        "sellPricePerUnit": 1474,
+        "spread": 56,
+        "symbol": "SHIP_PARTS",
+        "volumePerUnit": 4
+      },
+      "ZY1-GG": {
+        "pricePerUnit": 2492,
+        "purchasePricePerUnit": 2551,
+        "quantityAvailable": 2287,
+        "sellPricePerUnit": 2433,
+        "spread": 59,
+        "symbol": "SHIP_PARTS",
+        "volumePerUnit": 4
+      },
+      "max": 2560,
+      "maxSpread": 60,
+      "min": 1281,
+      "minSpread": 56,
+      "name": "Ship Parts",
+      "symbol": "SHIP_PARTS",
+      "volumePerUnit": 4
+    },
+    "SHIP_PLATING": {
+      "OE-UC-AD": {
+        "pricePerUnit": 122,
+        "purchasePricePerUnit": 128,
+        "quantityAvailable": 62817,
+        "sellPricePerUnit": 116,
+        "spread": 6,
+        "symbol": "SHIP_PLATING",
+        "volumePerUnit": 2
+      },
+      "XV-ST-BG": {
+        "pricePerUnit": 242,
+        "purchasePricePerUnit": 249,
+        "quantityAvailable": 18114,
+        "sellPricePerUnit": 235,
+        "spread": 7,
+        "symbol": "SHIP_PLATING",
+        "volumePerUnit": 2
+      },
+      "ZY1-GH": {
+        "pricePerUnit": 281,
+        "purchasePricePerUnit": 288,
+        "quantityAvailable": 5540,
+        "sellPricePerUnit": 274,
+        "spread": 7,
+        "symbol": "SHIP_PLATING",
+        "volumePerUnit": 2
+      },
+      "max": 300,
+      "maxSpread": 7,
+      "min": 108,
+      "minSpread": 5,
+      "name": "Ship Plating",
+      "symbol": "SHIP_PLATING",
+      "volumePerUnit": 2
+    },
+    "TEXTILES": {
+      "OE-CR": {
+        "pricePerUnit": 26,
+        "purchasePricePerUnit": 28,
+        "quantityAvailable": 40649,
+        "sellPricePerUnit": 24,
+        "spread": 2,
+        "symbol": "TEXTILES",
+        "volumePerUnit": 1
+      },
+      "OE-PM": {
+        "pricePerUnit": 54,
+        "purchasePricePerUnit": 55,
+        "quantityAvailable": 18594,
+        "sellPricePerUnit": 53,
+        "spread": 1,
+        "symbol": "TEXTILES",
+        "volumePerUnit": 1
+      },
+      "XV-OS": {
+        "pricePerUnit": 70,
+        "purchasePricePerUnit": 71,
+        "quantityAvailable": 505,
+        "sellPricePerUnit": 69,
+        "spread": 1,
+        "symbol": "TEXTILES",
+        "volumePerUnit": 1
+      },
+      "max": 70,
+      "maxSpread": 3,
+      "min": 15,
+      "minSpread": 1,
+      "name": "Textiles",
+      "symbol": "TEXTILES",
+      "volumePerUnit": 1
+    },
+    "UNSTABLE_COMPOUNDS": {
+      "NA7-TH": {
+        "pricePerUnit": 920,
+        "purchasePricePerUnit": 1009,
+        "quantityAvailable": 22641,
+        "sellPricePerUnit": 831,
+        "spread": 89,
+        "symbol": "UNSTABLE_COMPOUNDS",
+        "volumePerUnit": 3
+      },
+      "OE-UC-AD": {
+        "pricePerUnit": 1919,
+        "purchasePricePerUnit": 2007,
+        "quantityAvailable": 18,
+        "sellPricePerUnit": 1831,
+        "spread": 88,
+        "symbol": "UNSTABLE_COMPOUNDS",
+        "volumePerUnit": 3
+      },
+      "max": 1919,
+      "maxSpread": 89,
+      "min": 901,
+      "minSpread": 88,
+      "name": "Unstable Compounds",
+      "symbol": "UNSTABLE_COMPOUNDS",
+      "volumePerUnit": 3
+    },
+    "ZUCO_CRYSTALS": {
+      "NA7-GH": {
+        "pricePerUnit": 19627,
+        "purchasePricePerUnit": 22177,
+        "quantityAvailable": 15038,
+        "sellPricePerUnit": 17077,
+        "spread": 2550,
+        "symbol": "ZUCO_CRYSTALS",
+        "volumePerUnit": 1
+      },
+      "OE-UC": {
+        "pricePerUnit": 28973,
+        "purchasePricePerUnit": 31160,
+        "quantityAvailable": 8984,
+        "sellPricePerUnit": 26786,
+        "spread": 2187,
+        "symbol": "ZUCO_CRYSTALS",
+        "volumePerUnit": 1
+      },
+      "XV-CB": {
+        "pricePerUnit": 28065,
+        "purchasePricePerUnit": 30603,
+        "quantityAvailable": 8460,
+        "sellPricePerUnit": 25527,
+        "spread": 2538,
+        "symbol": "ZUCO_CRYSTALS",
+        "volumePerUnit": 1
+      },
+      "max": 38780,
+      "maxSpread": 2550,
+      "min": 12024,
+      "minSpread": 2187,
+      "name": "Zuco Crystals",
+      "symbol": "ZUCO_CRYSTALS",
+      "volumePerUnit": 1
+    }
+  },
+  "loans": {
+    "STARTUP": {
+      "amount": 200000,
+      "collateralRequired": false,
+      "rate": 40,
+      "termInDays": 2,
+      "type": "STARTUP"
+    },
+    "active": [],
+    "old": [
+      {
+        "due": "2021-06-08T05:50:25.909Z",
+        "id": "ckpkrnud21440871ds6k8p0sh1m",
+        "repaymentAmount": 280000,
+        "status": "PAID",
+        "type": "STARTUP"
+      }
+    ]
+  },
+  "locations": {
+    "NA7-GH": {
+      "allowsConstruction": false,
+      "name": "Vuclite",
+      "symbol": "NA7-GH",
+      "traits": [
+        "SOME_METAL_ORES",
+        "ARABLE_LAND",
+        "NATURAL_CHEMICALS",
+        "SOME_TECHNOLOGICAL_RUINS"
+      ],
+      "type": "PLANET",
+      "x": -39,
+      "y": -8
+    },
+    "NA7-TH": {
+      "allowsConstruction": false,
+      "name": "Thegaturn",
+      "symbol": "NA7-TH",
+      "traits": [
+        "ABUNDANT_ARABLE_LAND",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "PLANET",
+      "x": -39,
+      "y": -51
+    },
+    "NA7-W-ZY1": {
+      "allowsConstruction": false,
+      "messages": [
+        "Extensive research has revealed a partially functioning warp gate harnessing the power of an unstable but traversable wormhole.",
+        "The scientific community has determined a means of stabilizing the ancient structure.",
+        "Enter at your own risk.",
+        "GET https://api.spacetraders.io/locations/NA7-W-ZY1/structures",
+        "POST https://api.spacetraders.io/structures/:structureId/deposit shipId=:shipId good=:goodSymbol quantity=:quantity",
+        "POST https://api.spacetraders.io/my/warp-jumps shipId=:shipId"
+      ],
+      "name": "Wormhole",
+      "symbol": "NA7-W-ZY1",
+      "traits": [],
+      "type": "WORMHOLE",
+      "x": -40,
+      "y": 109
+    },
+    "OE-BO": {
+      "allowsConstruction": true,
+      "name": "Bo",
+      "symbol": "OE-BO",
+      "traits": [
+        "SOME_HELIUM_3"
+      ],
+      "type": "GAS_GIANT",
+      "x": -53,
+      "y": 65
+    },
+    "OE-CR": {
+      "allowsConstruction": false,
+      "name": "Carth",
+      "symbol": "OE-CR",
+      "traits": [
+        "METAL_ORES",
+        "SOME_ARABLE_LAND",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "PLANET",
+      "x": 5,
+      "y": -13
+    },
+    "OE-KO": {
+      "allowsConstruction": false,
+      "name": "Koria",
+      "symbol": "OE-KO",
+      "traits": [
+        "METAL_ORES",
+        "SOME_RARE_METAL_ORES"
+      ],
+      "type": "PLANET",
+      "x": -49,
+      "y": 0
+    },
+    "OE-NY": {
+      "allowsConstruction": true,
+      "name": "Nyon",
+      "symbol": "OE-NY",
+      "traits": [
+        "SOME_METAL_ORES"
+      ],
+      "type": "ASTEROID",
+      "x": 36,
+      "y": 53
+    },
+    "OE-PM": {
+      "allowsConstruction": false,
+      "name": "Prime",
+      "symbol": "OE-PM",
+      "traits": [
+        "SOME_METAL_ORES",
+        "ABUNDANT_ARABLE_LAND"
+      ],
+      "type": "PLANET",
+      "x": -19,
+      "y": -4
+    },
+    "OE-PM-TR": {
+      "allowsConstruction": false,
+      "name": "Tritus",
+      "symbol": "OE-PM-TR",
+      "traits": [
+        "ABUNDANT_METAL_ORES",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "MOON",
+      "x": -20,
+      "y": -2
+    },
+    "OE-UC": {
+      "allowsConstruction": false,
+      "name": "Ucarro",
+      "symbol": "OE-UC",
+      "traits": [
+        "ABUNDANT_METAL_ORES",
+        "SOME_ARABLE_LAND",
+        "NATURAL_CHEMICALS"
+      ],
+      "type": "PLANET",
+      "x": 13,
+      "y": -73
+    },
+    "OE-UC-AD": {
+      "allowsConstruction": false,
+      "name": "Ado",
+      "symbol": "OE-UC-AD",
+      "traits": [
+        "METAL_ORES",
+        "ABUNDANT_NATURAL_CHEMICALS",
+        "TECHNOLOGICAL_RUINS"
+      ],
+      "type": "MOON",
+      "x": 12,
+      "y": -71
+    },
+    "OE-UC-OB": {
+      "allowsConstruction": false,
+      "name": "Obo",
+      "symbol": "OE-UC-OB",
+      "traits": [
+        "ABUNDANT_METAL_ORES",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "MOON",
+      "x": 16,
+      "y": -73
+    },
+    "OE-W-XV": {
+      "allowsConstruction": false,
+      "messages": [
+        "Extensive research has revealed a partially functioning warp gate harnessing the power of an unstable but traversable wormhole.",
+        "The scientific community has determined a means of stabilizing the ancient structure.",
+        "Enter at your own risk.",
+        "GET https://api.spacetraders.io/locations/OE-W-XV/structures",
+        "POST https://api.spacetraders.io/structures/:structureId/deposit shipId=:shipId good=:goodSymbol quantity=:quantity",
+        "POST https://api.spacetraders.io/my/warp-jumps shipId=:shipId"
+      ],
+      "name": "Wormhole",
+      "symbol": "OE-W-XV",
+      "traits": [],
+      "type": "WORMHOLE",
+      "x": 19,
+      "y": -100
+    },
+    "XV-BN": {
+      "allowsConstruction": false,
+      "name": "Bear Nebula",
+      "symbol": "XV-BN",
+      "traits": [
+        "ABUNDANT_HELIUM_3"
+      ],
+      "type": "NEBULA",
+      "x": -114,
+      "y": -34
+    },
+    "XV-CB": {
+      "allowsConstruction": false,
+      "name": "Ciubus",
+      "symbol": "XV-CB",
+      "traits": [
+        "ABUNDANT_METAL_ORES",
+        "ABUNDANT_ARABLE_LAND",
+        "ABUNDANT_RARE_METAL_ORES"
+      ],
+      "type": "PLANET",
+      "x": -79,
+      "y": 8
+    },
+    "XV-CB-IT": {
+      "allowsConstruction": false,
+      "name": "Ito",
+      "symbol": "XV-CB-IT",
+      "traits": [
+        "METAL_ORES",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "MOON",
+      "x": -81,
+      "y": 10
+    },
+    "XV-CB-NM": {
+      "allowsConstruction": false,
+      "name": "Nami",
+      "symbol": "XV-CB-NM",
+      "traits": [],
+      "type": "MOON",
+      "x": -77,
+      "y": 10
+    },
+    "XV-OS": {
+      "allowsConstruction": false,
+      "name": "Osuhines",
+      "symbol": "XV-OS",
+      "traits": [
+        "SOME_METAL_ORES",
+        "SOME_ARABLE_LAND",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "PLANET",
+      "x": -29,
+      "y": -42
+    },
+    "XV-SN": {
+      "allowsConstruction": false,
+      "name": "Sinope",
+      "symbol": "XV-SN",
+      "traits": [
+        "SOME_ARABLE_LAND",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "PLANET",
+      "x": -3,
+      "y": 40
+    },
+    "XV-ST": {
+      "allowsConstruction": false,
+      "name": "Straxabos",
+      "symbol": "XV-ST",
+      "traits": [
+        "SOME_METAL_ORES",
+        "SOME_ARABLE_LAND"
+      ],
+      "type": "PLANET",
+      "x": -22,
+      "y": -7
+    },
+    "XV-ST-BG": {
+      "allowsConstruction": false,
+      "name": "Bragi",
+      "symbol": "XV-ST-BG",
+      "traits": [
+        "METAL_ORES",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "MOON",
+      "x": -20,
+      "y": -5
+    },
+    "XV-W-OE": {
+      "allowsConstruction": false,
+      "messages": [
+        "Extensive research has revealed a partially functioning warp gate harnessing the power of an unstable but traversable wormhole.",
+        "The scientific community has determined a means of stabilizing the ancient structure.",
+        "Enter at your own risk.",
+        "GET https://api.spacetraders.io/locations/XV-W-OE/structures",
+        "POST https://api.spacetraders.io/structures/:structureId/deposit shipId=:shipId good=:goodSymbol quantity=:quantity",
+        "POST https://api.spacetraders.io/my/warp-jumps shipId=:shipId"
+      ],
+      "name": "Wormhole",
+      "symbol": "XV-W-OE",
+      "traits": [],
+      "type": "WORMHOLE",
+      "x": -81,
+      "y": -61
+    },
+    "XV-W-ZY1": {
+      "allowsConstruction": false,
+      "messages": [
+        "Extensive research has revealed a partially functioning warp gate harnessing the power of an unstable but traversable wormhole.",
+        "The scientific community has determined a means of stabilizing the ancient structure.",
+        "Enter at your own risk.",
+        "GET https://api.spacetraders.io/locations/XV-W-ZY1/structures",
+        "POST https://api.spacetraders.io/structures/:structureId/deposit shipId=:shipId good=:goodSymbol quantity=:quantity",
+        "POST https://api.spacetraders.io/my/warp-jumps shipId=:shipId"
+      ],
+      "name": "Wormhole",
+      "symbol": "XV-W-ZY1",
+      "traits": [],
+      "type": "WORMHOLE",
+      "x": 57,
+      "y": -105
+    },
+    "XV-XA": {
+      "allowsConstruction": false,
+      "name": "Xamarin",
+      "symbol": "XV-XA",
+      "traits": [
+        "SOME_METAL_ORES",
+        "SOME_TECHNOLOGICAL_RUINS"
+      ],
+      "type": "PLANET",
+      "x": 0,
+      "y": 12
+    },
+    "ZY1-C3T": {
+      "allowsConstruction": true,
+      "name": "Crade 3TLL",
+      "symbol": "ZY1-C3T",
+      "traits": [
+        "SOME_METAL_ORES"
+      ],
+      "type": "ASTEROID",
+      "x": -79,
+      "y": 36
+    },
+    "ZY1-ECC": {
+      "allowsConstruction": true,
+      "name": "Eccao",
+      "symbol": "ZY1-ECC",
+      "traits": [
+        "SOME_METAL_ORES",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "ASTEROID",
+      "x": -82,
+      "y": -15
+    },
+    "ZY1-GG": {
+      "allowsConstruction": true,
+      "name": "Grugutania",
+      "symbol": "ZY1-GG",
+      "traits": [
+        "SOME_ARABLE_LAND"
+      ],
+      "type": "PLANET",
+      "x": -11,
+      "y": 8
+    },
+    "ZY1-GG-CY": {
+      "allowsConstruction": true,
+      "name": "Cayama",
+      "symbol": "ZY1-GG-CY",
+      "traits": [
+        "SOME_METAL_ORES",
+        "ABUNDANT_NATURAL_CHEMICALS",
+        "SOME_TECHNOLOGICAL_RUINS"
+      ],
+      "type": "MOON",
+      "x": -9,
+      "y": 7
+    },
+    "ZY1-GG-LAO": {
+      "allowsConstruction": true,
+      "name": "LAO",
+      "symbol": "ZY1-GG-LAO",
+      "traits": [
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "MOON",
+      "x": -12,
+      "y": 6
+    },
+    "ZY1-GH": {
+      "allowsConstruction": true,
+      "name": "Gehiri",
+      "symbol": "ZY1-GH",
+      "traits": [
+        "SOME_METAL_ORES",
+        "SOME_ARABLE_LAND",
+        "SOME_NATURAL_CHEMICALS",
+        "SOME_RARE_METAL_ORES"
+      ],
+      "type": "PLANET",
+      "x": 1,
+      "y": 25
+    },
+    "ZY1-GH-HD": {
+      "allowsConstruction": true,
+      "name": "Hudichi",
+      "symbol": "ZY1-GH-HD",
+      "traits": [
+        "ABUNDANT_METAL_ORES"
+      ],
+      "type": "MOON",
+      "x": 0,
+      "y": 22
+    },
+    "ZY1-GH-MD": {
+      "allowsConstruction": true,
+      "name": "Madalia",
+      "symbol": "ZY1-GH-MD",
+      "traits": [
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "MOON",
+      "x": 0,
+      "y": 27
+    },
+    "ZY1-GH-NT": {
+      "allowsConstruction": true,
+      "name": "Nauter",
+      "symbol": "ZY1-GH-NT",
+      "traits": [
+        "ABUNDANT_METAL_ORES"
+      ],
+      "type": "MOON",
+      "x": 2,
+      "y": 23
+    },
+    "ZY1-LS": {
+      "allowsConstruction": true,
+      "name": "Losipra",
+      "symbol": "ZY1-LS",
+      "traits": [
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "ASTEROID",
+      "x": -39,
+      "y": -71
+    },
+    "ZY1-M57Z": {
+      "allowsConstruction": true,
+      "name": "Milles 57Z",
+      "symbol": "ZY1-M57Z",
+      "traits": [
+        "SOME_HELIUM_3"
+      ],
+      "type": "GAS_GIANT",
+      "x": -73,
+      "y": 2
+    },
+    "ZY1-T85": {
+      "allowsConstruction": true,
+      "name": "Thiea 85M",
+      "symbol": "ZY1-T85",
+      "traits": [
+        "METAL_ORES",
+        "SOME_NATURAL_CHEMICALS"
+      ],
+      "type": "ASTEROID",
+      "x": -45,
+      "y": -45
+    },
+    "ZY1-VC": {
+      "allowsConstruction": true,
+      "name": "Vicarro",
+      "symbol": "ZY1-VC",
+      "traits": [
+        "SOME_METAL_ORES"
+      ],
+      "type": "ASTEROID",
+      "x": -55,
+      "y": -55
+    },
+    "ZY1-VZ": {
+      "allowsConstruction": true,
+      "name": "Veazuno",
+      "symbol": "ZY1-VZ",
+      "traits": [
+        "HELIUM_3"
+      ],
+      "type": "GAS_GIANT",
+      "x": 44,
+      "y": 2
+    },
+    "ZY1-W-NA7": {
+      "allowsConstruction": false,
+      "messages": [
+        "Extensive research has revealed a partially functioning warp gate harnessing the power of an unstable but traversable wormhole.",
+        "The scientific community has determined a means of stabilizing the ancient structure.",
+        "Enter at your own risk.",
+        "GET https://api.spacetraders.io/locations/ZY1-W-NA7/structures",
+        "POST https://api.spacetraders.io/structures/:structureId/deposit shipId=:shipId good=:goodSymbol quantity=:quantity",
+        "POST https://api.spacetraders.io/my/warp-jumps shipId=:shipId"
+      ],
+      "name": "Wormhole",
+      "symbol": "ZY1-W-NA7",
+      "traits": [],
+      "type": "WORMHOLE",
+      "x": -91,
+      "y": 18
+    },
+    "ZY1-W-XV": {
+      "allowsConstruction": false,
+      "messages": [
+        "Extensive research has revealed a partially functioning warp gate harnessing the power of an unstable but traversable wormhole.",
+        "The scientific community has determined a means of stabilizing the ancient structure.",
+        "Enter at your own risk.",
+        "GET https://api.spacetraders.io/locations/ZY1-W-XV/structures",
+        "POST https://api.spacetraders.io/structures/:structureId/deposit shipId=:shipId good=:goodSymbol quantity=:quantity",
+        "POST https://api.spacetraders.io/my/warp-jumps shipId=:shipId"
+      ],
+      "name": "Wormhole",
+      "symbol": "ZY1-W-XV",
+      "traits": [
+        "SOME_TECHNOLOGICAL_RUINS"
+      ],
+      "type": "WORMHOLE",
+      "x": 25,
+      "y": 103
+    }
+  },
+  "market": {
+    "NA7-GH": {
+      "FUEL": {
+        "pricePerUnit": 20,
+        "purchasePricePerUnit": 21,
+        "quantityAvailable": 41638,
+        "sellPricePerUnit": 19,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "NANOBOTS": {
+        "pricePerUnit": 330,
+        "purchasePricePerUnit": 354,
+        "quantityAvailable": 20,
+        "sellPricePerUnit": 306,
+        "spread": 24,
+        "symbol": "NANOBOTS",
+        "volumePerUnit": 1
+      },
+      "RARE_METALS": {
+        "pricePerUnit": 160,
+        "purchasePricePerUnit": 166,
+        "quantityAvailable": 14,
+        "sellPricePerUnit": 154,
+        "spread": 6,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "ZUCO_CRYSTALS": {
+        "pricePerUnit": 19627,
+        "purchasePricePerUnit": 22177,
+        "quantityAvailable": 15038,
+        "sellPricePerUnit": 17077,
+        "spread": 2550,
+        "symbol": "ZUCO_CRYSTALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557608
+    },
+    "NA7-TH": {
+      "ELECTRONICS": {
+        "pricePerUnit": 237,
+        "purchasePricePerUnit": 244,
+        "quantityAvailable": 871,
+        "sellPricePerUnit": 230,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 9,
+        "purchasePricePerUnit": 10,
+        "quantityAvailable": 70163,
+        "sellPricePerUnit": 8,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "PRECISION_INSTRUMENTS": {
+        "pricePerUnit": 415,
+        "purchasePricePerUnit": 438,
+        "quantityAvailable": 435,
+        "sellPricePerUnit": 392,
+        "spread": 23,
+        "symbol": "PRECISION_INSTRUMENTS",
+        "volumePerUnit": 1
+      },
+      "RARE_METALS": {
+        "pricePerUnit": 46,
+        "purchasePricePerUnit": 53,
+        "quantityAvailable": 35510,
+        "sellPricePerUnit": 39,
+        "spread": 7,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "UNSTABLE_COMPOUNDS": {
+        "pricePerUnit": 920,
+        "purchasePricePerUnit": 1009,
+        "quantityAvailable": 22641,
+        "sellPricePerUnit": 831,
+        "spread": 89,
+        "symbol": "UNSTABLE_COMPOUNDS",
+        "volumePerUnit": 3
+      },
+      "_update": 1623535932
+    },
+    "NA7-W-ZY1": {
+      "FUEL": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 57416,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557615
+    },
+    "OE-BO": {
+      "EXOTIC_PLASMA": {
+        "pricePerUnit": 2937,
+        "purchasePricePerUnit": 3054,
+        "quantityAvailable": 390,
+        "sellPricePerUnit": 2820,
+        "spread": 117,
+        "symbol": "EXOTIC_PLASMA",
+        "volumePerUnit": 4
+      },
+      "FUEL": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 71607,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "MACHINERY": {
+        "pricePerUnit": 438,
+        "purchasePricePerUnit": 449,
+        "quantityAvailable": 18627,
+        "sellPricePerUnit": 427,
+        "spread": 11,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "_update": 1623536210
+    },
+    "OE-CR": {
+      "FOOD": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 49810,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 8,
+        "purchasePricePerUnit": 9,
+        "quantityAvailable": 67032,
+        "sellPricePerUnit": 7,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "PROTEIN_SYNTHESIZERS": {
+        "pricePerUnit": 355,
+        "purchasePricePerUnit": 382,
+        "quantityAvailable": 20,
+        "sellPricePerUnit": 328,
+        "spread": 27,
+        "symbol": "PROTEIN_SYNTHESIZERS",
+        "volumePerUnit": 1
+      },
+      "TEXTILES": {
+        "pricePerUnit": 26,
+        "purchasePricePerUnit": 28,
+        "quantityAvailable": 40649,
+        "sellPricePerUnit": 24,
+        "spread": 2,
+        "symbol": "TEXTILES",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557618
+    },
+    "OE-KO": {
+      "CHEMICALS": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 22811,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "CONSTRUCTION_MATERIALS": {
+        "pricePerUnit": 64,
+        "purchasePricePerUnit": 67,
+        "quantityAvailable": 49356,
+        "sellPricePerUnit": 61,
+        "spread": 3,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "CONSUMER_GOODS": {
+        "pricePerUnit": 41,
+        "purchasePricePerUnit": 46,
+        "quantityAvailable": 30557,
+        "sellPricePerUnit": 36,
+        "spread": 5,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "EXPLOSIVES": {
+        "pricePerUnit": 42,
+        "purchasePricePerUnit": 45,
+        "quantityAvailable": 34413,
+        "sellPricePerUnit": 39,
+        "spread": 3,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "FOOD": {
+        "pricePerUnit": 32,
+        "purchasePricePerUnit": 33,
+        "quantityAvailable": 5047,
+        "sellPricePerUnit": 31,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 60417,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "METALS": {
+        "pricePerUnit": 28,
+        "purchasePricePerUnit": 29,
+        "quantityAvailable": 26809,
+        "sellPricePerUnit": 27,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557607
+    },
+    "OE-NY": {
+      "EXPLOSIVES": {
+        "pricePerUnit": 62,
+        "purchasePricePerUnit": 64,
+        "quantityAvailable": 26541,
+        "sellPricePerUnit": 60,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "FOOD": {
+        "pricePerUnit": 30,
+        "purchasePricePerUnit": 31,
+        "quantityAvailable": 10886,
+        "sellPricePerUnit": 29,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 76901,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "METALS": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 62454,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "NARCOTICS": {
+        "pricePerUnit": 115,
+        "purchasePricePerUnit": 119,
+        "quantityAvailable": 12,
+        "sellPricePerUnit": 111,
+        "spread": 4,
+        "symbol": "NARCOTICS",
+        "volumePerUnit": 1
+      },
+      "RARE_METALS": {
+        "pricePerUnit": 88,
+        "purchasePricePerUnit": 94,
+        "quantityAvailable": 25523,
+        "sellPricePerUnit": 82,
+        "spread": 6,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557616
+    },
+    "OE-PM": {
+      "BIOMETRIC_FIREARMS": {
+        "pricePerUnit": 98,
+        "purchasePricePerUnit": 109,
+        "quantityAvailable": 20136,
+        "sellPricePerUnit": 87,
+        "spread": 11,
+        "symbol": "BIOMETRIC_FIREARMS",
+        "volumePerUnit": 1
+      },
+      "CONSUMER_GOODS": {
+        "pricePerUnit": 79,
+        "purchasePricePerUnit": 84,
+        "quantityAvailable": 10684,
+        "sellPricePerUnit": 74,
+        "spread": 5,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "DRONES": {
+        "pricePerUnit": 35,
+        "purchasePricePerUnit": 37,
+        "quantityAvailable": 53171,
+        "sellPricePerUnit": 33,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 9,
+        "purchasePricePerUnit": 10,
+        "quantityAvailable": 76604,
+        "sellPricePerUnit": 8,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "METALS": {
+        "pricePerUnit": 37,
+        "purchasePricePerUnit": 38,
+        "quantityAvailable": 11758,
+        "sellPricePerUnit": 36,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "TEXTILES": {
+        "pricePerUnit": 54,
+        "purchasePricePerUnit": 55,
+        "quantityAvailable": 18594,
+        "sellPricePerUnit": 53,
+        "spread": 1,
+        "symbol": "TEXTILES",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557609
+    },
+    "OE-PM-TR": {
+      "CONSTRUCTION_MATERIALS": {
+        "pricePerUnit": 91,
+        "purchasePricePerUnit": 94,
+        "quantityAvailable": 32119,
+        "sellPricePerUnit": 88,
+        "spread": 3,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 82227,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "FUSION_REACTORS": {
+        "pricePerUnit": 20122,
+        "purchasePricePerUnit": 20313,
+        "quantityAvailable": 2905,
+        "sellPricePerUnit": 19931,
+        "spread": 191,
+        "symbol": "FUSION_REACTORS",
+        "volumePerUnit": 6
+      },
+      "METALS": {
+        "pricePerUnit": 19,
+        "purchasePricePerUnit": 20,
+        "quantityAvailable": 58163,
+        "sellPricePerUnit": 18,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623536363
+    },
+    "OE-UC": {
+      "ELECTRONICS": {
+        "pricePerUnit": 80,
+        "purchasePricePerUnit": 87,
+        "quantityAvailable": 43347,
+        "sellPricePerUnit": 73,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 75344,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "MACHINERY": {
+        "pricePerUnit": 398,
+        "purchasePricePerUnit": 411,
+        "quantityAvailable": 22802,
+        "sellPricePerUnit": 385,
+        "spread": 13,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "SHIP_PARTS": {
+        "pricePerUnit": 2423,
+        "purchasePricePerUnit": 2482,
+        "quantityAvailable": 4638,
+        "sellPricePerUnit": 2364,
+        "spread": 59,
+        "symbol": "SHIP_PARTS",
+        "volumePerUnit": 4
+      },
+      "ZUCO_CRYSTALS": {
+        "pricePerUnit": 28973,
+        "purchasePricePerUnit": 31160,
+        "quantityAvailable": 8984,
+        "sellPricePerUnit": 26786,
+        "spread": 2187,
+        "symbol": "ZUCO_CRYSTALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557612
+    },
+    "OE-UC-AD": {
+      "DRONES": {
+        "pricePerUnit": 63,
+        "purchasePricePerUnit": 65,
+        "quantityAvailable": 8225,
+        "sellPricePerUnit": 61,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 11,
+        "purchasePricePerUnit": 12,
+        "quantityAvailable": 58623,
+        "sellPricePerUnit": 10,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "SHIP_PLATING": {
+        "pricePerUnit": 122,
+        "purchasePricePerUnit": 128,
+        "quantityAvailable": 62817,
+        "sellPricePerUnit": 116,
+        "spread": 6,
+        "symbol": "SHIP_PLATING",
+        "volumePerUnit": 2
+      },
+      "UNSTABLE_COMPOUNDS": {
+        "pricePerUnit": 1919,
+        "purchasePricePerUnit": 2007,
+        "quantityAvailable": 18,
+        "sellPricePerUnit": 1831,
+        "spread": 88,
+        "symbol": "UNSTABLE_COMPOUNDS",
+        "volumePerUnit": 3
+      },
+      "_update": 1623557620
+    },
+    "OE-UC-OB": {
+      "CHEMICALS": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 53812,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "DRONES": {
+        "pricePerUnit": 58,
+        "purchasePricePerUnit": 59,
+        "quantityAvailable": 15269,
+        "sellPricePerUnit": 57,
+        "spread": 1,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 63658,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "RARE_METALS": {
+        "pricePerUnit": 108,
+        "purchasePricePerUnit": 113,
+        "quantityAvailable": 20227,
+        "sellPricePerUnit": 103,
+        "spread": 5,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557605
+    },
+    "OE-W-XV": {
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 77609,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557619
+    },
+    "XV-BN": {
+      "DRONES": {
+        "pricePerUnit": 63,
+        "purchasePricePerUnit": 65,
+        "quantityAvailable": 8914,
+        "sellPricePerUnit": 61,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "EXOTIC_PLASMA": {
+        "pricePerUnit": 1656,
+        "purchasePricePerUnit": 1804,
+        "quantityAvailable": 17609,
+        "sellPricePerUnit": 1508,
+        "spread": 148,
+        "symbol": "EXOTIC_PLASMA",
+        "volumePerUnit": 4
+      },
+      "FUEL": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 66162,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623536641
+    },
+    "XV-CB": {
+      "FUEL": {
+        "pricePerUnit": 10,
+        "purchasePricePerUnit": 11,
+        "quantityAvailable": 69669,
+        "sellPricePerUnit": 9,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "FUSION_REACTORS": {
+        "pricePerUnit": 18309,
+        "purchasePricePerUnit": 18505,
+        "quantityAvailable": 21396,
+        "sellPricePerUnit": 18113,
+        "spread": 196,
+        "symbol": "FUSION_REACTORS",
+        "volumePerUnit": 6
+      },
+      "NANOBOTS": {
+        "pricePerUnit": 92,
+        "purchasePricePerUnit": 119,
+        "quantityAvailable": 17847,
+        "sellPricePerUnit": 65,
+        "spread": 27,
+        "symbol": "NANOBOTS",
+        "volumePerUnit": 1
+      },
+      "RESEARCH": {
+        "pricePerUnit": 2742,
+        "purchasePricePerUnit": 2946,
+        "quantityAvailable": 2926,
+        "sellPricePerUnit": 2538,
+        "spread": 204,
+        "symbol": "RESEARCH",
+        "volumePerUnit": 1
+      },
+      "ZUCO_CRYSTALS": {
+        "pricePerUnit": 28065,
+        "purchasePricePerUnit": 30603,
+        "quantityAvailable": 8460,
+        "sellPricePerUnit": 25527,
+        "spread": 2538,
+        "symbol": "ZUCO_CRYSTALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623537003
+    },
+    "XV-CB-IT": {
+      "CONSUMER_GOODS": {
+        "pricePerUnit": 40,
+        "purchasePricePerUnit": 44,
+        "quantityAvailable": 32472,
+        "sellPricePerUnit": 36,
+        "spread": 4,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 8,
+        "purchasePricePerUnit": 9,
+        "quantityAvailable": 78535,
+        "sellPricePerUnit": 7,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "MACHINERY": {
+        "pricePerUnit": 485,
+        "purchasePricePerUnit": 497,
+        "quantityAvailable": 9589,
+        "sellPricePerUnit": 473,
+        "spread": 12,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "_update": 1623532886
+    },
+    "XV-CB-NM": {
+      "CONSTRUCTION_MATERIALS": {
+        "pricePerUnit": 100,
+        "purchasePricePerUnit": 104,
+        "quantityAvailable": 24088,
+        "sellPricePerUnit": 96,
+        "spread": 4,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "EXPLOSIVES": {
+        "pricePerUnit": 75,
+        "purchasePricePerUnit": 77,
+        "quantityAvailable": 14076,
+        "sellPricePerUnit": 73,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 11,
+        "purchasePricePerUnit": 12,
+        "quantityAvailable": 74361,
+        "sellPricePerUnit": 10,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "METALS": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 68342,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "RARE_METALS": {
+        "pricePerUnit": 95,
+        "purchasePricePerUnit": 102,
+        "quantityAvailable": 19905,
+        "sellPricePerUnit": 88,
+        "spread": 7,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623536441
+    },
+    "XV-OS": {
+      "BIOMETRIC_FIREARMS": {
+        "pricePerUnit": 172,
+        "purchasePricePerUnit": 183,
+        "quantityAvailable": 6825,
+        "sellPricePerUnit": 161,
+        "spread": 11,
+        "symbol": "BIOMETRIC_FIREARMS",
+        "volumePerUnit": 1
+      },
+      "CONSUMER_GOODS": {
+        "pricePerUnit": 70,
+        "purchasePricePerUnit": 74,
+        "quantityAvailable": 17783,
+        "sellPricePerUnit": 66,
+        "spread": 4,
+        "symbol": "CONSUMER_GOODS",
+        "volumePerUnit": 1
+      },
+      "DRONES": {
+        "pricePerUnit": 40,
+        "purchasePricePerUnit": 41,
+        "quantityAvailable": 37040,
+        "sellPricePerUnit": 39,
+        "spread": 1,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 64832,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "PRECISION_INSTRUMENTS": {
+        "pricePerUnit": 125,
+        "purchasePricePerUnit": 150,
+        "quantityAvailable": 23739,
+        "sellPricePerUnit": 100,
+        "spread": 25,
+        "symbol": "PRECISION_INSTRUMENTS",
+        "volumePerUnit": 1
+      },
+      "TEXTILES": {
+        "pricePerUnit": 70,
+        "purchasePricePerUnit": 71,
+        "quantityAvailable": 505,
+        "sellPricePerUnit": 69,
+        "spread": 1,
+        "symbol": "TEXTILES",
+        "volumePerUnit": 1
+      },
+      "_update": 1623536531
+    },
+    "XV-SN": {
+      "CHEMICALS": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 74458,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "DRONES": {
+        "pricePerUnit": 64,
+        "purchasePricePerUnit": 66,
+        "quantityAvailable": 6991,
+        "sellPricePerUnit": 62,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "FOOD": {
+        "pricePerUnit": 8,
+        "purchasePricePerUnit": 9,
+        "quantityAvailable": 70539,
+        "sellPricePerUnit": 7,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 63747,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "MACHINERY": {
+        "pricePerUnit": 474,
+        "purchasePricePerUnit": 483,
+        "quantityAvailable": 14080,
+        "sellPricePerUnit": 465,
+        "spread": 9,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "PROTEIN_SYNTHESIZERS": {
+        "pricePerUnit": 103,
+        "purchasePricePerUnit": 127,
+        "quantityAvailable": 21391,
+        "sellPricePerUnit": 79,
+        "spread": 24,
+        "symbol": "PROTEIN_SYNTHESIZERS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535232
+    },
+    "XV-ST": {
+      "CHEMICALS": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 22030,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "ELECTRONICS": {
+        "pricePerUnit": 83,
+        "purchasePricePerUnit": 90,
+        "quantityAvailable": 45080,
+        "sellPricePerUnit": 76,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "FOOD": {
+        "pricePerUnit": 31,
+        "purchasePricePerUnit": 32,
+        "quantityAvailable": 8138,
+        "sellPricePerUnit": 30,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 68786,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "MACHINERY": {
+        "pricePerUnit": 415,
+        "purchasePricePerUnit": 427,
+        "quantityAvailable": 20419,
+        "sellPricePerUnit": 403,
+        "spread": 12,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "METALS": {
+        "pricePerUnit": 29,
+        "purchasePricePerUnit": 30,
+        "quantityAvailable": 33152,
+        "sellPricePerUnit": 28,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535436
+    },
+    "XV-ST-BG": {
+      "EXPLOSIVES": {
+        "pricePerUnit": 65,
+        "purchasePricePerUnit": 67,
+        "quantityAvailable": 26275,
+        "sellPricePerUnit": 63,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 71237,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "METALS": {
+        "pricePerUnit": 23,
+        "purchasePricePerUnit": 24,
+        "quantityAvailable": 38733,
+        "sellPricePerUnit": 22,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "SHIP_PARTS": {
+        "pricePerUnit": 1530,
+        "purchasePricePerUnit": 1586,
+        "quantityAvailable": 36543,
+        "sellPricePerUnit": 1474,
+        "spread": 56,
+        "symbol": "SHIP_PARTS",
+        "volumePerUnit": 4
+      },
+      "SHIP_PLATING": {
+        "pricePerUnit": 242,
+        "purchasePricePerUnit": 249,
+        "quantityAvailable": 18114,
+        "sellPricePerUnit": 235,
+        "spread": 7,
+        "symbol": "SHIP_PLATING",
+        "volumePerUnit": 2
+      },
+      "_update": 1623535033
+    },
+    "XV-W-OE": {
+      "FUEL": {
+        "pricePerUnit": 17,
+        "purchasePricePerUnit": 18,
+        "quantityAvailable": 53079,
+        "sellPricePerUnit": 16,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557614
+    },
+    "XV-W-ZY1": {
+      "FUEL": {
+        "pricePerUnit": 19,
+        "purchasePricePerUnit": 20,
+        "quantityAvailable": 46760,
+        "sellPricePerUnit": 18,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557613
+    },
+    "XV-XA": {
+      "CONSTRUCTION_MATERIALS": {
+        "pricePerUnit": 74,
+        "purchasePricePerUnit": 77,
+        "quantityAvailable": 37337,
+        "sellPricePerUnit": 71,
+        "spread": 3,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "DRONES": {
+        "pricePerUnit": 59,
+        "purchasePricePerUnit": 61,
+        "quantityAvailable": 13819,
+        "sellPricePerUnit": 57,
+        "spread": 2,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "EXPLOSIVES": {
+        "pricePerUnit": 49,
+        "purchasePricePerUnit": 51,
+        "quantityAvailable": 40386,
+        "sellPricePerUnit": 47,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 59609,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "NARCOTICS": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 21,
+        "quantityAvailable": 43013,
+        "sellPricePerUnit": 11,
+        "spread": 5,
+        "symbol": "NARCOTICS",
+        "volumePerUnit": 1
+      },
+      "RARE_METALS": {
+        "pricePerUnit": 104,
+        "purchasePricePerUnit": 109,
+        "quantityAvailable": 20763,
+        "sellPricePerUnit": 99,
+        "spread": 5,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "_update": 1623536327
+    },
+    "ZY1-C3T": {
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 58761,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557610
+    },
+    "ZY1-ECC": {
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 55708,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623532113
+    },
+    "ZY1-GG": {
+      "CHEMICALS": {
+        "pricePerUnit": 37,
+        "purchasePricePerUnit": 38,
+        "quantityAvailable": 17129,
+        "sellPricePerUnit": 36,
+        "spread": 1,
+        "symbol": "CHEMICALS",
+        "volumePerUnit": 1
+      },
+      "EXPLOSIVES": {
+        "pricePerUnit": 87,
+        "purchasePricePerUnit": 89,
+        "quantityAvailable": 4885,
+        "sellPricePerUnit": 85,
+        "spread": 2,
+        "symbol": "EXPLOSIVES",
+        "volumePerUnit": 1
+      },
+      "FOOD": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 1419,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "FOOD",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 51851,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "MACHINERY": {
+        "pricePerUnit": 500,
+        "purchasePricePerUnit": 510,
+        "quantityAvailable": 7800,
+        "sellPricePerUnit": 490,
+        "spread": 10,
+        "symbol": "MACHINERY",
+        "volumePerUnit": 2
+      },
+      "RARE_METALS": {
+        "pricePerUnit": 155,
+        "purchasePricePerUnit": 160,
+        "quantityAvailable": 2045,
+        "sellPricePerUnit": 150,
+        "spread": 5,
+        "symbol": "RARE_METALS",
+        "volumePerUnit": 1
+      },
+      "SHIP_PARTS": {
+        "pricePerUnit": 2492,
+        "purchasePricePerUnit": 2551,
+        "quantityAvailable": 2287,
+        "sellPricePerUnit": 2433,
+        "spread": 59,
+        "symbol": "SHIP_PARTS",
+        "volumePerUnit": 4
+      },
+      "_update": 1623536400
+    },
+    "ZY1-GG-CY": {
+      "FUEL": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 55922,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535187
+    },
+    "ZY1-GG-LAO": {
+      "FUEL": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 65420,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535276
+    },
+    "ZY1-GH": {
+      "CONSTRUCTION_MATERIALS": {
+        "pricePerUnit": 121,
+        "purchasePricePerUnit": 125,
+        "quantityAvailable": 10228,
+        "sellPricePerUnit": 117,
+        "spread": 4,
+        "symbol": "CONSTRUCTION_MATERIALS",
+        "volumePerUnit": 1
+      },
+      "DRONES": {
+        "pricePerUnit": 63,
+        "purchasePricePerUnit": 64,
+        "quantityAvailable": 8866,
+        "sellPricePerUnit": 62,
+        "spread": 1,
+        "symbol": "DRONES",
+        "volumePerUnit": 1
+      },
+      "ELECTRONICS": {
+        "pricePerUnit": 230,
+        "purchasePricePerUnit": 237,
+        "quantityAvailable": 2795,
+        "sellPricePerUnit": 223,
+        "spread": 7,
+        "symbol": "ELECTRONICS",
+        "volumePerUnit": 1
+      },
+      "FUEL": {
+        "pricePerUnit": 15,
+        "purchasePricePerUnit": 16,
+        "quantityAvailable": 51199,
+        "sellPricePerUnit": 14,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "METALS": {
+        "pricePerUnit": 34,
+        "purchasePricePerUnit": 35,
+        "quantityAvailable": 20122,
+        "sellPricePerUnit": 33,
+        "spread": 1,
+        "symbol": "METALS",
+        "volumePerUnit": 1
+      },
+      "RESEARCH": {
+        "pricePerUnit": 2792,
+        "purchasePricePerUnit": 3045,
+        "quantityAvailable": 1964,
+        "sellPricePerUnit": 2539,
+        "spread": 253,
+        "symbol": "RESEARCH",
+        "volumePerUnit": 1
+      },
+      "SHIP_PLATING": {
+        "pricePerUnit": 281,
+        "purchasePricePerUnit": 288,
+        "quantityAvailable": 5540,
+        "sellPricePerUnit": 274,
+        "spread": 7,
+        "symbol": "SHIP_PLATING",
+        "volumePerUnit": 2
+      },
+      "_update": 1623536564
+    },
+    "ZY1-GH-HD": {
+      "FUEL": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 60187,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535768
+    },
+    "ZY1-GH-MD": {
+      "FUEL": {
+        "pricePerUnit": 14,
+        "purchasePricePerUnit": 15,
+        "quantityAvailable": 72810,
+        "sellPricePerUnit": 13,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535851
+    },
+    "ZY1-GH-NT": {
+      "FUEL": {
+        "pricePerUnit": 13,
+        "purchasePricePerUnit": 14,
+        "quantityAvailable": 52667,
+        "sellPricePerUnit": 12,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623531924
+    },
+    "ZY1-LS": {
+      "FUEL": {
+        "pricePerUnit": 2,
+        "purchasePricePerUnit": 3,
+        "quantityAvailable": 82400,
+        "sellPricePerUnit": 1,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623006842
+    },
+    "ZY1-M57Z": {
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 66845,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535582
+    },
+    "ZY1-T85": {
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 67747,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623533683
+    },
+    "ZY1-VC": {
+      "FUEL": {
+        "pricePerUnit": 12,
+        "purchasePricePerUnit": 13,
+        "quantityAvailable": 68565,
+        "sellPricePerUnit": 11,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623535433
+    },
+    "ZY1-VZ": {
+      "FUEL": {
+        "pricePerUnit": 2,
+        "purchasePricePerUnit": 3,
+        "quantityAvailable": 88720,
+        "sellPricePerUnit": 1,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623005659
+    },
+    "ZY1-W-NA7": {
+      "FUEL": {
+        "pricePerUnit": 16,
+        "purchasePricePerUnit": 17,
+        "quantityAvailable": 64241,
+        "sellPricePerUnit": 15,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557604
+    },
+    "ZY1-W-XV": {
+      "FUEL": {
+        "pricePerUnit": 17,
+        "purchasePricePerUnit": 18,
+        "quantityAvailable": 60623,
+        "sellPricePerUnit": 16,
+        "spread": 1,
+        "symbol": "FUEL",
+        "volumePerUnit": 1
+      },
+      "_update": 1623557603
+    }
+  },
+  "my": {
+    "status": "spacetraders is currently in maintenance mode and unavailable. Check discord for updates: https://discord.com/invite/jh6zurdWk5"
+  },
+  "orders": {
+    "_live": {
+      "ckpkrrwot1478531ds6bb7apczm": {
+        "buy": 56,
+        "dest": "OE-PM",
+        "fuel": 9,
+        "gain": 6.0,
+        "item": "CONSUMER_GOODS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 25503,
+        "sell": 62,
+        "src": "OE-KO",
+        "type": "intra"
+      },
+      "ckpkrrxmw1478991ds6mi4r1yc4": {
+        "buy": 71,
+        "dest": "OE-PM-TR",
+        "fuel": 8,
+        "gain": 17.0,
+        "item": "CONSTRUCTION_MATERIALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 47104,
+        "sell": 88,
+        "src": "OE-KO",
+        "type": "intra"
+      },
+      "ckpkrryl41479451ds62wppw317": {
+        "buy": 396,
+        "dest": "OE-BO",
+        "fuel": 25,
+        "gain": 15.5,
+        "item": "MACHINERY",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 25107,
+        "sell": 427,
+        "src": "OE-UC",
+        "type": "intra"
+      },
+      "ckpkvmobc7427915s6y2nb5zyw": {
+        "buy": 45,
+        "dest": "OE-UC-OB",
+        "fuel": 15,
+        "gain": 9.0,
+        "item": "DRONES",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 40610,
+        "sell": 54,
+        "src": "OE-PM",
+        "type": "intra"
+      },
+      "ckplmahq824927515s6hg3tym13": {
+        "buy": 22654,
+        "dest": "OE-UC",
+        "fuel": 70,
+        "gain": 8618.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 14664,
+        "sell": 31272,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckplx8q0k13571615s6zqqcds5s": {
+        "buy": 85,
+        "dest": "NA7-GH",
+        "fuel": 85,
+        "gain": 67.0,
+        "item": "RARE_METALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 28664,
+        "sell": 152,
+        "src": "OE-NY",
+        "type": "inter"
+      },
+      "ckpm88hw014520515s6m2ct1euz": {
+        "buy": 22540,
+        "dest": "OE-UC",
+        "fuel": 70,
+        "gain": 7233.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 969220,
+        "quantity": 43,
+        "quantityAvailable": 14753,
+        "sell": 29773,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpo73jdn151381915s6g5wzk949": {
+        "buy": 22176,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 7376.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 15039,
+        "sell": 29552,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpod7sg5157953515s6ob2ejoxt": {
+        "buy": 22381,
+        "dest": "OE-UC",
+        "fuel": 70,
+        "gain": 8777.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 2081433,
+        "quantity": 93,
+        "quantityAvailable": 14878,
+        "sell": 31158,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpoosrht47548015s6i5pf31n6": {
+        "buy": 22176,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 7376.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 15039,
+        "sell": 29552,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpoy44sk128518915s6xl5vu9uq": {
+        "buy": 22552,
+        "dest": "OE-UC",
+        "fuel": 70,
+        "gain": 8606.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 14744,
+        "sell": 31158,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpp8ds3g108650415s6sb6903lg": {
+        "buy": 1804,
+        "dest": "OE-BO",
+        "fuel": 35,
+        "gain": 254.0,
+        "item": "EXOTIC_PLASMA",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 17609,
+        "sell": 2820,
+        "src": "XV-BN",
+        "type": "inter"
+      },
+      "ckppgv11m48182415s66k6vd0qk": {
+        "buy": 18,
+        "dest": "ZY1-GG",
+        "fuel": 54,
+        "gain": 15.0,
+        "item": "FOOD",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 38157,
+        "sell": 33,
+        "src": "OE-CR",
+        "type": "inter"
+      },
+      "ckppsmbv548605415s6pbelgy5n": {
+        "buy": 22758,
+        "dest": "OE-UC",
+        "fuel": 70,
+        "gain": 3694.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 44352,
+        "quantity": 2,
+        "quantityAvailable": 14582,
+        "sell": 26452,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpu1ypva70453815s67jcx0qq6": {
+        "buy": 22176,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 7376.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 15039,
+        "sell": 29552,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpu5efvh12911715s6kpmfwiil": {
+        "buy": 22176,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 7376.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 45058,
+        "quantity": 2,
+        "quantityAvailable": 15039,
+        "sell": 29552,
+        "src": "NA7-GH",
+        "type": "inter"
+      },
+      "ckpu5f4z513471415s6wz4m3np8": {
+        "buy": 150,
+        "dest": "NA7-TH",
+        "fuel": 65,
+        "gain": 242.0,
+        "item": "PRECISION_INSTRUMENTS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 23739,
+        "sell": 392,
+        "src": "XV-OS",
+        "type": "inter"
+      },
+      "ckpu6ljt161437915s6k8el7ra5": {
+        "buy": 127,
+        "dest": "OE-CR",
+        "fuel": 36,
+        "gain": 187.0,
+        "item": "PROTEIN_SYNTHESIZERS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 21391,
+        "sell": 314,
+        "src": "XV-SN",
+        "type": "inter"
+      },
+      "ckpu8f96x138077915s618mfxyzg": {
+        "buy": 21678,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 6482.0,
+        "item": "ZUCO_CRYSTALS",
+        "price": 0,
+        "quantity": 0,
+        "quantityAvailable": 15429,
+        "sell": 28160,
+        "src": "NA7-GH",
+        "type": "inter"
+      }
+    },
+    "_rank": {
+      "ckpkrrvqr1477551ds6jwe782jb": "scout",
+      "ckpkrrwot1478531ds6bb7apczm": "OE",
+      "ckpkrrxmw1478991ds6mi4r1yc4": "OE",
+      "ckpkrryl41479451ds62wppw317": "OE",
+      "ckpktl02p3112771ds6k60zre16": "OE",
+      "ckpkuk30y1707415s6z3jm5c5g": "OE",
+      "ckpkvm6iz7207415s6lbcueay2": "OE",
+      "ckpkvmobc7427915s6y2nb5zyw": "OE",
+      "ckplmahq824927515s6hg3tym13": "inter",
+      "ckplx8q0k13571615s6zqqcds5s": "inter",
+      "ckpm88hw014520515s6m2ct1euz": "inter",
+      "ckpo73jdn151381915s6g5wzk949": "inter",
+      "ckpod7sg5157953515s6ob2ejoxt": "inter",
+      "ckpoosrht47548015s6i5pf31n6": "inter",
+      "ckpoy44sk128518915s6xl5vu9uq": "inter",
+      "ckpp8ds3g108650415s6sb6903lg": "inter",
+      "ckppgv11m48182415s66k6vd0qk": "inter",
+      "ckppsmbv548605415s6pbelgy5n": "inter",
+      "ckpu1ypva70453815s67jcx0qq6": "inter",
+      "ckpu5efvh12911715s6kpmfwiil": "inter",
+      "ckpu5f4z513471415s6wz4m3np8": "inter",
+      "ckpu6ljt161437915s6k8el7ra5": "inter",
+      "ckpu7qnan109500015s6tp953a9f": "inter",
+      "ckpu8f96x138077915s618mfxyzg": "inter"
+    },
+    "ckpkrrvqr1477551ds6jwe782jb": [],
+    "ckpkrrwot1478531ds6bb7apczm": [
+      {
+        "buy": 56,
+        "dest": "OE-PM",
+        "fuel": 9,
+        "gain": 6.0,
+        "item": "CONSUMER_GOODS",
+        "quantityAvailable": 25503,
+        "sell": 62,
+        "src": "OE-KO",
+        "type": "intra"
+      }
+    ],
+    "ckpkrrxmw1478991ds6mi4r1yc4": [
+      {
+        "buy": 71,
+        "dest": "OE-PM-TR",
+        "fuel": 8,
+        "gain": 17.0,
+        "item": "CONSTRUCTION_MATERIALS",
+        "quantityAvailable": 47104,
+        "sell": 88,
+        "src": "OE-KO",
+        "type": "intra"
+      }
+    ],
+    "ckpkrryl41479451ds62wppw317": [
+      {
+        "buy": 396,
+        "dest": "OE-BO",
+        "fuel": 25,
+        "gain": 15.5,
+        "item": "MACHINERY",
+        "quantityAvailable": 25107,
+        "sell": 427,
+        "src": "OE-UC",
+        "type": "intra"
+      }
+    ],
+    "ckpktl02p3112771ds6k60zre16": [],
+    "ckpkuk30y1707415s6z3jm5c5g": [],
+    "ckpkvm6iz7207415s6lbcueay2": [],
+    "ckpkvmobc7427915s6y2nb5zyw": [
+      {
+        "buy": 45,
+        "dest": "OE-UC-OB",
+        "fuel": 15,
+        "gain": 9.0,
+        "item": "DRONES",
+        "quantityAvailable": 40610,
+        "sell": 54,
+        "src": "OE-PM",
+        "type": "intra"
+      }
+    ],
+    "ckplmahq824927515s6hg3tym13": [
+      {
+        "dest": "XV-W-ZY1",
+        "src": "XV-W-ZY1",
+        "type": "warp"
+      },
+      {
+        "dest": "ZY1-W-NA7",
+        "src": "ZY1-W-XV"
+      },
+      {
+        "dest": "ZY1-W-NA7",
+        "src": "ZY1-W-NA7",
+        "type": "warp"
+      },
+      {
+        "dest": "NA7-GH",
+        "src": "NA7-W-ZY1"
+      },
+      {
+        "buy": 22654,
+        "dest": "OE-UC",
+        "fuel": 70,
+        "gain": 8618.0,
+        "item": "ZUCO_CRYSTALS",
+        "quantityAvailable": 14664,
+        "sell": 31272,
+        "src": "NA7-GH",
+        "type": "inter"
+      }
+    ],
+    "ckplx8q0k13571615s6zqqcds5s": [
+      {
+        "dest": "OE-NY",
+        "src": "OE-W-XV"
+      },
+      {
+        "buy": 85,
+        "dest": "NA7-GH",
+        "fuel": 85,
+        "gain": 67.0,
+        "item": "RARE_METALS",
+        "quantityAvailable": 28664,
+        "sell": 152,
+        "src": "OE-NY",
+        "type": "inter"
+      }
+    ],
+    "ckpm88hw014520515s6m2ct1euz": [
+      {
+        "dest": "ZY1-W-XV",
+        "src": "ZY1-W-XV",
+        "type": "warp"
+      },
+      {
+        "dest": "XV-W-OE",
+        "src": "XV-W-ZY1"
+      },
+      {
+        "dest": "XV-W-OE",
+        "src": "XV-W-OE",
+        "type": "warp"
+      },
+      {
+        "dest": "OE-UC",
+        "src": "OE-W-XV"
+      }
+    ],
+    "ckpo73jdn151381915s6g5wzk949": [
+      {
+        "dest": "ZY1-W-NA7",
+        "src": "ZY1-W-XV"
+      },
+      {
+        "dest": "ZY1-W-NA7",
+        "src": "ZY1-W-NA7",
+        "type": "warp"
+      },
+      {
+        "dest": "NA7-GH",
+        "src": "NA7-W-ZY1"
+      },
+      {
+        "buy": 22176,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 7376.0,
+        "item": "ZUCO_CRYSTALS",
+        "quantityAvailable": 15039,
+        "sell": 29552,
+        "src": "NA7-GH",
+        "type": "inter"
+      }
+    ],
+    "ckpod7sg5157953515s6ob2ejoxt": [
+      {
+        "dest": "NA7-W-ZY1",
+        "src": "NA7-W-ZY1",
+        "type": "warp"
+      },
+      {
+        "dest": "ZY1-W-XV",
+        "src": "ZY1-W-NA7"
+      },
+      {
+        "dest": "ZY1-W-XV",
+        "src": "ZY1-W-XV",
+        "type": "warp"
+      },
+      {
+        "dest": "XV-W-OE",
+        "src": "XV-W-ZY1"
+      },
+      {
+        "dest": "XV-W-OE",
+        "src": "XV-W-OE",
+        "type": "warp"
+      },
+      {
+        "dest": "OE-UC",
+        "src": "OE-W-XV"
+      }
+    ],
+    "ckpoosrht47548015s6i5pf31n6": [
+      {
+        "dest": "NA7-GH",
+        "src": "NA7-W-ZY1"
+      },
+      {
+        "buy": 22176,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 7376.0,
+        "item": "ZUCO_CRYSTALS",
+        "quantityAvailable": 15039,
+        "sell": 29552,
+        "src": "NA7-GH",
+        "type": "inter"
+      }
+    ],
+    "ckpoy44sk128518915s6xl5vu9uq": [
+      {
+        "dest": "XV-W-ZY1",
+        "src": "XV-W-OE"
+      },
+      {
+        "dest": "XV-W-ZY1",
+        "src": "XV-W-ZY1",
+        "type": "warp"
+      },
+      {
+        "dest": "ZY1-W-NA7",
+        "src": "ZY1-W-XV"
+      },
+      {
+        "dest": "ZY1-W-NA7",
+        "src": "ZY1-W-NA7",
+        "type": "warp"
+      },
+      {
+        "dest": "NA7-GH",
+        "src": "NA7-W-ZY1"
+      },
+      {
+        "buy": 22552,
+        "dest": "OE-UC",
+        "fuel": 70,
+        "gain": 8606.0,
+        "item": "ZUCO_CRYSTALS",
+        "quantityAvailable": 14744,
+        "sell": 31158,
+        "src": "NA7-GH",
+        "type": "inter"
+      }
+    ],
+    "ckpp8ds3g108650415s6sb6903lg": [
+      {
+        "dest": "OE-W-XV",
+        "src": "OE-W-XV",
+        "type": "warp"
+      },
+      {
+        "dest": "XV-BN",
+        "src": "XV-W-OE"
+      },
+      {
+        "buy": 1804,
+        "dest": "OE-BO",
+        "fuel": 35,
+        "gain": 254.0,
+        "item": "EXOTIC_PLASMA",
+        "quantityAvailable": 17609,
+        "sell": 2820,
+        "src": "XV-BN",
+        "type": "inter"
+      }
+    ],
+    "ckppgv11m48182415s66k6vd0qk": [
+      {
+        "buy": 18,
+        "dest": "ZY1-GG",
+        "fuel": 54,
+        "gain": 15.0,
+        "item": "FOOD",
+        "quantityAvailable": 38157,
+        "sell": 33,
+        "src": "OE-CR",
+        "type": "inter"
+      }
+    ],
+    "ckppsmbv548605415s6pbelgy5n": [
+      {
+        "dest": "XV-W-OE",
+        "src": "XV-W-ZY1"
+      },
+      {
+        "dest": "XV-W-OE",
+        "src": "XV-W-OE",
+        "type": "warp"
+      },
+      {
+        "dest": "OE-UC",
+        "src": "OE-W-XV"
+      }
+    ],
+    "ckpu1ypva70453815s67jcx0qq6": [
+      {
+        "dest": "ZY1-W-NA7",
+        "src": "ZY1-W-NA7",
+        "type": "warp"
+      },
+      {
+        "dest": "NA7-GH",
+        "src": "NA7-W-ZY1"
+      },
+      {
+        "buy": 22176,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 7376.0,
+        "item": "ZUCO_CRYSTALS",
+        "quantityAvailable": 15039,
+        "sell": 29552,
+        "src": "NA7-GH",
+        "type": "inter"
+      }
+    ],
+    "ckpu5efvh12911715s6kpmfwiil": [
+      {
+        "dest": "XV-CB",
+        "src": "XV-W-ZY1"
+      }
+    ],
+    "ckpu5f4z513471415s6wz4m3np8": [
+      {
+        "dest": "NA7-W-ZY1",
+        "src": "NA7-W-ZY1",
+        "type": "warp"
+      },
+      {
+        "dest": "ZY1-W-XV",
+        "src": "ZY1-W-NA7"
+      },
+      {
+        "dest": "ZY1-W-XV",
+        "src": "ZY1-W-XV",
+        "type": "warp"
+      },
+      {
+        "dest": "XV-OS",
+        "src": "XV-W-ZY1"
+      },
+      {
+        "buy": 150,
+        "dest": "NA7-TH",
+        "fuel": 65,
+        "gain": 242.0,
+        "item": "PRECISION_INSTRUMENTS",
+        "quantityAvailable": 23739,
+        "sell": 392,
+        "src": "XV-OS",
+        "type": "inter"
+      }
+    ],
+    "ckpu6ljt161437915s6k8el7ra5": [
+      {
+        "dest": "ZY1-W-XV",
+        "src": "ZY1-W-NA7"
+      },
+      {
+        "dest": "ZY1-W-XV",
+        "src": "ZY1-W-XV",
+        "type": "warp"
+      },
+      {
+        "dest": "XV-SN",
+        "src": "XV-W-ZY1"
+      },
+      {
+        "buy": 127,
+        "dest": "OE-CR",
+        "fuel": 36,
+        "gain": 187.0,
+        "item": "PROTEIN_SYNTHESIZERS",
+        "quantityAvailable": 21391,
+        "sell": 314,
+        "src": "XV-SN",
+        "type": "inter"
+      }
+    ],
+    "ckpu7qnan109500015s6tp953a9f": [],
+    "ckpu8f96x138077915s618mfxyzg": [
+      {
+        "buy": 21678,
+        "dest": "XV-CB",
+        "fuel": 68,
+        "gain": 6482.0,
+        "item": "ZUCO_CRYSTALS",
+        "quantityAvailable": 15429,
+        "sell": 28160,
+        "src": "NA7-GH",
+        "type": "inter"
+      }
+    ]
+  },
+  "ships": {
+    "DR-MK-I": {
+      "class": "MK-I",
+      "loadingSpeed": 1000,
+      "manufacturer": "Drades",
+      "maxCargo": 2000,
+      "plating": 10,
+      "purchaseLocations": {
+        "ZY1-GG": 343200
+      },
+      "restrictedGoods": [
+        "METALS",
+        "RARE_METALS"
+      ],
+      "speed": 1,
+      "type": "DR-MK-I",
+      "weapons": 5
+    },
+    "EM-MK-I": {
+      "class": "MK-I",
+      "loadingSpeed": 25,
+      "manufacturer": "Electrum",
+      "maxCargo": 50,
+      "plating": 5,
+      "purchaseLocations": {
+        "OE-PM-TR": 37750
+      },
+      "speed": 2,
+      "type": "EM-MK-I",
+      "weapons": 10
+    },
+    "EM-MK-II": {
+      "class": "MK-II",
+      "loadingSpeed": 25,
+      "manufacturer": "Electrum",
+      "maxCargo": 50,
+      "plating": 10,
+      "speed": 3,
+      "type": "EM-MK-II",
+      "weapons": 10
+    },
+    "EM-MK-III": {
+      "class": "MK-III",
+      "loadingSpeed": 100,
+      "manufacturer": "Electrum",
+      "maxCargo": 100,
+      "plating": 10,
+      "purchaseLocations": {
+        "XV-ST": 110250
+      },
+      "speed": 3,
+      "type": "EM-MK-III",
+      "weapons": 15
+    },
+    "EM-MK-IV": {
+      "class": "MK-IV",
+      "loadingSpeed": 100,
+      "manufacturer": "Electrum",
+      "maxCargo": 100,
+      "plating": 10,
+      "purchaseLocations": {
+        "XV-ST": 147000
+      },
+      "speed": 4,
+      "type": "EM-MK-IV",
+      "weapons": 20
+    },
+    "GR-MK-I": {
+      "class": "MK-I",
+      "loadingSpeed": 100,
+      "manufacturer": "Gravager",
+      "maxCargo": 100,
+      "plating": 10,
+      "purchaseLocations": {
+        "OE-PM-TR": 42650
+      },
+      "speed": 1,
+      "type": "GR-MK-I",
+      "weapons": 5
+    },
+    "GR-MK-II": {
+      "class": "MK-II",
+      "loadingSpeed": 500,
+      "manufacturer": "Gravager",
+      "maxCargo": 300,
+      "plating": 10,
+      "purchaseLocations": {
+        "OE-NY": 125550,
+        "OE-UC-AD": 125550
+      },
+      "speed": 1,
+      "type": "GR-MK-II",
+      "weapons": 5
+    },
+    "GR-MK-III": {
+      "class": "MK-III",
+      "loadingSpeed": 500,
+      "manufacturer": "Gravager",
+      "maxCargo": 500,
+      "plating": 10,
+      "purchaseLocations": {
+        "OE-NY": 203210,
+        "OE-UC-AD": 203210
+      },
+      "speed": 1,
+      "type": "GR-MK-III",
+      "weapons": 10
+    },
+    "HM-MK-I": {
+      "class": "MK-I",
+      "loadingSpeed": 25,
+      "manufacturer": "Hermes",
+      "maxCargo": 50,
+      "plating": 20,
+      "purchaseLocations": {
+        "OE-PM-TR": 57525
+      },
+      "speed": 3,
+      "type": "HM-MK-I",
+      "weapons": 5
+    },
+    "HM-MK-II": {
+      "class": "MK-II",
+      "loadingSpeed": 100,
+      "manufacturer": "Hermes",
+      "maxCargo": 100,
+      "plating": 20,
+      "speed": 3,
+      "type": "HM-MK-II",
+      "weapons": 5
+    },
+    "HM-MK-III": {
+      "class": "MK-III",
+      "loadingSpeed": 100,
+      "manufacturer": "Hermes",
+      "maxCargo": 300,
+      "plating": 20,
+      "purchaseLocations": {
+        "OE-UC-AD": 445200,
+        "XV-ST": 445200
+      },
+      "speed": 4,
+      "type": "HM-MK-III",
+      "weapons": 5
+    },
+    "JW-MK-I": {
+      "class": "MK-I",
+      "loadingSpeed": 25,
+      "manufacturer": "Jackshaw",
+      "maxCargo": 50,
+      "plating": 5,
+      "purchaseLocations": {
+        "OE-PM-TR": 21125
+      },
+      "speed": 1,
+      "type": "JW-MK-I",
+      "weapons": 5
+    },
+    "JW-MK-II": {
+      "class": "MK-II",
+      "loadingSpeed": 25,
+      "manufacturer": "Jackshaw",
+      "maxCargo": 100,
+      "plating": 10,
+      "purchaseLocations": {
+        "OE-PM-TR": 83300
+      },
+      "speed": 2,
+      "type": "JW-MK-II",
+      "weapons": 10
+    },
+    "TD-MK-I": {
+      "class": "MK-I",
+      "loadingSpeed": 1000,
+      "manufacturer": "Tiddalik",
+      "maxCargo": 2000,
+      "plating": 10,
+      "purchaseLocations": {
+        "OE-UC-AD": 473600,
+        "XV-ST": 473600
+      },
+      "restrictedGoods": [
+        "FUEL"
+      ],
+      "speed": 2,
+      "type": "TD-MK-I",
+      "weapons": 5
+    },
+    "ZA-MK-II": {
+      "class": "MK-II",
+      "loadingSpeed": 100,
+      "manufacturer": "Zetra",
+      "maxCargo": 100,
+      "plating": 5,
+      "purchaseLocations": {
+        "OE-PM-TR": 72700,
+        "OE-UC-OB": 72700
+      },
+      "speed": 2,
+      "type": "ZA-MK-II",
+      "weapons": 5
+    },
+    "ZA-MK-III": {
+      "class": "MK-III",
+      "loadingSpeed": 100,
+      "manufacturer": "Zetra",
+      "maxCargo": 300,
+      "plating": 10,
+      "purchaseLocations": {
+        "OE-PM-TR": 213900,
+        "OE-UC-OB": 213900
+      },
+      "speed": 2,
+      "type": "ZA-MK-III",
+      "weapons": 10
+    },
+    "ZT-MK-I": {
+      "class": "MK-I",
+      "loadingSpeed": 25,
+      "manufacturer": "Zatashi",
+      "maxCargo": 25,
+      "plating": 5,
+      "purchaseLocations": {
+        "NA7-GH": 10400
+      },
+      "speed": 3,
+      "type": "ZT-MK-I",
+      "weapons": 5
+    },
+    "ZT-MK-II": {
+      "class": "MK-II",
+      "loadingSpeed": 25,
+      "manufacturer": "Zatashi",
+      "maxCargo": 25,
+      "plating": 5,
+      "purchaseLocations": {
+        "NA7-GH": 19850
+      },
+      "speed": 4,
+      "type": "ZT-MK-II",
+      "weapons": 5
+    }
+  },
+  "stats": {
+    "buy_CHEMICALS_OE-KO": 77.0,
+    "buy_CHEMICALS_OE-UC-OB": 1528.0,
+    "buy_CHEMICALS_XV-SN": 74.0,
+    "buy_CONSTRUCTION_MATERIALS_OE-KO": 2617.0,
+    "buy_CONSTRUCTION_MATERIALS_OE-PM-TR": 77.0,
+    "buy_CONSTRUCTION_MATERIALS_XV-XA": 729.0,
+    "buy_CONSUMER_GOODS_OE-KO": 1405.0,
+    "buy_DRONES_OE-PM": 2585.0,
+    "buy_DRONES_OE-UC-AD": 191.0,
+    "buy_DRONES_OE-UC-OB": 288.0,
+    "buy_DRONES_XV-OS": 695.0,
+    "buy_ELECTRONICS_OE-UC": 554.0,
+    "buy_ELECTRONICS_XV-ST": 764.0,
+    "buy_EXOTIC_PLASMA_XV-BN": 333.0,
+    "buy_EXPLOSIVES_OE-KO": 2374.0,
+    "buy_EXPLOSIVES_OE-NY": 335.0,
+    "buy_EXPLOSIVES_XV-ST-BG": 40,
+    "buy_EXPLOSIVES_XV-XA": 725.0,
+    "buy_FOOD_OE-CR": 4322.0,
+    "buy_FOOD_OE-NY": 85.0,
+    "buy_FOOD_XV-SN": 162.0,
+    "buy_FUEL_NA7-GH": 1717,
+    "buy_FUEL_NA7-TH": 585,
+    "buy_FUEL_NA7-W-ZY1": 1415,
+    "buy_FUEL_OE-BO": 402,
+    "buy_FUEL_OE-CR": 783,
+    "buy_FUEL_OE-KO": 1480,
+    "buy_FUEL_OE-NY": 1617,
+    "buy_FUEL_OE-PM": 1265,
+    "buy_FUEL_OE-PM-TR": 662,
+    "buy_FUEL_OE-UC": 766,
+    "buy_FUEL_OE-UC-AD": 603,
+    "buy_FUEL_OE-UC-OB": 774,
+    "buy_FUEL_OE-W-XV": 835,
+    "buy_FUEL_XV-BN": 187,
+    "buy_FUEL_XV-CB": 500,
+    "buy_FUEL_XV-CB-IT": 55,
+    "buy_FUEL_XV-CB-NM": 201,
+    "buy_FUEL_XV-OS": 217,
+    "buy_FUEL_XV-SN": 226,
+    "buy_FUEL_XV-ST": 368,
+    "buy_FUEL_XV-ST-BG": 246,
+    "buy_FUEL_XV-W-OE": 986,
+    "buy_FUEL_XV-W-ZY1": 2098,
+    "buy_FUEL_XV-XA": 420,
+    "buy_FUEL_ZY1-ECC": 24,
+    "buy_FUEL_ZY1-GG": 465,
+    "buy_FUEL_ZY1-GG-CY": 2,
+    "buy_FUEL_ZY1-GG-LAO": 14,
+    "buy_FUEL_ZY1-GH": 414,
+    "buy_FUEL_ZY1-GH-HD": 1,
+    "buy_FUEL_ZY1-GH-MD": 25,
+    "buy_FUEL_ZY1-GH-NT": 14,
+    "buy_FUEL_ZY1-M57Z": 12,
+    "buy_FUEL_ZY1-T85": 1,
+    "buy_FUEL_ZY1-VC": 9,
+    "buy_FUEL_ZY1-W-NA7": 1554,
+    "buy_FUEL_ZY1-W-XV": 2045,
+    "buy_FUSION_REACTORS_XV-CB": 283.0,
+    "buy_MACHINERY_OE-BO": 36.0,
+    "buy_MACHINERY_OE-UC": 695.5,
+    "buy_MACHINERY_XV-CB-IT": 6,
+    "buy_MACHINERY_XV-ST": 217.0,
+    "buy_METALS_OE-KO": 92.0,
+    "buy_METALS_OE-NY": 3170.0,
+    "buy_METALS_OE-PM": 92.0,
+    "buy_METALS_OE-PM-TR": 4465.0,
+    "buy_METALS_XV-CB-NM": 330.0,
+    "buy_METALS_XV-ST-BG": 240.0,
+    "buy_NANOBOTS_XV-CB": 190.0,
+    "buy_NARCOTICS_XV-XA": 344.0,
+    "buy_PRECISION_INSTRUMENTS_XV-OS": 427.0,
+    "buy_PROTEIN_SYNTHESIZERS_XV-SN": 590.0,
+    "buy_RARE_METALS_NA7-TH": 956.0,
+    "buy_RARE_METALS_OE-NY": 2028.0,
+    "buy_RARE_METALS_OE-UC-OB": 312.0,
+    "buy_RARE_METALS_XV-CB-NM": 260.0,
+    "buy_RARE_METALS_XV-XA": 77.0,
+    "buy_RESEARCH_ZY1-GH": 73.0,
+    "buy_SHIP_PARTS_XV-ST-BG": 528.75,
+    "buy_SHIP_PLATING_OE-UC-AD": 277.5,
+    "buy_TEXTILES_OE-CR": 2965.0,
+    "buy_UNSTABLE_COMPOUNDS_NA7-TH": 1108.0,
+    "buy_ZUCO_CRYSTALS_NA7-GH": 1137,
+    "buy_ZUCO_CRYSTALS_XV-CB": 22,
+    "sell_CHEMICALS_OE-KO": 1443,
+    "sell_CHEMICALS_ZY1-GG": 151,
+    "sell_CONSTRUCTION_MATERIALS_OE-PM-TR": 2542,
+    "sell_CONSTRUCTION_MATERIALS_XV-CB-NM": 330,
+    "sell_CONSTRUCTION_MATERIALS_XV-XA": 100,
+    "sell_CONSTRUCTION_MATERIALS_ZY1-GH": 462,
+    "sell_CONSUMER_GOODS_OE-PM": 1316,
+    "sell_DRONES_OE-PM": 83,
+    "sell_DRONES_OE-UC-AD": 1801,
+    "sell_DRONES_OE-UC-OB": 1033,
+    "sell_DRONES_XV-BN": 229,
+    "sell_DRONES_XV-XA": 250,
+    "sell_DRONES_ZY1-GH": 317,
+    "sell_ELECTRONICS_NA7-TH": 680,
+    "sell_ELECTRONICS_OE-UC": 100,
+    "sell_ELECTRONICS_ZY1-GH": 464,
+    "sell_EXOTIC_PLASMA_OE-BO": 273,
+    "sell_EXPLOSIVES_OE-KO": 160,
+    "sell_EXPLOSIVES_OE-NY": 2271,
+    "sell_EXPLOSIVES_XV-CB-NM": 168,
+    "sell_EXPLOSIVES_XV-ST-BG": 243,
+    "sell_EXPLOSIVES_ZY1-GG": 308,
+    "sell_FOOD_OE-KO": 2132,
+    "sell_FOOD_OE-NY": 1914,
+    "sell_FOOD_XV-ST": 254,
+    "sell_FOOD_ZY1-GG": 151,
+    "sell_FUSION_REACTORS_OE-PM-TR": 241,
+    "sell_MACHINERY_OE-BO": 626,
+    "sell_MACHINERY_XV-CB-IT": 86,
+    "sell_MACHINERY_XV-SN": 44,
+    "sell_MACHINERY_XV-ST": 200,
+    "sell_MACHINERY_ZY1-GG": 74,
+    "sell_METALS_OE-KO": 2808,
+    "sell_METALS_OE-NY": 164,
+    "sell_METALS_OE-PM": 4434,
+    "sell_METALS_OE-PM-TR": 182,
+    "sell_METALS_XV-ST": 329,
+    "sell_METALS_ZY1-GH": 160,
+    "sell_NANOBOTS_NA7-GH": 190,
+    "sell_NARCOTICS_OE-NY": 304,
+    "sell_PRECISION_INSTRUMENTS_NA7-TH": 375,
+    "sell_PROTEIN_SYNTHESIZERS_OE-CR": 539,
+    "sell_PROTEIN_SYNTHESIZERS_XV-SN": 200,
+    "sell_RARE_METALS_NA7-GH": 678,
+    "sell_RARE_METALS_OE-NY": 100,
+    "sell_RARE_METALS_OE-UC-OB": 1794,
+    "sell_RARE_METALS_XV-CB-NM": 73,
+    "sell_RARE_METALS_XV-XA": 166,
+    "sell_RARE_METALS_ZY1-GG": 761,
+    "sell_RESEARCH_ZY1-GH": 100,
+    "sell_SHIP_PARTS_OE-UC": 213,
+    "sell_SHIP_PARTS_ZY1-GG": 315,
+    "sell_SHIP_PLATING_XV-ST-BG": 84,
+    "sell_SHIP_PLATING_ZY1-GH": 190,
+    "sell_TEXTILES_OE-CR": 100,
+    "sell_TEXTILES_OE-PM": 2795,
+    "sell_UNSTABLE_COMPOUNDS_OE-UC-AD": 1108,
+    "sell_ZUCO_CRYSTALS_NA7-GH": 11,
+    "sell_ZUCO_CRYSTALS_OE-UC": 448,
+    "sell_ZUCO_CRYSTALS_XV-CB": 173,
+    "sell_ZUCO_CRYSTALS_XV-W-ZY1": 11
+  },
+  "structures": {
+    "CHEMICAL_PLANT": {
+      "allowedLocationTypes": [
+        "PLANET",
+        "MOON"
+      ],
+      "allowedPlanetTraits": [
+        "NATURAL_CHEMICALS"
+      ],
+      "consumes": [
+        "DRONES"
+      ],
+      "name": "Chemical Plant",
+      "price": 220000,
+      "produces": [
+        "CHEMICALS"
+      ],
+      "type": "CHEMICAL_PLANT"
+    },
+    "DRONE_FACTORY": {
+      "allowedLocationTypes": [
+        "PLANET",
+        "MOON"
+      ],
+      "allowedPlanetTraits": [],
+      "consumes": [
+        "METALS",
+        "ELECTRONICS"
+      ],
+      "name": "Drone Factory",
+      "price": 210000,
+      "produces": [
+        "DRONES"
+      ],
+      "type": "DRONE_FACTORY"
+    },
+    "ELECTRONICS_FACTORY": {
+      "allowedLocationTypes": [
+        "PLANET",
+        "MOON"
+      ],
+      "allowedPlanetTraits": [],
+      "consumes": [
+        "RARE_METALS",
+        "CHEMICALS"
+      ],
+      "name": "Electronics Factory",
+      "price": 270000,
+      "produces": [
+        "ELECTRONICS"
+      ],
+      "type": "ELECTRONICS_FACTORY"
+    },
+    "EXPLOSIVES_FACILITY": {
+      "allowedLocationTypes": [
+        "PLANET",
+        "MOON"
+      ],
+      "allowedPlanetTraits": [],
+      "consumes": [
+        "CHEMICALS"
+      ],
+      "name": "Explosives Facility",
+      "price": 345000,
+      "produces": [
+        "EXPLOSIVES"
+      ],
+      "type": "EXPLOSIVES_FACILITY"
+    },
+    "FABRICATION_PLANT": {
+      "allowedLocationTypes": [
+        "PLANET",
+        "MOON"
+      ],
+      "allowedPlanetTraits": [],
+      "consumes": [
+        "METALS",
+        "CHEMICALS",
+        "DRONES"
+      ],
+      "name": "Fabrication Plant",
+      "price": 470000,
+      "produces": [
+        "MACHINERY",
+        "CONSTRUCTION_MATERIALS"
+      ],
+      "type": "FABRICATION_PLANT"
+    },
+    "FARM": {
+      "allowedLocationTypes": [
+        "PLANET"
+      ],
+      "allowedPlanetTraits": [
+        "ARABLE_LAND"
+      ],
+      "consumes": [
+        "MACHINERY"
+      ],
+      "name": "Farm",
+      "price": 140000,
+      "produces": [
+        "FOOD"
+      ],
+      "type": "FARM"
+    },
+    "FUEL_REFINERY": {
+      "allowedLocationTypes": [
+        "GAS_GIANT",
+        "NEBULA"
+      ],
+      "allowedPlanetTraits": [
+        "HELIUM_3"
+      ],
+      "consumes": [
+        "DRONES",
+        "MACHINERY"
+      ],
+      "name": "Fuel Refinery",
+      "price": 210000,
+      "produces": [
+        "FUEL"
+      ],
+      "type": "FUEL_REFINERY"
+    },
+    "MINE": {
+      "allowedLocationTypes": [
+        "MOON",
+        "ASTEROID",
+        "PLANET"
+      ],
+      "allowedPlanetTraits": [
+        "METAL_ORES"
+      ],
+      "consumes": [
+        "MACHINERY",
+        "EXPLOSIVES"
+      ],
+      "name": "Mine",
+      "price": 120000,
+      "produces": [
+        "METALS"
+      ],
+      "type": "MINE"
+    },
+    "RARE_EARTH_MINE": {
+      "allowedLocationTypes": [
+        "MOON",
+        "ASTEROID",
+        "PLANET"
+      ],
+      "allowedPlanetTraits": [
+        "RARE_METAL_ORES"
+      ],
+      "consumes": [
+        "MACHINERY",
+        "EXPLOSIVES"
+      ],
+      "name": "Rare Earth Mine",
+      "price": 320000,
+      "produces": [
+        "RARE_METALS"
+      ],
+      "type": "RARE_EARTH_MINE"
+    },
+    "RESEARCH_OUTPOST": {
+      "allowedLocationTypes": [
+        "PLANET",
+        "MOON",
+        "GAS_GIANT",
+        "ASTEROID",
+        "NEBULA",
+        "ANOMALY"
+      ],
+      "allowedPlanetTraits": [],
+      "consumes": [
+        "ELECTRONICS",
+        "MACHINERY",
+        "DRONES"
+      ],
+      "name": "Research Outpost",
+      "price": 645000,
+      "produces": [
+        "RESEARCH"
+      ],
+      "type": "RESEARCH_OUTPOST"
+    },
+    "SHIPYARD": {
+      "allowedLocationTypes": [
+        "PLANET",
+        "MOON"
+      ],
+      "allowedPlanetTraits": [],
+      "consumes": [
+        "METALS",
+        "MACHINERY",
+        "ELECTRONICS",
+        "DRONES"
+      ],
+      "name": "Shipyard",
+      "price": 870000,
+      "produces": [
+        "SHIP_PARTS",
+        "SHIP_PLATING"
+      ],
+      "type": "SHIPYARD"
+    }
+  },
+  "token": "352642e9-ab7e-4cbc-b7a0-021910265392",
+  "username": "umuero"
+}
