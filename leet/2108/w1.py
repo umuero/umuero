@@ -1,6 +1,7 @@
 import ast
 from typing import List
 import collections
+from copy import deepcopy as copy
 
 
 class TreeNode:
@@ -259,17 +260,156 @@ class Solution:
             ret.append(str(extra % 10))
         return "".join(ret[::-1])
 
+    def minFlipsMonoIncr(self, s: str) -> int:
+        lhs = 0  # solumdaki 1'ler
+        rhs = 0  # sagimdaki 0'lar
+        for i in range(len(s)):
+            if s[i] == '0':
+                rhs += 1
+        mn = (0, lhs + rhs)
+        print(mn)
+
+        for i in range(1, len(s) + 1):
+            if s[i] == '0':
+                rhs -= 1
+            else:
+                lhs += 1
+            if rhs + lhs < mn[1]:
+                mn = (i, rhs + lhs)
+                print(mn)
+        return mn[1]
+
+    def canReorderDoubled(self, arr: List[int]) -> bool:
+        count = collections.Counter(arr)
+        for x in sorted(count, key=abs):
+            if count[x] > count[2*x]:
+                return False
+            count[2*x] -= count[x]
+        return True
+
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        n = collections.defaultdict(list)
+        for s in strs:
+            n["".join([a[0] + str(a[1])
+                      for a in sorted(collections.Counter(s).items())])].append(s)
+        return [i for i in n.values()]
+
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        X = len(matrix)
+        if X == 0:
+            return
+        Y = len(matrix[0])
+        zX = set()
+        zY = set()
+        for x in range(X):
+            for y in range(Y):
+                if matrix[x][y] == 0:
+                    zX.add(x)
+                    zY.add(y)
+        for x in zX:
+            for y in range(Y):
+                matrix[x][y] = 0
+        for y in zY:
+            for x in range(X):
+                matrix[x][y] = 0
+
+    def removeBoxes(self, boxes: List[int]) -> int:
+        N = len(boxes)
+        memo = dict()
+
+        def dfs(l, r, k):
+            if l > r:
+                return 0
+            if memo.get((l, r, k), 0) != 0:
+                return memo[l, r, k]
+            while r > l and boxes[r] == boxes[r-1]:
+                r -= 1
+                k += 1
+            memo[l, r, k] = dfs(l, r-1, 0) + (k+1)**2
+            for i in range(l, r):
+                if boxes[i] == boxes[r]:
+                    memo[l, r, k] = max(memo[l, r, k],
+                                        dfs(l, i, k+1) + dfs(i+1, r-1, 0))
+            return memo[l, r, k]
+        return dfs(0, N-1, 0)
+
+    def find132pattern(self, nums: List[int]) -> bool:
+        nMin = None
+        nMax = None
+        oldVals = []
+        for i in nums:
+            if nMin is not None and (nMax is None or nMax < i):
+                nMax = i
+            if nMin is None or nMin > i:
+                if nMin and nMax:
+                    for pair in oldVals:
+                        if nMax < pair[0] or pair[1] < nMin:
+                            continue
+                        if pair[1] <= nMax:
+                            oldVals.remove(pair)
+                        if nMax <= pair[0]:
+                            nMax = pair[1]
+                    oldVals.insert(0, (nMin, nMax))
+                nMin = i
+                nMax = None
+            if nMin < i < nMax:
+                return True
+            for pair in oldVals:
+                if pair[0] < i < pair[1]:
+                    return True
+                if pair[0] > i:
+                    break
+        return False
+
 
 s = Solution()
 
-print("#09-add string")
-t9 = [
-    ("456", "77", "533"),
-    ("0", "0", "0"),
+
+print("132-pattern")
+t14 = [
+    ([1, 2, 3, 4], False),
+    ([3, 1, 4, 2], True),
+    ([-1, 3, 2, 0], True),
+    ([11, 13, 6, 8, 12], True),
 ]
 
-for t in t9:
-    print(s.addStrings(t[0], t[1]), s.addStrings(t[0], t[1]) == t[-1])
+for t in t14:
+    ans = s.find132pattern(t[0])
+    print(ans, ans == t[-1])
+
+# print("#14-remove boxes")
+# t14 = [
+#     ([1, 3, 2, 2, 2, 3, 4, 3, 1], 23),
+#     ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10),
+#     ([1, 1, 1, 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1, 1, 1], 139),
+#     ([1, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1, 1, 2,
+#      2, 1, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1], 3)
+# ]
+
+# for t in t14:
+#     ans = s.removeBoxes(t[0])
+#     print(ans, ans == t[-1])
+
+# print("#09-array of doubled pairs")
+# t11 = [
+#     ([1, 2, 4, 16, 8, 4], False),
+#     ([4, -2, 2, -4], True),
+#     ([2, 1, 2, 6], False),
+#     ([3, 1, 3, 6], False)
+# ]
+
+# for t in t11:
+#     ans = s.canReorderDoubled(t[0])
+#     print(ans, ans == t[-1])
+
+# print("#09-add string")
+# t9 = [
+#     ("456", "77", "533"),
+#     ("0", "0", "0"),
+# ]
+
+# for t in t9:
+#     print(s.addStrings(t[0], t[1]), s.addStrings(t[0], t[1]) == t[-1])
 
 
 # print("#08-rank transform matrix")
