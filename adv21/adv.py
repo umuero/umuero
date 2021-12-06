@@ -3,10 +3,11 @@ from collections import defaultdict, deque, Counter
 from itertools import permutations, combinations, product
 import itertools
 import re
+import argparse
 
 
-def a1():
-    arr = [int(i) for i in open("inp/inp01").readlines()]
+def a1(f):
+    arr = [int(i) for i in f.readlines()]
     last = None
     ctr = 0
     for i in arr:
@@ -29,8 +30,8 @@ def a1():
     print('p2:', ctr)
 
 
-def a2():
-    arr = [i.split() for i in open("inp/inp02").readlines()]
+def a2(f):
+    arr = [i.split() for i in f.readlines()]
     hor = 0
     depth = 0
     aim = 0
@@ -45,8 +46,8 @@ def a2():
     print(hor*depth)
 
 
-def a3():
-    arr = [i.strip() for i in open("inp/inp03").readlines()]
+def a3(f):
+    arr = [i.strip() for i in f.readlines()]
     gamma = ''
     epsilon = ''
     nums = defaultdict(Counter)
@@ -82,9 +83,8 @@ def a3():
     print(int(ox, 2) * int(co, 2))
 
 
-def a4():
-    arr = [i.strip().replace('  ', ' ').split(' ')
-           for i in open("inp/inp04").readlines()]
+def a4(f):
+    arr = [i.strip().replace('  ', ' ').split(' ') for i in f.readlines()]
     nums = [int(i) for i in arr[0][0].split(',')]
     Bc = []
     Br = []
@@ -117,4 +117,64 @@ def a4():
     print('b:', lastScore)
 
 
-a4()
+def a5(f):
+    arr = [[int(k) for n in i.strip().split(' -> ')
+            for k in n.split(',')] for i in f.readlines()]
+    m = defaultdict(int)
+
+    for cord in arr:
+        xMin = min(cord[0], cord[2])
+        xMax = max(cord[0], cord[2])
+        yMin = min(cord[1], cord[3])
+        yMax = max(cord[1], cord[3])
+        if xMin == xMax or yMin == yMax:
+            for x in range(xMin, xMax + 1):
+                for y in range(yMin, yMax + 1):
+                    m[(x, y)] += 1
+        if xMax - xMin == yMax - yMin:
+            for x, y in zip(
+                range(cord[0], cord[2] + (1 if cord[2] >=
+                      cord[0] else -1), 1 if cord[2] >= cord[0] else -1),
+                range(cord[1], cord[3] + (1 if cord[3] >=
+                      cord[1] else -1), 1 if cord[3] >= cord[1] else -1)
+            ):
+                m[(x, y)] += 1
+    print('b:', sum([1 for i in m.values() if i > 1]))
+
+
+def a6(f):
+    arr = [int(i) for i in f.read().strip().split(',')]
+    c = Counter(arr)
+    for d in range(256):
+        cN = Counter()
+        for k, v in c.items():
+            if k == 0:
+                cN[8] += v
+                cN[6] += v
+            else:
+                cN[k-1] += v
+        c = cN
+        if d == 79:
+            print('a:', d, sum(cN.values()))
+    print('b:', d, sum(cN.values()))
+
+
+AoC = {
+    '1': a1,
+    '2': a2,
+    '3': a3,
+    '4': a4,
+    '5': a5,
+    '6': a6
+}
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', help='advent day')
+    parser.add_argument('-e', help='use example set', action='store_true')
+    args = parser.parse_args()
+    if args.d is None:
+        args.d = sorted(AoC.keys())[-1]
+        print('DAY: ', args.d)
+    AoC[args.d](open('inp/inp%02d%s' % (int(args.d), 'e' if args.e else '')))
