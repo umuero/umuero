@@ -159,13 +159,88 @@ def a6(f):
     print('b:', d, sum(cN.values()))
 
 
+def a7(f):
+    arr = [int(i) for i in f.read().strip().split(',')]
+    minCtr = None
+    for goal in range(min(arr), max(arr)+1):
+        # les, ortadan girip kuculen tarafa gitmeli
+        ctr = 0
+        for i in arr:
+            ctr += int(abs(goal - i) * (abs(goal - i) + 1) / 2)
+        if minCtr is None or minCtr > ctr:
+            minCtr = ctr
+    print('a:', minCtr)
+
+
+def a8(f):
+    arr = [[[i for i in k.strip().split(' ')] for k in l.split(' | ')]
+           for l in f.readlines()]
+    pA = 0
+    pB = 0
+    for guide, out in arr:
+        m = a8_deduce(guide)
+        outN = 0
+        for n in out:
+            if len(n) in [2, 3, 4, 7]:
+                pA += 1
+            outN *= 10
+            outN += m["".join(sorted(n))]
+        pB += outN
+    print('a:', pA)
+    print('b:', pB)
+
+
+def a8_deduce(guide):
+    m = {'abcdefg': 8}
+    h = {}
+    c = Counter()
+    for g in guide:
+        for char in g:
+            c[char] += 1
+        if len(g) == 2:  # 1
+            m[1] = sorted(g)
+            m["".join(m[1])] = 1
+        if len(g) == 3:  # 7
+            m[7] = sorted(g)
+            m["".join(m[7])] = 7
+        if len(g) == 4:  # 4
+            m[4] = sorted(g)
+            m["".join(m[4])] = 4
+    # {'e': 4, 'b': 6, 'g': 7, 'd': 7, 'a': 8, 'c': 8, 'f': 9}
+    h['e'] = [i[0] for i in c.items() if i[1] == 4][0]
+    h['b'] = [i[0] for i in c.items() if i[1] == 6][0]
+    h['f'] = [i[0] for i in c.items() if i[1] == 9][0]
+    h['c'] = (set(m[1]) - set(h['f'])).pop()
+    h['a'] = (set(m[7]) - set(m[1])).pop()
+    h['d'] = [i[0] for i in c.items() if i[1] == 7 and i[0] in m[4]][0]
+    h['g'] = [i[0] for i in c.items() if i[1] == 7 and i[0] != h['d']][0]
+    for g in guide:
+        if len(g) == 6:  # 0 6 9
+            if h['d'] not in g:
+                m["".join(sorted(g))] = 0
+            elif h['c'] not in g:
+                m["".join(sorted(g))] = 6
+            else:
+                m["".join(sorted(g))] = 9
+        if len(g) == 5:  # 2 3 5
+            if h['c'] not in g:
+                m["".join(sorted(g))] = 5
+            elif h['e'] not in g:
+                m["".join(sorted(g))] = 3
+            else:
+                m["".join(sorted(g))] = 2
+    return m
+
+
 AoC = {
     '1': a1,
     '2': a2,
     '3': a3,
     '4': a4,
     '5': a5,
-    '6': a6
+    '6': a6,
+    '7': a7,
+    '8': a8,
 }
 
 
