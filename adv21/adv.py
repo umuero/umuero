@@ -232,15 +232,56 @@ def a8_deduce(guide):
     return m
 
 
+def a9(f):
+    arr = [[int(i) for i in l.strip()] for l in f.readlines()]
+    risks = []
+    lows = []
+    X = len(arr)
+    Y = len(arr[0])
+    for x in range(X):
+        for y in range(Y):
+            low = True
+            for nx, ny in [(x + 1, y), (x-1, y), (x, y+1), (x, y-1)]:
+                if 0 <= nx < X and 0 <= ny < Y and arr[nx][ny] <= arr[x][y]:
+                    low = False
+            if low:
+                risks.append(arr[x][y])
+                lows.append((x, y))
+    print('a:', sum(risks) + len(risks))
+    basins = []
+    for lx, ly in lows:
+        Q = [(lx, ly)]
+        s = set()
+        while len(Q) > 0:
+            ax, ay = Q.pop()
+            if (ax, ay) in s:
+                continue
+            s.add((ax, ay))
+            for nx, ny in [(ax + 1, ay), (ax-1, ay), (ax, ay+1), (ax, ay-1)]:
+                if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in s and arr[nx][ny] != 9 and arr[nx][ny] >= arr[ax][ay]:
+                    Q.append((nx, ny))
+        basins.append(len(s))
+    maxB = sorted(basins)[-3:]
+    print('b:', maxB[0] * maxB[1] * maxB[2])
+
+
+def a10(f):
+    arr = [[int(i) for i in l.strip()] for l in f.readlines()]
+    nums = []
+    print('a:', sum(nums))
+
+
 AoC = {
-    '1': a1,
-    '2': a2,
-    '3': a3,
-    '4': a4,
-    '5': a5,
-    '6': a6,
-    '7': a7,
-    '8': a8,
+    '01': a1,
+    '02': a2,
+    '03': a3,
+    '04': a4,
+    '05': a5,
+    '06': a6,
+    '07': a7,
+    '08': a8,
+    '09': a9,
+    '10': a10,
 }
 
 
