@@ -5,6 +5,11 @@ import itertools
 import re
 import argparse
 
+Nx = [1, 0, -1, 0]
+Ny = [0, 1, 0, -1]
+NDx = [1, 0, -1, 0, 1, 1, -1, -1]
+NDy = [0, 1, 0, -1, 1, -1, 1, -1]
+
 
 def a1(f):
     arr = [int(i) for i in f.readlines()]
@@ -16,18 +21,18 @@ def a1(f):
         if i > last:
             ctr += 1
         last = i
-    print('p1:', ctr)
+    print("p1:", ctr)
 
     last = None
     ctr = 0
     for i in range(len(arr) - 2):
-        s = sum(arr[i:i+3])
+        s = sum(arr[i : i + 3])
         if last is None:
             last = s
         if s > last:
             ctr += 1
         last = s
-    print('p2:', ctr)
+    print("p2:", ctr)
 
 
 def a2(f):
@@ -36,20 +41,20 @@ def a2(f):
     depth = 0
     aim = 0
     for cmd, ctr in arr:
-        if cmd == 'forward':
+        if cmd == "forward":
             hor += int(ctr)
             depth += aim * int(ctr)
-        if cmd == 'down':
+        if cmd == "down":
             aim += int(ctr)
-        if cmd == 'up':
+        if cmd == "up":
             aim -= int(ctr)
-    print(hor*depth)
+    print(hor * depth)
 
 
 def a3(f):
     arr = [i.strip() for i in f.readlines()]
-    gamma = ''
-    epsilon = ''
+    gamma = ""
+    epsilon = ""
     nums = defaultdict(Counter)
     N = len(arr[0])
     for num in arr:
@@ -62,8 +67,8 @@ def a3(f):
 
     print(int(gamma, 2) * int(epsilon, 2))
 
-    ox = ''
-    co = ''
+    ox = ""
+    co = ""
     ox_C = Counter()
     co_C = Counter()
     for i in range(N):
@@ -73,25 +78,24 @@ def a3(f):
             if num.startswith(co):
                 co_C[num[i]] += 1
 
-        ox += sorted(ox_C.items(),
-                     key=lambda x: (x[1], x[0]), reverse=True)[0][0]
+        ox += sorted(ox_C.items(), key=lambda x: (x[1], x[0]), reverse=True)[0][0]
         ox_C = Counter()
-        co += sorted(co_C.items(),
-                     key=lambda x: (x[1], x[0]), reverse=False)[0][0]
+        co += sorted(co_C.items(), key=lambda x: (x[1], x[0]), reverse=False)[0][0]
         co_C = Counter()
 
     print(int(ox, 2) * int(co, 2))
 
 
 def a4(f):
-    arr = [i.strip().replace('  ', ' ').split(' ') for i in f.readlines()]
-    nums = [int(i) for i in arr[0][0].split(',')]
+    arr = [i.strip().replace("  ", " ").split(" ") for i in f.readlines()]
+    nums = [int(i) for i in arr[0][0].split(",")]
     Bc = []
     Br = []
     for ctr in range(1, len(arr), 6):
-        Br.append([[int(i) for i in l] for l in arr[ctr+1:ctr+6]])
-        Bc.append([[Br[-1][j][i] for j in range(len(Br[-1]))]
-                  for i in range(len(Br[-1][0]))])
+        Br.append([[int(i) for i in l] for l in arr[ctr + 1 : ctr + 6]])
+        Bc.append(
+            [[Br[-1][j][i] for j in range(len(Br[-1]))] for i in range(len(Br[-1][0]))]
+        )
 
     lastScore = None
     for num in nums:
@@ -111,15 +115,17 @@ def a4(f):
                     finish = True
             if finish:
                 if lastScore is None:
-                    print('a:', sum([sum(i) for i in bc]) * num)
+                    print("a:", sum([sum(i) for i in bc]) * num)
                 lastScore = sum([sum(i) for i in bc]) * num
                 bc.clear()
-    print('b:', lastScore)
+    print("b:", lastScore)
 
 
 def a5(f):
-    arr = [[int(k) for n in i.strip().split(' -> ')
-            for k in n.split(',')] for i in f.readlines()]
+    arr = [
+        [int(k) for n in i.strip().split(" -> ") for k in n.split(",")]
+        for i in f.readlines()
+    ]
     m = defaultdict(int)
 
     for cord in arr:
@@ -133,17 +139,23 @@ def a5(f):
                     m[(x, y)] += 1
         if xMax - xMin == yMax - yMin:
             for x, y in zip(
-                range(cord[0], cord[2] + (1 if cord[2] >=
-                      cord[0] else -1), 1 if cord[2] >= cord[0] else -1),
-                range(cord[1], cord[3] + (1 if cord[3] >=
-                      cord[1] else -1), 1 if cord[3] >= cord[1] else -1)
+                range(
+                    cord[0],
+                    cord[2] + (1 if cord[2] >= cord[0] else -1),
+                    1 if cord[2] >= cord[0] else -1,
+                ),
+                range(
+                    cord[1],
+                    cord[3] + (1 if cord[3] >= cord[1] else -1),
+                    1 if cord[3] >= cord[1] else -1,
+                ),
             ):
                 m[(x, y)] += 1
-    print('b:', sum([1 for i in m.values() if i > 1]))
+    print("b:", sum([1 for i in m.values() if i > 1]))
 
 
 def a6(f):
-    arr = [int(i) for i in f.read().strip().split(',')]
+    arr = [int(i) for i in f.read().strip().split(",")]
     c = Counter(arr)
     for d in range(256):
         cN = Counter()
@@ -152,29 +164,31 @@ def a6(f):
                 cN[8] += v
                 cN[6] += v
             else:
-                cN[k-1] += v
+                cN[k - 1] += v
         c = cN
         if d == 79:
-            print('a:', d, sum(cN.values()))
-    print('b:', d, sum(cN.values()))
+            print("a:", d, sum(cN.values()))
+    print("b:", d, sum(cN.values()))
 
 
 def a7(f):
-    arr = [int(i) for i in f.read().strip().split(',')]
+    arr = [int(i) for i in f.read().strip().split(",")]
     minCtr = None
-    for goal in range(min(arr), max(arr)+1):
-        # les, ortadan girip kuculen tarafa gitmeli
+    for goal in range(min(arr), max(arr) + 1):
+        # les, ortadan girip kuculen tarafa gitmeli
         ctr = 0
         for i in arr:
             ctr += int(abs(goal - i) * (abs(goal - i) + 1) / 2)
         if minCtr is None or minCtr > ctr:
             minCtr = ctr
-    print('a:', minCtr)
+    print("a:", minCtr)
 
 
 def a8(f):
-    arr = [[[i for i in k.strip().split(' ')] for k in l.split(' | ')]
-           for l in f.readlines()]
+    arr = [
+        [[i for i in k.strip().split(" ")] for k in l.split(" | ")]
+        for l in f.readlines()
+    ]
     pA = 0
     pB = 0
     for guide, out in arr:
@@ -186,12 +200,12 @@ def a8(f):
             outN *= 10
             outN += m["".join(sorted(n))]
         pB += outN
-    print('a:', pA)
-    print('b:', pB)
+    print("a:", pA)
+    print("b:", pB)
 
 
 def a8_deduce(guide):
-    m = {'abcdefg': 8}
+    m = {"abcdefg": 8}
     h = {}
     c = Counter()
     for g in guide:
@@ -207,25 +221,25 @@ def a8_deduce(guide):
             m[4] = sorted(g)
             m["".join(m[4])] = 4
     # {'e': 4, 'b': 6, 'g': 7, 'd': 7, 'a': 8, 'c': 8, 'f': 9}
-    h['e'] = [i[0] for i in c.items() if i[1] == 4][0]
-    h['b'] = [i[0] for i in c.items() if i[1] == 6][0]
-    h['f'] = [i[0] for i in c.items() if i[1] == 9][0]
-    h['c'] = (set(m[1]) - set(h['f'])).pop()
-    h['a'] = (set(m[7]) - set(m[1])).pop()
-    h['d'] = [i[0] for i in c.items() if i[1] == 7 and i[0] in m[4]][0]
-    h['g'] = [i[0] for i in c.items() if i[1] == 7 and i[0] != h['d']][0]
+    h["e"] = [i[0] for i in c.items() if i[1] == 4][0]
+    h["b"] = [i[0] for i in c.items() if i[1] == 6][0]
+    h["f"] = [i[0] for i in c.items() if i[1] == 9][0]
+    h["c"] = (set(m[1]) - set(h["f"])).pop()
+    h["a"] = (set(m[7]) - set(m[1])).pop()
+    h["d"] = [i[0] for i in c.items() if i[1] == 7 and i[0] in m[4]][0]
+    h["g"] = [i[0] for i in c.items() if i[1] == 7 and i[0] != h["d"]][0]
     for g in guide:
         if len(g) == 6:  # 0 6 9
-            if h['d'] not in g:
+            if h["d"] not in g:
                 m["".join(sorted(g))] = 0
-            elif h['c'] not in g:
+            elif h["c"] not in g:
                 m["".join(sorted(g))] = 6
             else:
                 m["".join(sorted(g))] = 9
         if len(g) == 5:  # 2 3 5
-            if h['c'] not in g:
+            if h["c"] not in g:
                 m["".join(sorted(g))] = 5
-            elif h['e'] not in g:
+            elif h["e"] not in g:
                 m["".join(sorted(g))] = 3
             else:
                 m["".join(sorted(g))] = 2
@@ -241,13 +255,13 @@ def a9(f):
     for x in range(X):
         for y in range(Y):
             low = True
-            for nx, ny in [(x + 1, y), (x-1, y), (x, y+1), (x, y-1)]:
+            for nx, ny in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
                 if 0 <= nx < X and 0 <= ny < Y and arr[nx][ny] <= arr[x][y]:
                     low = False
             if low:
                 risks.append(arr[x][y])
                 lows.append((x, y))
-    print('a:', sum(risks) + len(risks))
+    print("a:", sum(risks) + len(risks))
     basins = []
     for lx, ly in lows:
         Q = [(lx, ly)]
@@ -257,40 +271,140 @@ def a9(f):
             if (ax, ay) in s:
                 continue
             s.add((ax, ay))
-            for nx, ny in [(ax + 1, ay), (ax-1, ay), (ax, ay+1), (ax, ay-1)]:
-                if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in s and arr[nx][ny] != 9 and arr[nx][ny] >= arr[ax][ay]:
+            for nx, ny in [(ax + 1, ay), (ax - 1, ay), (ax, ay + 1), (ax, ay - 1)]:
+                if (
+                    0 <= nx < X
+                    and 0 <= ny < Y
+                    and (nx, ny) not in s
+                    and arr[nx][ny] != 9
+                    and arr[nx][ny] >= arr[ax][ay]
+                ):
                     Q.append((nx, ny))
         basins.append(len(s))
     maxB = sorted(basins)[-3:]
-    print('b:', maxB[0] * maxB[1] * maxB[2])
+    print("b:", maxB[0] * maxB[1] * maxB[2])
 
 
 def a10(f):
+    arr = [i.strip() for i in f.readlines()]
+    Ps = {"(": ")", "{": "}", "[": "]", "<": ">"}
+    P2 = {")": 1, "]": 2, "}": 3, ">": 4}
+    auto = []
+    E = Counter()
+    for l in arr:
+        p = deque()
+        errors = Counter()
+        for i in l:
+            if i in Ps.keys():
+                p.append(Ps[i])
+            if i in Ps.values():
+                if p[-1] == i:
+                    p.pop()
+                else:
+                    errors[i] += 1
+                    break
+        if errors:
+            E.update(errors)
+        else:
+            p2 = 0
+            while len(p) > 0:
+                p2 *= 5
+                p2 += P2[p.pop()]
+            auto.append(p2)
+    print(E)
+    print(3 * E[")"] + 57 * E["]"] + 1197 * E["}"] + 25137 * E[">"])
+    print(sorted(auto)[int(len(auto) / 2)])
+
+
+def a11(f):
     arr = [[int(i) for i in l.strip()] for l in f.readlines()]
-    nums = []
-    print('a:', sum(nums))
+    X = len(arr)
+    Y = len(arr[0])
+    fl = 0
+    for step in range(1, 1000):
+        Q = deque()
+        for x in range(X):
+            for y in range(Y):
+                arr[x][y] += 1
+                if arr[x][y] > 9:
+                    Q.append((x, y))
+
+        S = set()
+        while len(Q) > 0:
+            x, y = Q.pop()
+            if (x, y) in S:
+                continue
+            S.add((x, y))
+            arr[x][y] = 0
+            for dx, dy in zip(NDx, NDy):
+                nx = x + dx
+                ny = y + dy
+                if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in S:
+                    arr[nx][ny] += 1
+                    if arr[nx][ny] > 9:
+                        Q.append((nx, ny))
+        fl += len(S)
+        print(step, len(S))
+        if step == 100:
+            print("a:", fl)
+        if len(S) == X * Y:
+            print("b:", step)
+            return
+
+
+def a12(f):
+    m = defaultdict(list)
+    for k, v in [[i for i in l.strip().split("-")] for l in f.readlines()]:
+        m[k].append(v)
+        m[v].append(k)
+
+    FIN = set()
+    Q = deque([("start",)])
+    while len(Q) > 0:
+        path = Q.popleft()
+        for p in m[path[-1]]:
+            if p == "start":
+                continue
+            if p == "end":
+                FIN.add(path + (p,))
+                continue
+            if p.lower() == p:
+                if p not in path:
+                    Q.append(path + (p,))
+                elif path[0] == "start":
+                    Q.append(("U",) + path + (p,))
+            if p.lower() != p:
+                Q.append(path + (p,))
+    print("b:", len(FIN))
 
 
 AoC = {
-    '01': a1,
-    '02': a2,
-    '03': a3,
-    '04': a4,
-    '05': a5,
-    '06': a6,
-    '07': a7,
-    '08': a8,
-    '09': a9,
-    '10': a10,
+    "01": a1,
+    "02": a2,
+    "03": a3,
+    "04": a4,
+    "05": a5,
+    "06": a6,
+    "07": a7,
+    "08": a8,
+    "09": a9,
+    "11": a11,
+    "12": a12,
 }
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', help='advent day')
-    parser.add_argument('-e', help='use example set', action='store_true')
+    parser.add_argument("-d", help="advent day")
+    parser.add_argument("-e", help="use example set", action="store_true")
+    parser.add_argument("-e2", help="use example set", action="store_true")
     args = parser.parse_args()
     if args.d is None:
         args.d = sorted(AoC.keys())[-1]
-        print('DAY: ', args.d)
-    AoC[args.d](open('inp/inp%02d%s' % (int(args.d), 'e' if args.e else '')))
+        print("DAY: ", args.d)
+    AoC[args.d](
+        open(
+            "inp/inp%02d%s"
+            % (int(args.d), ("e" if not args.e2 else "e2") if args.e or args.e2 else "")
+        )
+    )
