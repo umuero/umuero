@@ -3,7 +3,9 @@ from collections import defaultdict, deque, Counter
 from itertools import permutations, combinations, product
 import itertools
 import re
+import math
 import argparse
+import aocd
 
 Nx = [1, 0, -1, 0]
 Ny = [0, 1, 0, -1]
@@ -12,7 +14,7 @@ NDy = [0, 1, 0, -1, 1, -1, 1, -1]
 
 
 def a1(f):
-    arr = [int(i) for i in f.readlines()]
+    arr = [int(i) for i in f.split("\n")]
     last = None
     ctr = 0
     for i in arr:
@@ -36,7 +38,7 @@ def a1(f):
 
 
 def a2(f):
-    arr = [i.split() for i in f.readlines()]
+    arr = [i.split() for i in f.split("\n")]
     hor = 0
     depth = 0
     aim = 0
@@ -52,7 +54,7 @@ def a2(f):
 
 
 def a3(f):
-    arr = [i.strip() for i in f.readlines()]
+    arr = [i.strip() for i in f.split("\n")]
     gamma = ""
     epsilon = ""
     nums = defaultdict(Counter)
@@ -87,7 +89,7 @@ def a3(f):
 
 
 def a4(f):
-    arr = [i.strip().replace("  ", " ").split(" ") for i in f.readlines()]
+    arr = [i.strip().replace("  ", " ").split(" ") for i in f.split("\n")]
     nums = [int(i) for i in arr[0][0].split(",")]
     Bc = []
     Br = []
@@ -124,7 +126,7 @@ def a4(f):
 def a5(f):
     arr = [
         [int(k) for n in i.strip().split(" -> ") for k in n.split(",")]
-        for i in f.readlines()
+        for i in f.split("\n")
     ]
     m = defaultdict(int)
 
@@ -155,7 +157,7 @@ def a5(f):
 
 
 def a6(f):
-    arr = [int(i) for i in f.read().strip().split(",")]
+    arr = [int(i) for i in f.strip().split(",")]
     c = Counter(arr)
     for d in range(256):
         cN = Counter()
@@ -172,7 +174,7 @@ def a6(f):
 
 
 def a7(f):
-    arr = [int(i) for i in f.read().strip().split(",")]
+    arr = [int(i) for i in f.strip().split(",")]
     minCtr = None
     for goal in range(min(arr), max(arr) + 1):
         # les, ortadan girip kuculen tarafa gitmeli
@@ -187,7 +189,7 @@ def a7(f):
 def a8(f):
     arr = [
         [[i for i in k.strip().split(" ")] for k in l.split(" | ")]
-        for l in f.readlines()
+        for l in f.split("\n")
     ]
     pA = 0
     pB = 0
@@ -247,7 +249,7 @@ def a8_deduce(guide):
 
 
 def a9(f):
-    arr = [[int(i) for i in l.strip()] for l in f.readlines()]
+    arr = [[int(i) for i in l.strip()] for l in f.split("\n")]
     risks = []
     lows = []
     X = len(arr)
@@ -286,7 +288,7 @@ def a9(f):
 
 
 def a10(f):
-    arr = [i.strip() for i in f.readlines()]
+    arr = [i.strip() for i in f.split("\n")]
     Ps = {"(": ")", "{": "}", "[": "]", "<": ">"}
     P2 = {")": 1, "]": 2, "}": 3, ">": 4}
     auto = []
@@ -317,7 +319,7 @@ def a10(f):
 
 
 def a11(f):
-    arr = [[int(i) for i in l.strip()] for l in f.readlines()]
+    arr = [[int(i) for i in l.strip()] for l in f.split("\n")]
     X = len(arr)
     Y = len(arr[0])
     fl = 0
@@ -344,7 +346,6 @@ def a11(f):
                     if arr[nx][ny] > 9:
                         Q.append((nx, ny))
         fl += len(S)
-        print(step, len(S))
         if step == 100:
             print("a:", fl)
         if len(S) == X * Y:
@@ -354,7 +355,7 @@ def a11(f):
 
 def a12(f):
     m = defaultdict(list)
-    for k, v in [[i for i in l.strip().split("-")] for l in f.readlines()]:
+    for k, v in [[i for i in l.strip().split("-")] for l in f.split("\n")]:
         m[k].append(v)
         m[v].append(k)
 
@@ -378,6 +379,61 @@ def a12(f):
     print("b:", len(FIN))
 
 
+def a13(f):
+    m = {}
+    for line in f.split("\n"):
+        if "," in line:
+            x, y = line.strip().split(",", 1)
+            m[(int(x), int(y))] = "#"
+        if line.startswith("fold along"):
+            fold = int(line.strip().split("=")[-1])
+            m2 = dict()
+            for item in m.keys():
+                if "y=" in line:
+                    if item[1] < fold:
+                        m2[item] = "#"
+                    else:
+                        m2[(item[0], 2 * fold - item[1])] = "#"
+                else:
+                    if item[0] < fold:
+                        m2[item] = "#"
+                    else:
+                        m2[(2 * fold - item[0], item[1])] = "#"
+            m = m2
+            print(len(m))
+    X = 0
+    Y = 0
+    for item in m.keys():
+        X = max(X, item[0] + 1)
+        Y = max(Y, item[1] + 1)
+    for y in range(Y):
+        print("".join([m.get((x, y), " ") for x in range(100)]))
+
+
+def a14(f):
+    arr = [i.strip() for i in f.split("\n")]
+    rules = dict()
+    for line in arr:
+        if " -> " in line:
+            rules[line.split(" -> ")[0]] = line.split(" -> ")[-1].strip()
+    E = Counter(["".join(i) for i in zip(arr[0], arr[0][1:])])
+    for step in range(40):
+        next = Counter()
+        for pair in E:
+            if pair in rules:
+                next[pair[0] + rules[pair]] += E[pair]
+                next[rules[pair] + pair[1]] += E[pair]
+            else:
+                next[pair] += E[pair]
+        E = next
+    C = Counter()
+    for k, v in E.items():
+        C[k[0]] += v
+        C[k[1]] += v
+    c = sorted(C.values())
+    print(math.ceil(c[-1] / 2) - math.ceil(c[0] / 2))
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -388,8 +444,11 @@ AoC = {
     "07": a7,
     "08": a8,
     "09": a9,
+    "10": a10,
     "11": a11,
     "12": a12,
+    "13": a13,
+    "14": a14,
 }
 
 
@@ -399,12 +458,15 @@ if __name__ == "__main__":
     parser.add_argument("-e", help="use example set", action="store_true")
     parser.add_argument("-e2", help="use example set", action="store_true")
     args = parser.parse_args()
+
     if args.d is None:
         args.d = sorted(AoC.keys())[-1]
         print("DAY: ", args.d)
-    AoC[args.d](
-        open(
-            "inp/inp%02d%s"
-            % (int(args.d), ("e" if not args.e2 else "e2") if args.e or args.e2 else "")
+    f = aocd.get_data(year=2021, day=int(args.d))
+    if args.e or args.e2:
+        f = (
+            open("inp/inp%02d%s" % (int(args.d), ("e" if not args.e2 else "e2")))
+            .read()
+            .strip()
         )
-    )
+    AoC[args.d](f)
