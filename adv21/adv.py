@@ -1,6 +1,8 @@
 # https://adventofcode.com/2020
 from collections import defaultdict, deque, Counter
 from itertools import permutations, combinations, product
+from functools import reduce
+from queue import PriorityQueue
 import itertools
 import re
 import math
@@ -434,6 +436,112 @@ def a14(f):
     print(math.ceil(c[-1] / 2) - math.ceil(c[0] / 2))
 
 
+def a15(f):
+    # Part A, clean BFS
+    arr = [[int(i) for i in l.strip()] for l in f.split("\n")]
+    X = len(arr)
+    Y = len(arr[0])
+    S = set()
+    Q = PriorityQueue()  # score, x, y
+    Q.put((0, 0, 0))
+    while not Q.empty():
+        r, x, y = Q.get()
+        if x == X - 1 and y == Y - 1:
+            print("a:", r)
+            break
+        if (x, y) in S:
+            continue
+        S.add((x, y))
+        for dx, dy in zip(Nx, Ny):
+            nx = x + dx
+            ny = y + dy
+            if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in S:
+                Q.put((r + arr[nx][ny], nx, ny))
+
+    S = set()
+    Q = PriorityQueue()  # score, x, y
+    Q.put((0, 0, 0))
+    while not Q.empty():
+        r, x, y = Q.get()
+        if x == 5 * X - 1 and y == 5 * Y - 1:
+            print("b:", r)
+            break
+        if (x, y) in S:
+            continue
+        S.add((x, y))
+        for dx, dy in zip(Nx, Ny):
+            nx = x + dx
+            ny = y + dy
+            if 0 <= nx < 5 * X and 0 <= ny < 5 * Y and (nx, ny) not in S:
+                val = arr[nx % X][ny % Y] + nx // X + ny // Y
+                if val > 9:
+                    val -= 9
+                Q.put((r + val, nx, ny))
+
+
+def a16(f):
+    arr = [
+        "".join(["{0:04b}".format(int(c, 16)) for c in l.strip()])
+        for l in f.split("\n")
+    ]
+    for line in arr:
+        # print("processing", line)
+        ret = a16_process_packet(line, 0)
+        print(ret[0])
+
+
+def a16_process_packet(line, index):
+    pVersion = int(line[index : index + 3], 2)
+    pType = int(line[index + 3 : index + 6], 2)
+    index += 6
+    if pType == 4:
+        lastLiteral = False
+        literal = ""
+        while not lastLiteral:
+            lastLiteral = line[index] == "0"
+            literal += line[index + 1 : index + 5]
+            index += 5
+        return int(literal, 2), index
+        # print("literal", int(literal, 2))
+    else:
+        childVersions = []
+        pLen = line[index]
+        if pLen == "0":
+            pTotalLen = int(line[index + 1 : index + 16], 2)
+            index += 16
+            stopIndex = index + pTotalLen
+            # print("pLen 0", pTotalLen)
+            while index < stopIndex:
+                cVersion, index = a16_process_packet(line, index)
+                # print(cVersion, index, "dondu 0")
+                childVersions.append(cVersion)
+        else:
+            pCount = int(line[index + 1 : index + 12], 2)
+            index += 12
+            # print("pLen 1", pCount)
+            for _ in range(pCount):
+                cVersion, index = a16_process_packet(line, index)
+                # print(cVersion, index, "dondu 1")
+                childVersions.append(cVersion)
+        print(pType, childVersions)
+        if pType == 0:
+            return sum(childVersions), index
+        if pType == 1:
+            return reduce((lambda x, y: x * y), childVersions), index
+        if pType == 2:
+            return min(childVersions), index
+        if pType == 3:
+            return max(childVersions), index
+        if pType == 5:
+            return 1 if childVersions[0] > childVersions[1] else 0, index
+        if pType == 6:
+            return 1 if childVersions[0] < childVersions[1] else 0, index
+        if pType == 7:
+            return 1 if childVersions[0] == childVersions[1] else 0, index
+
+    # return pVersion, index
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -449,6 +557,8 @@ AoC = {
     "12": a12,
     "13": a13,
     "14": a14,
+    "15": a15,
+    "16": a16,
 }
 
 
