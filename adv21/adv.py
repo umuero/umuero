@@ -502,7 +502,6 @@ def a16_process_packet(line, index):
             literal += line[index + 1 : index + 5]
             index += 5
         return int(literal, 2), index
-        # print("literal", int(literal, 2))
     else:
         childVersions = []
         pLen = line[index]
@@ -523,7 +522,6 @@ def a16_process_packet(line, index):
                 cVersion, index = a16_process_packet(line, index)
                 # print(cVersion, index, "dondu 1")
                 childVersions.append(cVersion)
-        print(pType, childVersions)
         if pType == 0:
             return sum(childVersions), index
         if pType == 1:
@@ -539,7 +537,40 @@ def a16_process_packet(line, index):
         if pType == 7:
             return 1 if childVersions[0] == childVersions[1] else 0, index
 
-    # return pVersion, index
+
+def a17(f):
+    l = f.split("=")
+    X = [int(i) for i in l[1].strip(" ,y").split("..")]
+    Y = [int(i) for i in l[2].split("..")]
+    print(">> ", X, Y)
+    maxY = 0
+    p2 = 0
+    for x in range(int(math.sqrt(2 * X[0])), X[1] + 1):
+        for y in range(Y[0] - 1, X[1]):
+            vx = x
+            vy = y
+            success = False
+            px = 0
+            py = 0
+            my = 0
+            while px <= X[1] and py >= Y[0]:
+                px += vx
+                py += vy
+                my = max(my, py)
+                if vx == 0 and not X[0] <= px <= X[1]:
+                    break
+                if X[0] <= px <= X[1] and Y[0] <= py <= Y[1]:
+                    success = True
+                    break
+                if vx > 0:
+                    vx -= 1
+                vy -= 1
+            if success:
+                # print("finished", x, y, px, py, X, Y)
+                p2 += 1
+                maxY = max(maxY, my)
+    print(maxY)
+    print(p2)
 
 
 AoC = {
@@ -559,6 +590,7 @@ AoC = {
     "14": a14,
     "15": a15,
     "16": a16,
+    "17": a17,
 }
 
 
