@@ -5,6 +5,8 @@ from functools import reduce
 from queue import PriorityQueue
 import itertools
 import re
+import copy
+import ast
 import math
 import argparse
 import aocd
@@ -13,6 +15,8 @@ Nx = [1, 0, -1, 0]
 Ny = [0, 1, 0, -1]
 NDx = [1, 0, -1, 0, 1, 1, -1, -1]
 NDy = [0, 1, 0, -1, 1, -1, 1, -1]
+NMx = [-1, 0, 1, -1, 0, 1, -1, 0, 1]
+NMy = [-1, -1, -1, 0, 0, 0, 1, 1, 1]
 
 
 def a1(f):
@@ -573,6 +577,232 @@ def a17(f):
     print(p2)
 
 
+def a18(f):
+    nums = [ast.literal_eval(l) for l in f.split("\n")]
+    res = nums[0]
+    for n in nums[1:]:
+        # print(res, "<-", n)
+        ne = copy.deepcopy([res, n])
+        reduced = True
+        while reduced:
+            ne, reduced = a18_reduce(ne)
+        res = ne
+    print("a:", a18_magn(res))
+    maxN = 0
+    for c1 in range(len(nums)):
+        for c2 in range(len(nums)):
+            if c1 == c2:
+                continue
+            ne = copy.deepcopy([nums[c1], nums[c2]])
+            reduced = True
+            while reduced:
+                ne, reduced = a18_reduce(ne)
+            maxN = max(maxN, a18_magn(ne))
+    print("b:", maxN)
+
+
+def a18_magn(l):
+    if type(l) == int:
+        return l
+    return 3 * a18_magn(l[0]) + 2 * a18_magn(l[1])
+
+
+def a18_reduce(ne):
+    reduced = False
+    # depth > 4 - explode
+    lastNo = None
+    nextNo = None
+    for c1, l1 in enumerate(ne):
+        if type(l1) == int:
+            lastNo = c1
+            if nextNo is not None:
+                ne[c1] += nextNo
+                return ne, reduced
+            continue
+        for c2, l2 in enumerate(l1):
+            if type(l2) == int:
+                lastNo = (c1, c2)
+                if nextNo is not None:
+                    ne[c1][c2] += nextNo
+                    return ne, reduced
+                continue
+            for c3, l3 in enumerate(l2):
+                if type(l3) == int:
+                    lastNo = (c1, c2, c3)
+                    if nextNo is not None:
+                        ne[c1][c2][c3] += nextNo
+                        return ne, reduced
+                    continue
+                for c4, l4 in enumerate(l3):
+                    if type(l4) == int:
+                        lastNo = (c1, c2, c3, c4)
+                        if nextNo is not None:
+                            ne[c1][c2][c3][c4] += nextNo
+                            return ne, reduced
+                        continue
+                    if nextNo is not None:
+                        ne[c1][c2][c3][c4][0] += nextNo
+                        return ne, reduced
+                    # print(ne, "explode", l4)
+                    if lastNo:
+                        if len(lastNo) == 1:
+                            ne[lastNo[0]] += l4[0]
+                        if len(lastNo) == 2:
+                            ne[lastNo[0]][lastNo[1]] += l4[0]
+                        if len(lastNo) == 3:
+                            ne[lastNo[0]][lastNo[1]][lastNo[2]] += l4[0]
+                        if len(lastNo) == 4:
+                            ne[lastNo[0]][lastNo[1]][lastNo[2]][lastNo[3]] += l4[0]
+                    nextNo = l4[1]
+                    ne[c1][c2][c3][c4] = 0
+                    reduced = True
+    if reduced is True:
+        # nextNo aradim bulamadim
+        return ne, True
+
+    # c > 9 split
+    for c1, l1 in enumerate(ne):
+        if type(l1) == int:
+            if l1 > 9:
+                # print(ne, "split", l1)
+                ne[c1] = [l1 // 2, math.ceil(l1 / 2)]
+                return ne, True
+            continue
+        for c2, l2 in enumerate(l1):
+            if type(l2) == int:
+                if l2 > 9:
+                    # print(ne, "split", l2)
+                    ne[c1][c2] = [l2 // 2, math.ceil(l2 / 2)]
+                    return ne, True
+                continue
+            for c3, l3 in enumerate(l2):
+                if type(l3) == int:
+                    if l3 > 9:
+                        # print(ne, "split", l3)
+                        ne[c1][c2][c3] = [l3 // 2, math.ceil(l3 / 2)]
+                        return ne, True
+                    continue
+                for c4, l4 in enumerate(l3):
+                    if l4 > 9:
+                        # print(ne, "split", l4)
+                        ne[c1][c2][c3][c4] = [l4 // 2, math.ceil(l4 / 2)]
+                        return ne, True
+
+    return ne, reduced
+
+
+def a19(f):
+    S = []
+    for l in f.split("\n"):
+        if "---" in l:
+            S.append([])
+        if "," in l:
+            S[-1].append([int(i) for i in l.strip().split(",")])
+    M = defaultdict(dict)
+    for c, s in enumerate(S):
+        M[c] = a19_create_diffs(s)
+
+    merged = 1
+    while merged < len(S):
+        for c in range(1, len(S)):
+            match = set(M[c].keys()).intersection(M[0])
+            orient = Counter(["".join(M[c][key]) for key in match])
+            # check orientation;
+            if orient.most_common()[0][1] > 12:
+                print(c, match, set(M[c].keys()).intersection(M[0]))
+                S[0] = a19_merge_sensors(M[0], M[c], orient)
+                M[0] = a19_create_diffs(S[0])
+                M[c] = {}
+                merged += 1
+        break
+    print(len(S[0]))
+
+
+def a19_create_diffs(s):
+    ret = dict()
+    for n in s:
+        for m in s:
+            p = [[n[0] - m[0], "x"], [n[1] - m[1], "y"], [n[2] - m[2], "z"]]
+            for cx in range(len(p)):
+                if p[cx][0] < 0:
+                    p[cx][1] = "-" + p[cx][1]
+                    p[cx][0] = abs(p[cx][0])
+            ret[" ".join([str(i[0]) for i in sorted(p)])] = [i[1] for i in sorted(p)]
+    return ret
+
+
+def a19_merge_sensors(s, s2, orient):
+    # 0 2 67 {'326 1078 1255', '5 11 152', '105 962 1020', '13 115 1147', '106 194 1120', '17 1029 1191', '25 965 1152', '1 122 159', '27 76 157', '86 134 1109', '204 262 954', '189 258 1131', '16 76 162', '169 1051 1179', '110 139 1158', '424 1081 1211', '66 309 1224', '138 215 1101', '140 205 1113', '35 70 965', '53 137 997', '32 219 1071', '194 197 1170', '72 229 1045', '16 212 1263', '419 1092 1363', '16 100 164', '113 291 1185', '14 93 108', '27 79 119', '104 1084 1179', '127 220 949', '47 63 1131', '92 129 1061', '102 927 1018', '32 112 1099', '40 118 1143', '18 907 1032', '269 1163 1215', '181 1045 1046', '102 296 1033', '111 154 940', '94 991 1057', '48 57 1147', '128 178 979', '331 1067 1103', '80 216 1116', '78 222 1169', '262 1065 1287', '42 202 1159', '8 39 64', '84 316 1100', '431 1087 1231', '0 0 0', '54 135 1129', '25 76 84', '26 843 993', '58 111 1025', '21 214 1223', '39 230 1105', '426 1239 1242', '32 182 1104', '7 124 150', '12 55 87', '38 77 134', '138 211 1104', '111 237 981'}
+    # 0 18 16 {'0 0 0', '16 100 164', '175 342 1235', '147 148 1144', '99 343 1342', '207 329 1249', '32 65 98', '14 93 108', '1 76 107', '272 297 1151', '9 11 31', '7 124 150', '159 178 1135', '83 179 1242', '164 311 1244', '283 328 1142'}
+    # 0 20 16 {'5 11 152', '48 57 1147', '27 76 157', '0 0 0', '113 291 1185', '1 122 159', '86 134 1109', '16 76 162', '25 76 84', '58 111 1025', '127 220 949', '21 214 1223', '138 215 1101', '38 77 134', '102 296 1033', '32 219 1071'}
+    # 0 25 67 {'1 122 159', '42 42 46', '132 1356 1410', '204 262 954', '1 76 107', '55 1283 1453', '45 898 1314', '113 314 1144', '10 1251 1355', '103 246 1461', '159 178 1135', '29 1308 1377', '140 205 1113', '35 70 965', '41 1033 1254', '164 311 1244', '16 212 1263', '11 62 62', '155 272 1098', '29 289 1068', '16 100 164', '175 342 1235', '29 51 1110', '9 11 31', '14 93 108', '32 65 98', '99 343 1342', '165 257 1523', '105 1270 1307', '33 113 1099', '9 155 1145', '21 1282 1346', '32 112 1099', '38 344 1493', '111 154 940', '143 1347 1441', '58 309 1597', '134 202 1596', '123 211 1565', '67 1442 1454', '9 185 1033', '128 178 979', '147 148 1144', '20 35 104', '107 894 1226', '93 210 1109', '71 247 1022', '100 355 1555', '25 933 1418', '283 328 1142', '176 248 1554', '61 998 1150', '0 0 0', '272 297 1151', '207 329 1249', '54 135 1129', '169 905 1164', '25 76 84', '94 1276 1279', '149 940 1268', '17 887 1376', '7 124 150', '114 237 1492', '1 987 1212', '83 179 1242', '38 77 134', '138 211 1104'}
+    print(s, s2, orient)
+    ret = dict()
+    for n in s:
+        for m in s:
+            p = [[n[0] - m[0], "x"], [n[1] - m[1], "y"], [n[2] - m[2], "z"]]
+            for cx in range(len(p)):
+                if p[cx][0] < 0:
+                    p[cx][1] = "-" + p[cx][1]
+                    p[cx][0] = abs(p[cx][0])
+            ret[" ".join([str(i[0]) for i in sorted(p)])] = [i[1] for i in sorted(p)]
+    return ret
+
+
+def a20(f):
+    print(f)
+    m = dict()
+    ie = None
+    XX = 0
+    YY = 0
+    for l in f.split("\n"):
+        l = l.strip()
+        if ie is None:
+            ie = l
+            continue
+        if l:
+            for c, ch in enumerate(l):
+                if ch == "#":
+                    m[(c, YY)] = 1
+            XX = len(l)
+            YY += 1
+
+    for c in range(50):
+        mNext = dict()
+        X = [0 - 110, XX + 110]
+        Y = [0 - 110, YY + 110]
+        # for x, y in m.keys():
+        #     if x < X[0]:
+        #         X[0] = x
+        #     if x > X[1]:
+        #         X[1] = x
+        #     if y < Y[0]:
+        #         Y[0] = y
+        #     if y > Y[1]:
+        #         Y[1] = y
+        for x in range(X[0], X[1] + 1):
+            for y in range(Y[0], Y[1] + 1):
+                if ie[a20_getIndex(m, x, y)] == "#":
+                    mNext[(x, y)] = 1
+        print(
+            sum(
+                [
+                    1 if -55 <= i[0] <= XX + 55 and -55 <= i[1] <= YY + 55 else 0
+                    for i in mNext.keys()
+                ]
+            )
+        )
+        print(c, X, Y, len(mNext))
+        m = mNext
+
+
+def a20_getIndex(m, x, y):
+    ret = ""
+    for dx, dy in zip(NMx, NMy):
+        ret += "1" if (m.get((x + dx, y + dy)) == 1) else "0"
+    return int(ret, 2)
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -591,23 +821,25 @@ AoC = {
     "15": a15,
     "16": a16,
     "17": a17,
+    "18": a18,
+    "19": a19,
+    "20": a20,
 }
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", help="advent day")
-    parser.add_argument("-e", help="use example set", action="store_true")
-    parser.add_argument("-e2", help="use example set", action="store_true")
+    parser.add_argument("-e", help="use example set -ee", action="count", default=0)
     args = parser.parse_args()
 
     if args.d is None:
         args.d = sorted(AoC.keys())[-1]
         print("DAY: ", args.d)
     f = aocd.get_data(year=2021, day=int(args.d))
-    if args.e or args.e2:
+    if args.e:
         f = (
-            open("inp/inp%02d%s" % (int(args.d), ("e" if not args.e2 else "e2")))
+            open("inp/inp%02de%s" % (int(args.d), str(args.e) if args.e > 1 else ""))
             .read()
             .strip()
         )
