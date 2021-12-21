@@ -727,7 +727,11 @@ def a19_create_diffs(s):
                 if p[cx][0] < 0:
                     p[cx][1] = "-" + p[cx][1]
                     p[cx][0] = abs(p[cx][0])
-            ret[" ".join([str(i[0]) for i in sorted(p)])] = [i[1] for i in sorted(p)]
+            ret[" ".join([str(i[0]) for i in sorted(p)])] = "".join(
+                [i[1] for i in sorted(p)]
+            )
+            # TODO hangi itemlarin diff'i tutmak lazim x,y,z sanki
+            # hangi orient'lar arasi degisim lazim, duz orient kesmez
     return ret
 
 
@@ -803,6 +807,47 @@ def a20_getIndex(m, x, y):
     return int(ret, 2)
 
 
+def a21(f):
+    # p = [6, 1]
+    p = [4, 8]
+    s = [0, 0]
+    ctr = True
+    dice = 0
+    while True:
+        dice += 3
+        ctr = not ctr
+        p[ctr] = (p[ctr] + 3 * (dice - 1)) % 10
+        if p[ctr] == 0:
+            p[ctr] = 10
+        s[ctr] += p[ctr]
+        if s[0] >= 1000 or s[1] >= 1000:
+            print(s, dice)
+            print(min(s) * dice)
+            break
+    p1 = 0
+    p2 = 0
+    C = Counter([(4, 8, 0, 0, False)])
+    mult = [(3, 1), (4, 3), (5, 6), (6, 7), (7, 6), (8, 3), (9, 1)]
+    while len(C):
+        CN = Counter()
+        for item, val in C.items():
+            for num, ctr in mult:
+                qp = [item[0], item[1]]
+                qs = [item[2], item[3]]
+                qp[item[4]] = (qp[item[4]] + num) % 10
+                if qp[item[4]] == 0:
+                    qp[item[4]] = 10
+                qs[item[4]] += qp[item[4]]
+                if qs[0] >= 21:
+                    p1 += val * ctr
+                elif qs[1] >= 21:
+                    p2 += val * ctr
+                else:
+                    CN[(qp[0], qp[1], qs[0], qs[1], not item[4])] += val * ctr
+        C = CN
+    print(p1, p2)
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -824,6 +869,7 @@ AoC = {
     "18": a18,
     "19": a19,
     "20": a20,
+    "21": a21,
 }
 
 
