@@ -692,64 +692,119 @@ def a18_reduce(ne):
 
 
 def a19(f):
-    S = []
+    S = []  # 359 - 12292
     for l in f.split("\n"):
         if "---" in l:
             S.append([])
         if "," in l:
-            S[-1].append([int(i) for i in l.strip().split(",")])
+            S[-1].append(tuple(int(i) for i in l.strip().split(",")))
     M = defaultdict(dict)
     for c, s in enumerate(S):
         M[c] = a19_create_diffs(s)
+        print(c, len(s), len(M[c]))
 
     merged = 1
+    beacons = [(0, 0, 0)]
     while merged < len(S):
         for c in range(1, len(S)):
-            match = set(M[c].keys()).intersection(M[0])
-            orient = Counter(["".join(M[c][key]) for key in match])
-            # check orientation;
-            if orient.most_common()[0][1] > 12:
-                print(c, match, set(M[c].keys()).intersection(M[0]))
-                S[0] = a19_merge_sensors(M[0], M[c], orient)
+            match = set(M[c].keys()).intersection(M[0].keys())
+            nodes0 = set(
+                [node for key in match for item in M[0][key] for node in item[1]]
+            )
+            if len(nodes0) >= 12:
+                pos = Counter()
+                for key in list(match):
+                    for orSUB in M[0][key]:
+                        for toSUB in M[c][key]:
+                            origKey = orSUB[0]
+                            toKey = toSUB[0]
+                            orient = [[0, 1], [1, 1], [2, 1]]  # pos, orient
+                            for z1, z2 in zip(origKey, toKey):
+                                if int(z1) % 3 != int(z2) % 3:
+                                    orient[int(z1) % 3][0] = int(z2) % 3
+                            for ch in origKey:
+                                if ch not in toKey:
+                                    orient[int(ch) % 3][1] = -1
+                            for node0 in orSUB[1]:
+                                for nodeC in toSUB[1]:
+                                    pos[
+                                        (
+                                            node0[0]
+                                            + orient[0][1] * nodeC[orient[0][0]],
+                                            node0[1]
+                                            + orient[1][1] * nodeC[orient[1][0]],
+                                            node0[2]
+                                            + orient[2][1] * nodeC[orient[2][0]],
+                                            str(orient),
+                                            1,
+                                        )
+                                    ] += 1
+                                    # pos[
+                                    #     (
+                                    #         node0[0]
+                                    #         + -1 * orient[0][1] * nodeC[orient[0][0]],
+                                    #         node0[1]
+                                    #         + -1 * orient[1][1] * nodeC[orient[1][0]],
+                                    #         node0[2]
+                                    #         + -1 * orient[2][1] * nodeC[orient[2][0]],
+                                    #         str(orient),
+                                    #         -1,
+                                    #     )
+                                    # ] += 1
+                print(c, len(nodes0), pos.most_common()[:4])
+                if pos.most_common()[0][1] < 16:
+                    merged += 0.2
+                    continue
+                sensor = pos.most_common()[0][0]
+                if pos.most_common()[0][1] == pos.most_common()[1][1]:
+                    sensor = pos.most_common()[1][0]
+                beacons.append((sensor[0], sensor[1], sensor[2]))
+
+                orient = ast.literal_eval(sensor[3])
+                direction = sensor[4]
+                for nodeC in S[c]:
+                    S[0].append(
+                        (
+                            sensor[0] - direction * orient[0][1] * nodeC[orient[0][0]],
+                            sensor[1] - direction * orient[1][1] * nodeC[orient[1][0]],
+                            sensor[2] - direction * orient[2][1] * nodeC[orient[2][0]],
+                        )
+                    )
+                S[0] = list(set(S[0]))
                 M[0] = a19_create_diffs(S[0])
                 M[c] = {}
                 merged += 1
-        break
     print(len(S[0]))
+    maxD = 0
+    for x in beacons:
+        for y in beacons:
+            maxD = max(maxD, abs(x[0] - y[0]) + abs(x[1] - y[1]) + abs(x[2] - y[2]))
+    print("b:", maxD)
 
 
 def a19_create_diffs(s):
-    ret = dict()
+    ret = defaultdict(list)
     for n in s:
         for m in s:
-            p = [[n[0] - m[0], "x"], [n[1] - m[1], "y"], [n[2] - m[2], "z"]]
+            if m == n:
+                continue
+            p = [[n[0] - m[0], "0"], [n[1] - m[1], "1"], [n[2] - m[2], "2"]]
             for cx in range(len(p)):
                 if p[cx][0] < 0:
-                    p[cx][1] = "-" + p[cx][1]
+                    p[cx][1] = str(int(p[cx][1]) + 3)
                     p[cx][0] = abs(p[cx][0])
-            ret[" ".join([str(i[0]) for i in sorted(p)])] = "".join(
-                [i[1] for i in sorted(p)]
+            sp = sorted(p)
+            ret[" ".join([str(i[0]) for i in sp])].append(
+                ("".join([i[1] for i in sp]), (n, m))
             )
-            # TODO hangi itemlarin diff'i tutmak lazim x,y,z sanki
-            # hangi orient'lar arasi degisim lazim, duz orient kesmez
-    return ret
-
-
-def a19_merge_sensors(s, s2, orient):
-    # 0 2 67 {'326 1078 1255', '5 11 152', '105 962 1020', '13 115 1147', '106 194 1120', '17 1029 1191', '25 965 1152', '1 122 159', '27 76 157', '86 134 1109', '204 262 954', '189 258 1131', '16 76 162', '169 1051 1179', '110 139 1158', '424 1081 1211', '66 309 1224', '138 215 1101', '140 205 1113', '35 70 965', '53 137 997', '32 219 1071', '194 197 1170', '72 229 1045', '16 212 1263', '419 1092 1363', '16 100 164', '113 291 1185', '14 93 108', '27 79 119', '104 1084 1179', '127 220 949', '47 63 1131', '92 129 1061', '102 927 1018', '32 112 1099', '40 118 1143', '18 907 1032', '269 1163 1215', '181 1045 1046', '102 296 1033', '111 154 940', '94 991 1057', '48 57 1147', '128 178 979', '331 1067 1103', '80 216 1116', '78 222 1169', '262 1065 1287', '42 202 1159', '8 39 64', '84 316 1100', '431 1087 1231', '0 0 0', '54 135 1129', '25 76 84', '26 843 993', '58 111 1025', '21 214 1223', '39 230 1105', '426 1239 1242', '32 182 1104', '7 124 150', '12 55 87', '38 77 134', '138 211 1104', '111 237 981'}
-    # 0 18 16 {'0 0 0', '16 100 164', '175 342 1235', '147 148 1144', '99 343 1342', '207 329 1249', '32 65 98', '14 93 108', '1 76 107', '272 297 1151', '9 11 31', '7 124 150', '159 178 1135', '83 179 1242', '164 311 1244', '283 328 1142'}
-    # 0 20 16 {'5 11 152', '48 57 1147', '27 76 157', '0 0 0', '113 291 1185', '1 122 159', '86 134 1109', '16 76 162', '25 76 84', '58 111 1025', '127 220 949', '21 214 1223', '138 215 1101', '38 77 134', '102 296 1033', '32 219 1071'}
-    # 0 25 67 {'1 122 159', '42 42 46', '132 1356 1410', '204 262 954', '1 76 107', '55 1283 1453', '45 898 1314', '113 314 1144', '10 1251 1355', '103 246 1461', '159 178 1135', '29 1308 1377', '140 205 1113', '35 70 965', '41 1033 1254', '164 311 1244', '16 212 1263', '11 62 62', '155 272 1098', '29 289 1068', '16 100 164', '175 342 1235', '29 51 1110', '9 11 31', '14 93 108', '32 65 98', '99 343 1342', '165 257 1523', '105 1270 1307', '33 113 1099', '9 155 1145', '21 1282 1346', '32 112 1099', '38 344 1493', '111 154 940', '143 1347 1441', '58 309 1597', '134 202 1596', '123 211 1565', '67 1442 1454', '9 185 1033', '128 178 979', '147 148 1144', '20 35 104', '107 894 1226', '93 210 1109', '71 247 1022', '100 355 1555', '25 933 1418', '283 328 1142', '176 248 1554', '61 998 1150', '0 0 0', '272 297 1151', '207 329 1249', '54 135 1129', '169 905 1164', '25 76 84', '94 1276 1279', '149 940 1268', '17 887 1376', '7 124 150', '114 237 1492', '1 987 1212', '83 179 1242', '38 77 134', '138 211 1104'}
-    print(s, s2, orient)
-    ret = dict()
-    for n in s:
-        for m in s:
-            p = [[n[0] - m[0], "x"], [n[1] - m[1], "y"], [n[2] - m[2], "z"]]
-            for cx in range(len(p)):
-                if p[cx][0] < 0:
-                    p[cx][1] = "-" + p[cx][1]
-                    p[cx][0] = abs(p[cx][0])
-            ret[" ".join([str(i[0]) for i in sorted(p)])] = [i[1] for i in sorted(p)]
+            if sp[0][0] == sp[1][0]:
+                ret[" ".join([str(i[0]) for i in sp])].append(
+                    ("".join([i[1] for i in [sp[1], sp[0], sp[2]]]), (n, m))
+                )
+            if sp[1][0] == sp[2][0]:
+                ret[" ".join([str(i[0]) for i in sp])].append(
+                    ("".join([i[1] for i in [sp[0], sp[2], sp[1]]]), (n, m))
+                )
     return ret
 
 
@@ -808,8 +863,9 @@ def a20_getIndex(m, x, y):
 
 
 def a21(f):
-    # p = [6, 1]
-    p = [4, 8]
+    P1 = 6
+    P2 = 1
+    p = [P1, P2]
     s = [0, 0]
     ctr = True
     dice = 0
@@ -826,7 +882,7 @@ def a21(f):
             break
     p1 = 0
     p2 = 0
-    C = Counter([(4, 8, 0, 0, False)])
+    C = Counter([(P1, P2, 0, 0, False)])
     mult = [(3, 1), (4, 3), (5, 6), (6, 7), (7, 6), (8, 3), (9, 1)]
     while len(C):
         CN = Counter()
@@ -846,6 +902,71 @@ def a21(f):
                     CN[(qp[0], qp[1], qs[0], qs[1], not item[4])] += val * ctr
         C = CN
     print(p1, p2)
+
+
+def a22(f):
+    orders = []
+    S = set()
+    X = dict()
+    Y = dict()
+    Z = dict()
+    for line in f.split("\n"):
+        l = line.replace(" ", ",").replace("..", ",").replace("=", ",").split(",")
+        if len(l) < 8:
+            print(l)
+            continue
+        orders.append(
+            (
+                int(l[2]),
+                int(l[3]) + 1,
+                int(l[5]),
+                int(l[6]) + 1,
+                int(l[8]),
+                int(l[9]) + 1,
+                l[0] == "on",
+            )
+        )
+        X[orders[-1][0]] = ""
+        X[orders[-1][1]] = ""
+        Y[orders[-1][2]] = ""
+        Y[orders[-1][3]] = ""
+        Z[orders[-1][4]] = ""
+        Z[orders[-1][5]] = ""
+    print(len(X.keys()), len(Y.keys()), len(Z.keys()))
+    L = dict()
+    last = ""
+    for c, x in enumerate(sorted(X.keys())):
+        X[x] = c
+        if last:
+            L["x" + str(last[0])] = x - last[1]
+        last = (c, x)
+    last = ""
+    for c, y in enumerate(sorted(Y.keys())):
+        Y[y] = c
+        if last:
+            L["y" + str(last[0])] = y - last[1]
+        last = (c, y)
+    last = ""
+    for c, z in enumerate(sorted(Z.keys())):
+        Z[z] = c
+        if last:
+            L["z" + str(last[0])] = z - last[1]
+        last = (c, z)
+    for co, o in enumerate(orders):
+        if co % 10 == 0:
+            print(co, len(orders))
+        for x in range(X[o[0]], X[o[1]]):
+            for y in range(Y[o[2]], Y[o[3]]):
+                for z in range(Z[o[4]], Z[o[5]]):
+                    if o[6]:
+                        S.add((x, y, z))
+                    else:
+                        S.discard((x, y, z))
+    print(len(S))
+    s = 0
+    for node in S:
+        s += L["x" + str(node[0])] * L["y" + str(node[1])] * L["z" + str(node[2])]
+    print("b:", s)
 
 
 AoC = {
@@ -870,6 +991,7 @@ AoC = {
     "19": a19,
     "20": a20,
     "21": a21,
+    "22": a22,
 }
 
 
