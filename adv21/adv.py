@@ -739,25 +739,41 @@ def a19(f):
                                             1,
                                         )
                                     ] += 1
-                                    # pos[
-                                    #     (
-                                    #         node0[0]
-                                    #         + -1 * orient[0][1] * nodeC[orient[0][0]],
-                                    #         node0[1]
-                                    #         + -1 * orient[1][1] * nodeC[orient[1][0]],
-                                    #         node0[2]
-                                    #         + -1 * orient[2][1] * nodeC[orient[2][0]],
-                                    #         str(orient),
-                                    #         -1,
-                                    #     )
-                                    # ] += 1
                 print(c, len(nodes0), pos.most_common()[:4])
-                if pos.most_common()[0][1] < 16:
-                    merged += 0.2
-                    continue
                 sensor = pos.most_common()[0][0]
-                if pos.most_common()[0][1] == pos.most_common()[1][1]:
-                    sensor = pos.most_common()[1][0]
+                if pos.most_common()[0][1] < 20:
+                    for p in pos.most_common():
+                        sensor = p[0]
+                        orient = ast.literal_eval(sensor[3])
+                        direction = sensor[4]
+                        newNodes = set()
+                        nodesC = set(
+                            [
+                                node
+                                for key in match
+                                for item in M[c][key]
+                                for node in item[1]
+                            ]
+                        )
+                        for nodeC in nodesC:
+                            newNodes.add(
+                                (
+                                    sensor[0]
+                                    - direction * orient[0][1] * nodeC[orient[0][0]],
+                                    sensor[1]
+                                    - direction * orient[1][1] * nodeC[orient[1][0]],
+                                    sensor[2]
+                                    - direction * orient[2][1] * nodeC[orient[2][0]],
+                                )
+                            )
+                        print(
+                            sensor,
+                            len(nodes0),
+                            len(newNodes),
+                            len(nodes0.intersection(newNodes)),
+                        )
+                        if len(nodes0.intersection(newNodes)) == 12:
+                            break
                 beacons.append((sensor[0], sensor[1], sensor[2]))
 
                 orient = ast.literal_eval(sensor[3])
