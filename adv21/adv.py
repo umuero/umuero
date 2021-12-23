@@ -985,6 +985,113 @@ def a22(f):
     print("b:", s)
 
 
+def a23(f):
+    S = set()
+    Q = PriorityQueue()  # score, state
+    # P = ((10, 1), (100, 1000), (10, 100), (1000, 1)) # ex
+    # P1 = ((1000, 10), (100, 1), (1000, 1), (10, 100))
+    P = ((1000, 1000, 1000, 10), (100, 100, 10, 1), (1000, 10, 1, 1), (10, 1, 100, 100))
+    init = (0, 0, P[0], 0, P[1], 0, P[2], 0, P[3], 0, 0)
+    Q.put((0, init, ()))
+    while not Q.empty():
+        r, s, last = Q.get()
+        if s in S:
+            continue
+        # print(r, s, last)
+        S.add(s)
+        if sum([i for i in s if type(i) == int]) == 0 and r != 0:
+            print("a:", r)
+            break
+        for avail in a23_avail(s):
+            Q.put((r + avail[0], avail[1], s))
+
+
+def a23_avail(s):
+    ret = []
+    for i, node in enumerate(s):
+        if node == 0:
+            continue
+        path = 0
+        item = 0
+        L = list(s)
+        if type(node) == tuple:
+            # room -> hall
+            for ctr in range(len(node)):
+                if node[ctr] != 0:
+                    path = ctr + 1
+                    item = node[ctr]
+                    L[i] = node[:ctr] + (0,) + node[ctr + 1 :]
+                    break
+            if item != 0:
+                for c in range(1, 10):
+                    if i + c <= 10 and (type(s[i + c]) != int or s[i + c] == 0):
+                        if s[i + c] == 0:
+                            L[i + c] = item
+                            # print("adding+", item, c, ((path + c) * item, tuple(L)))
+                            ret.append(((path + c) * item, tuple(L)))
+                            L[i + c] = 0
+                    else:
+                        break
+                for c in range(-1, -10, -1):
+                    if i + c >= 0 and (type(s[i + c]) != int or s[i + c] == 0):
+                        if s[i + c] == 0:
+                            L[i + c] = item
+                            # print("adding-", item, c, ((path - c) * item, tuple(L)))
+                            ret.append(((path - c) * item, tuple(L)))
+                            L[i + c] = 0
+                    else:
+                        break
+        else:
+            # room -> hall
+            item = node
+            goal = 0
+            if item == 1:
+                goal = 2
+            if item == 10:
+                goal = 4
+            if item == 100:
+                goal = 6
+            if item == 1000:
+                goal = 8
+            if sum(s[goal]) <= item * 4 and sum(s[goal]) % item == 0:
+                if i < goal:
+                    for c in range(1, 10):
+                        if i + c == goal:
+                            L[i] = 0
+                            home = L[i + c]
+                            for ctr in range(len(home) - 1, -1, -1):
+                                if home[ctr] == 0:
+                                    path = ctr + 1
+                                    L[i + c] = home[:ctr] + (item,) + home[ctr + 1 :]
+                                    break
+                            # print("home+", item, c, ((path + c) * item, tuple(L)))
+                            ret.append(((path + c) * item, tuple(L)))
+                            break
+                        if i + c <= 10 and (type(s[i + c]) != int or s[i + c] == 0):
+                            pass
+                        else:
+                            break
+                else:
+                    for c in range(-1, -10, -1):
+                        if i + c == goal:
+                            L[i] = 0
+                            home = L[i + c]
+                            for ctr in range(len(home) - 1, -1, -1):
+                                if home[ctr] == 0:
+                                    path = ctr + 1
+                                    L[i + c] = home[:ctr] + (item,) + home[ctr + 1 :]
+                                    break
+                            # print("home-", item, c, ((path - c) * item, tuple(L)))
+                            ret.append(((path - c) * item, tuple(L)))
+                            break
+                        if i + c >= 0 and (type(s[i + c]) != int or s[i + c] == 0):
+                            pass
+                        else:
+                            break
+
+    return ret
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -1008,6 +1115,7 @@ AoC = {
     "20": a20,
     "21": a21,
     "22": a22,
+    "23": a23,
 }
 
 
