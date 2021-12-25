@@ -1,4 +1,4 @@
-# https://adventofcode.com/2020
+# https://adventofcode.com/2021
 from collections import defaultdict, deque, Counter
 from itertools import permutations, combinations, product
 from functools import reduce

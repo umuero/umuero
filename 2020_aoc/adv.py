@@ -1,63 +1,82 @@
-# https://adventofcode.com/2020
+# https://adventofcode.com/2021
 from collections import defaultdict, deque, Counter
 from itertools import permutations, combinations, product
+from functools import reduce
+from queue import PriorityQueue
 import itertools
 import re
+import copy
+import ast
+import math
+import argparse
+import aocd
 
-def a1():
-    arr = [int(i) for i in open("inp/inp01").readlines()]
+Nx = [1, 0, -1, 0]
+Ny = [0, 1, 0, -1]
+NDx = [1, 0, -1, 0, 1, 1, -1, -1]
+NDy = [0, 1, 0, -1, 1, -1, 1, -1]
+
+
+def a1(f):
+    arr = [int(i) for i in f.split("\n")]
     s = set()
     for i in arr:
         s.add(i)
-        if 2020-i in s:
-            print i * (2020-i)
+        if 2020 - i in s:
+            print(i * (2020 - i))
 
     s = set()
     s2 = dict()
     for i in arr:
         s.add(i)
-        if 2020-i in s2:
-            print i * s2[2020-i][0] * s2[2020-i][1]
+        if 2020 - i in s2:
+            print(i * s2[2020 - i][0] * s2[2020 - i][1])
         for j in s:
             s2[i + j] = (i, j)
 
-def a2(p1=False):
-    arr = [i.strip() for i in open("inp/inp02").readlines()]
-    ctr = 0
+
+def a2(f):
+    arr = [i.strip() for i in f.split("\n")]
+    p1 = 0
+    p2 = 0
     for l in arr:
         cond, passw = l.split(": ")
         mn, mx, ch = cond.replace("-", " ").split(" ")
-        if p1:
-            if int(mn) <= Counter(passw).get(ch, 0) <= int(mx):
-                ctr += 1
-        else:
-            if (passw[int(mn) - 1] == ch and passw[int(mx) - 1] != ch) or \
-               (passw[int(mn) - 1] != ch and passw[int(mx) - 1] == ch):
-                ctr += 1
-    print ctr
+        if int(mn) <= Counter(passw).get(ch, 0) <= int(mx):
+            p1 += 1
+        if (passw[int(mn) - 1] == ch and passw[int(mx) - 1] != ch) or (
+            passw[int(mn) - 1] != ch and passw[int(mx) - 1] == ch
+        ):
+            p2 += 1
+    print(p1, p2)
 
-def a3(r=3, d=1):
-    arr = [i.strip() for i in open("inp/inp03").readlines()]
+
+def a3(f):
+    arr = [i.strip() for i in f.split("\n")]
+    r = 3
+    d = 1
     p = [0, 0]
     tree = 0
     depth = len(arr)
     width = len(arr[0])
     while p[1] < depth - d:
         p = [p[0] + r, p[1] + d]
-        if arr[p[1]][p[0] % width] == '#':
+        if arr[p[1]][p[0] % width] == "#":
             tree += 1
     return tree
-# a3(1,1) * a3(3,1) * a3(5,1) * a3(7,1) * a3(1,2)
+
 
 rules = {
-    'byr': re.compile(r'(19[2-9][0-9]|200[0-2])$'),
-    'iyr': re.compile(r'20(1\d|20)$'),
-    'eyr': re.compile(r'20(2\d|30)$'),
-    'hgt': re.compile(r'(1([5-8][0-9]|9[0-3])cm|(59|6\d|7[0-6])in)$'),
-    'hcl': re.compile(r'#[a-f0-9]{6}$'),
-    'ecl': re.compile(r'(amb|blu|brn|gry|grn|hzl|oth)$'),
-    'pid': re.compile(r'\d{9}$'),
+    "byr": re.compile(r"(19[2-9][0-9]|200[0-2])$"),
+    "iyr": re.compile(r"20(1\d|20)$"),
+    "eyr": re.compile(r"20(2\d|30)$"),
+    "hgt": re.compile(r"(1([5-8][0-9]|9[0-3])cm|(59|6\d|7[0-6])in)$"),
+    "hcl": re.compile(r"#[a-f0-9]{6}$"),
+    "ecl": re.compile(r"(amb|blu|brn|gry|grn|hzl|oth)$"),
+    "pid": re.compile(r"\d{9}$"),
 }
+
+
 def validate(p):
     if len(p) != 8:
         return False
@@ -67,17 +86,18 @@ def validate(p):
                 return False
     return True
 
-def a4():
-    arr = [i.strip() for i in open("inp/inp04").readlines()]
+
+def a4(f):
+    arr = [i.strip() for i in f.split("\n")]
     ps = []
-    data = {'cid': ''}
+    data = {"cid": ""}
     ctr = 0
     for line in arr:
         if line.strip() == "":
             if validate(data):
                 ctr += 1
             ps.append(data)
-            data = {'cid': ''}
+            data = {"cid": ""}
             continue
         for part in line.split(" "):
             key, value = part.split(":")
@@ -85,19 +105,26 @@ def a4():
     if validate(data):
         ctr += 1
     ps.append(data)
-    print ctr
+    print(ctr)
 
-def a5():
-    arr = [i.strip() for i in open("inp/inp05").readlines()]
-    sids = [int(t.replace('F', '0').replace('B', '1').replace('L', '0').replace('R', '1'), 2) for t in arr]
-    print max(sids)
+
+def a5(f):
+    arr = [i.strip() for i in f.split("\n")]
+    sids = [
+        int(
+            t.replace("F", "0").replace("B", "1").replace("L", "0").replace("R", "1"), 2
+        )
+        for t in arr
+    ]
+    print(max(sids))
     ss = set(sids)
     for i in range(max(sids)):
-        if i not in ss and i+1 in ss and i-1 in ss:
-            print i
+        if i not in ss and i + 1 in ss and i - 1 in ss:
+            print(i)
 
-def a6():
-    arr = [i.strip() for i in open("inp/inp06").readlines()]
+
+def a6(f):
+    arr = [i.strip() for i in f.split("\n")]
     gr = []
     data = ""
     dctr = 0
@@ -111,8 +138,9 @@ def a6():
         dctr += 1
     if data:
         gr.append((Counter(data), dctr))
-    print sum([len(i[0].keys()) for i in gr])
-    print sum([len([k for k in i[0].keys() if i[0][k] == i[1]]) for i in gr])
+    print(sum([len(i[0].keys()) for i in gr]))
+    print(sum([len([k for k in i[0].keys() if i[0][k] == i[1]]) for i in gr]))
+
 
 def a7_rec(rule, nm):
     total = 1
@@ -122,8 +150,9 @@ def a7_rec(rule, nm):
         total += bg[0] * a7_rec(rule, bg[1])
     return total
 
-def a7():
-    arr = [i.strip().rstrip(".") for i in open("inp/inp07").readlines()]
+
+def a7(f):
+    arr = [i.strip().rstrip(".") for i in f.split("\n")]
     rule = defaultdict(list)
     parents = defaultdict(list)
     for line in arr:
@@ -135,36 +164,39 @@ def a7():
             parents[" ".join(ch.split()[1:-1])].append(pr)
 
     avails = set()
-    proc = ['shiny gold']
+    proc = ["shiny gold"]
     while proc:
         it = proc.pop()
         for pr in parents[it]:
             avails.add(pr)
             proc.append(pr)
-    print len(avails)
-    print a7_rec(rule, 'shiny gold') - 1
+    print(len(avails))
+    print(a7_rec(rule, "shiny gold") - 1)
+
 
 def handleCmd(arr, ind, acc):
     cmd = arr[ind][0]
     val = arr[ind][1]
-    if cmd == 'nop':
+    if cmd == "nop":
         return ind + 1, acc
-    if cmd == 'acc':
+    if cmd == "acc":
         return ind + 1, acc + val
-    if cmd == 'jmp':
+    if cmd == "jmp":
         return ind + val, acc
     return ind, acc
 
-def a8(corrupt=-1):
-    arr = [(i.strip().split()[0], int(i.strip().split()[1])) for i in open("inp/inp08").readlines()]
+
+def a8(f):
+    corrupt = -1
+    arr = [(i.strip().split()[0], int(i.strip().split()[1])) for i in f.split("\n")]
     ctr = 0
     for lctr, line in enumerate(arr):
-        if 'nop' in line or 'jmp' in line:
+        if "nop" in line or "jmp" in line:
             if ctr == corrupt:
-                if 'nop' in line:
-                    arr[lctr] = (line[0].replace('nop', 'jmp'), line[1])
+                if "nop" in line:
+                    arr[lctr] = (line[0].replace("nop", "jmp"), line[1])
                 else:
-                    arr[lctr] = (line[0].replace('jmp', 'nop'), line[1])
+                    arr[lctr] = (line[0].replace("jmp", "nop"), line[1])
             ctr += 1
     ind = 0
     acc = 0
@@ -176,14 +208,9 @@ def a8(corrupt=-1):
         return True, acc
     return False, acc
 
-# for i in range(350):
-#     ret = a8(i)
-#     if ret[0]:
-#         print ret
-#         break
 
 def valid(arr, ind):
-    base = arr[ind-25: ind]
+    base = arr[ind - 25 : ind]
     val = arr[ind]
     for i in range(25):
         for j in range(25):
@@ -193,11 +220,12 @@ def valid(arr, ind):
                 return True
     return False
 
-def a9():
-    arr = [int(i) for i in open("inp/inp09").readlines()]
+
+def a9(f):
+    arr = [int(i) for i in f.split("\n")]
     for i in range(25, len(arr)):
         if valid(arr, i) is False:
-            print i, arr[i]
+            print(i, arr[i])
             break
     target = arr[i]
     i0, i1 = 0, 0
@@ -210,11 +238,12 @@ def a9():
             i1 += 1
             ssum += arr[i1]
         # ssum = sum(arr[i0:i1])
-    print i0, i1
-    print min(arr[i0:i1]) + max(arr[i0:i1])
+    print(i0, i1)
+    print(min(arr[i0:i1]) + max(arr[i0:i1]))
 
-def a10():
-    arr = [int(i) for i in open("inp/inp10").readlines()]
+
+def a10(f):
+    arr = [int(i) for i in f.split("\n")]
     valid = 0
     sarr = sorted(arr)
     diff = defaultdict(int)
@@ -223,12 +252,12 @@ def a10():
             diff[val - valid] += 1
             valid = val
     diff[3] += 1  # device
-    print diff
-    print diff[1] * diff[3]
+    print(diff)
+    print(diff[1] * diff[3])
 
     sarr.insert(0, 0)
     sarr.append(sarr[-1] + 3)
-    df = [sarr[i] - sarr[i-1] for i in range(len(sarr))]
+    df = [sarr[i] - sarr[i - 1] for i in range(len(sarr))]
     df[0] = 3
     cons = []
     cctr = 0
@@ -247,14 +276,15 @@ def a10():
             total *= 4
         if i == 4:
             total *= 7
-    print total
+    print(total)
 
-def a11():
-    inp = open("inp/inp11").readlines()
+
+def a11(f):
+    inp = f.split("\n")
     seats = set()
     for lCtr, line in enumerate(inp):
         for hCtr, x in enumerate(line):
-            if x == '.' or x == '\n':
+            if x == "." or x == "\n":
                 continue
             seats.add((lCtr, hCtr))
     lmax = len(inp)
@@ -266,7 +296,16 @@ def a11():
         occupiedNext = set()
         for p in seats:
             occ = 0
-            for x in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+            for x in [
+                (-1, -1),
+                (-1, 0),
+                (-1, 1),
+                (0, -1),
+                (0, 1),
+                (1, -1),
+                (1, 0),
+                (1, 1),
+            ]:
                 s = tuple(map(sum, zip(p, x)))  # (p[0] + x[0], p[1] + x[1])
                 while s not in seats:
                     s = tuple(map(sum, zip(s, x)))
@@ -285,51 +324,52 @@ def a11():
                     changes += 1
                 else:
                     occupiedNext.add(p)
-        print "iteration:", changes
+        print("iteration:", changes)
         occupied = occupiedNext
-    print len(occupied)
+    print(len(occupied))
 
-def a12():
-    inp = open("inp/inp12").readlines()
+
+def a12(f):
+    inp = f.split("\n")
     x, y = 0, 0  # E(x+); N(y+)
     direction = 0
     for line in inp:
         c = line[0]
         num = int(line[1:])
-        if c == 'N' or (c == 'F' and direction == 270):
+        if c == "N" or (c == "F" and direction == 270):
             y += num
-        if c == 'S' or (c == 'F' and direction == 90):
+        if c == "S" or (c == "F" and direction == 90):
             y -= num
-        if c == 'E' or (c == 'F' and direction == 0):
+        if c == "E" or (c == "F" and direction == 0):
             x += num
-        if c == 'W' or (c == 'F' and direction == 180):
+        if c == "W" or (c == "F" and direction == 180):
             x -= num
-        if c == 'R':
+        if c == "R":
             direction += num
             direction = direction % 360
-        if c == 'L':
+        if c == "L":
             direction -= num
             direction = direction % 360
-    print "p1", x, y, abs(x) + abs(y)
+    print("p1", x, y, abs(x) + abs(y))
 
     x, y = 0, 0  # E(x+); N(y+)
     wayX, wayY = 10, 1
     for line in inp:
         c = line[0]
         num = int(line[1:])
-        if c == 'N':
+        if c == "N":
             wayY += num
-        if c == 'S':
+        if c == "S":
             wayY -= num
-        if c == 'E':
+        if c == "E":
             wayX += num
-        if c == 'W':
+        if c == "W":
             wayX -= num
-        if c == 'R' or c == 'L':
+        if c == "R" or c == "L":
             direction = 0
-            if c == 'R':
+            if c == "R":
                 direction += num
-            if c == 'L':
+            if c == "L":
                 direction -= num
             direction = direction % 360
             if direction == 90:
@@ -338,10 +378,56 @@ def a12():
                 wayX, wayY = -wayX, -wayY
             if direction == 270:
                 wayX, wayY = -wayY, wayX
-        if c == 'F':
+        if c == "F":
             x += wayX * num
             y += wayY * num
 
-    print "p2", x, y, abs(x) + abs(y)
+    print("p2", x, y, abs(x) + abs(y))
 
-a12()
+
+AoC = {
+    "01": a1,
+    "02": a2,
+    "03": a3,
+    "04": a4,
+    "05": a5,
+    "06": a6,
+    "07": a7,
+    "08": a8,
+    "09": a9,
+    "10": a10,
+    "11": a11,
+    "12": a12,
+    # "13": a13,
+    # "14": a14,
+    # "15": a15,
+    # "16": a16,
+    # "17": a17,
+    # "18": a18,
+    # "19": a19,
+    # "20": a20,
+    # "21": a21,
+    # "22": a22,
+    # "23": a23,
+    # "24": a24,
+    # "25": a25,
+}
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", help="advent day")
+    parser.add_argument("-e", help="use example set -ee", action="count", default=0)
+    args = parser.parse_args()
+
+    if args.d is None:
+        args.d = sorted(AoC.keys())[-1]
+        print("DAY: ", args.d)
+    f = aocd.get_data(year=2020, day=int(args.d))
+    if args.e:
+        f = (
+            open("inp/inp%02de%s" % (int(args.d), str(args.e) if args.e > 1 else ""))
+            .read()
+            .strip()
+        )
+    AoC[args.d](f)
