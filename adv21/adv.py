@@ -1092,6 +1092,93 @@ def a23_avail(s):
     return ret
 
 
+def a24(f):
+    # INP = list("12996997829399")
+    INP = list("11841231117189")
+    R4 = [1, 1, 1, 1, 26, 1, 1, 26, 26, 26, 1, 26, 26, 26]
+    R5 = [14, 15, 12, 11, -5, 14, 15, -13, -16, -8, 15, -8, 0, -4]
+    R15 = [12, 7, 1, 2, 4, 15, 11, 5, 3, 9, 2, 3, 3, 11]
+
+    w, x, z = (0, 0, 0)
+    for i in range(len(INP)):
+        w = int(INP[i])
+        goal = (z % 26) + R5[i]
+        z = z // R4[i]
+        if goal != w:
+            z = (26 * z) + w + R15[i]
+        print(f"d:{R4[i]}\tg+:{R5[i]}\tm:{R15[i]}\tg:{goal}\tw:{w}\tx:{x}\tz:{z}")
+
+    arr = [i.strip() for i in f.split("\n")]
+    VAR = {"w": 0, "x": 0, "y": 0, "z": 0}
+    for line in arr:
+        order = line.split(" ")
+        if order[0] == "inp":
+            VAR[order[1]] = int(INP.pop(0))
+            print("processed", 13 - len(INP), order, VAR)
+        if order[0] == "add":
+            VAR[order[1]] = VAR[order[1]] + VAR.get(
+                order[2], int(order[2]) if not order[2].isalpha() else 0
+            )
+        if order[0] == "mul":
+            VAR[order[1]] = VAR[order[1]] * VAR.get(
+                order[2], int(order[2]) if not order[2].isalpha() else 0
+            )
+        if order[0] == "div":
+            VAR[order[1]] = VAR[order[1]] // VAR.get(
+                order[2], int(order[2]) if not order[2].isalpha() else 0
+            )
+        if order[0] == "mod":
+            VAR[order[1]] = VAR[order[1]] % VAR.get(
+                order[2], int(order[2]) if not order[2].isalpha() else 0
+            )
+        if order[0] == "eql":
+            VAR[order[1]] = (
+                1
+                if VAR[order[1]]
+                == VAR.get(order[2], int(order[2]) if not order[2].isalpha() else 0)
+                else 0
+            )
+    print("valid", VAR["z"] == 0, VAR)
+
+
+def a25(f):
+    print(f)
+    mE = set()
+    mS = set()
+    for Y, l in enumerate(f.split("\n")):
+        for X, ch in enumerate(l.strip()):
+            if ch == ">":
+                mE.add((X, Y))
+            if ch == "v":
+                mS.add((X, Y))
+    X = X + 1
+    Y = Y + 1
+    step = 0
+    diff = 1
+    while diff > 0:
+        if step % 10 == 0:
+            print(step, diff)
+        step += 1
+        diff = 0
+        nE = set()
+        nS = set()
+        for x, y in mE:
+            if ((x + 1) % X, y) not in mS and ((x + 1) % X, y) not in mE:
+                nE.add(((x + 1) % X, y))
+                diff += 1
+            else:
+                nE.add((x, y))
+        for x, y in mS:
+            if (x, (y + 1) % Y) not in mS and (x, (y + 1) % Y) not in nE:
+                nS.add((x, (y + 1) % Y))
+                diff += 1
+            else:
+                nS.add((x, y))
+        mE = nE
+        mS = nS
+    print(step)
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -1116,6 +1203,8 @@ AoC = {
     "21": a21,
     "22": a22,
     "23": a23,
+    "24": a24,
+    "25": a25,
 }
 
 
