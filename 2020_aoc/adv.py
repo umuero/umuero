@@ -30,7 +30,7 @@ def a1(f):
     for i in arr:
         s.add(i)
         if 2020 - i in s2:
-            print(i * s2[2020 - i][0] * s2[2020 - i][1])
+            print("b:", i * s2[2020 - i][0] * s2[2020 - i][1])
         for j in s:
             s2[i + j] = (i, j)
 
@@ -48,13 +48,24 @@ def a2(f):
             passw[int(mn) - 1] != ch and passw[int(mx) - 1] == ch
         ):
             p2 += 1
-    print(p1, p2)
+    print(p1)
+    print("b:", p2)
 
 
 def a3(f):
     arr = [i.strip() for i in f.split("\n")]
-    r = 3
-    d = 1
+    print(a3_slope(arr, 3, 1))
+    print(
+        "b:",
+        a3_slope(arr, 1, 1)
+        * a3_slope(arr, 3, 1)
+        * a3_slope(arr, 5, 1)
+        * a3_slope(arr, 7, 1)
+        * a3_slope(arr, 1, 2),
+    )
+
+
+def a3_slope(arr, r, d):
     p = [0, 0]
     tree = 0
     depth = len(arr)
@@ -66,7 +77,7 @@ def a3(f):
     return tree
 
 
-rules = {
+a4_rules = {
     "byr": re.compile(r"(19[2-9][0-9]|200[0-2])$"),
     "iyr": re.compile(r"20(1\d|20)$"),
     "eyr": re.compile(r"20(2\d|30)$"),
@@ -77,35 +88,32 @@ rules = {
 }
 
 
-def validate(p):
+def a4_validate(p):
     if len(p) != 8:
         return False
     for k in p.keys():
-        if k in rules:
-            if not rules[k].match(p[k]):
+        if k in a4_rules:
+            if not a4_rules[k].match(p[k]):
                 return False
     return True
 
 
 def a4(f):
     arr = [i.strip() for i in f.split("\n")]
-    ps = []
     data = {"cid": ""}
     ctr = 0
     for line in arr:
         if line.strip() == "":
-            if validate(data):
+            if a4_validate(data):
                 ctr += 1
-            ps.append(data)
             data = {"cid": ""}
             continue
         for part in line.split(" "):
             key, value = part.split(":")
             data[key] = value
-    if validate(data):
+    if a4_validate(data):
         ctr += 1
-    ps.append(data)
-    print(ctr)
+    print("b:", ctr)
 
 
 def a5(f):
@@ -120,7 +128,7 @@ def a5(f):
     ss = set(sids)
     for i in range(max(sids)):
         if i not in ss and i + 1 in ss and i - 1 in ss:
-            print(i)
+            print("b:", i)
 
 
 def a6(f):
@@ -139,7 +147,7 @@ def a6(f):
     if data:
         gr.append((Counter(data), dctr))
     print(sum([len(i[0].keys()) for i in gr]))
-    print(sum([len([k for k in i[0].keys() if i[0][k] == i[1]]) for i in gr]))
+    print("b:", sum([len([k for k in i[0].keys() if i[0][k] == i[1]]) for i in gr]))
 
 
 def a7_rec(rule, nm):
@@ -171,24 +179,10 @@ def a7(f):
             avails.add(pr)
             proc.append(pr)
     print(len(avails))
-    print(a7_rec(rule, "shiny gold") - 1)
+    print("b:", a7_rec(rule, "shiny gold") - 1)
 
 
-def handleCmd(arr, ind, acc):
-    cmd = arr[ind][0]
-    val = arr[ind][1]
-    if cmd == "nop":
-        return ind + 1, acc
-    if cmd == "acc":
-        return ind + 1, acc + val
-    if cmd == "jmp":
-        return ind + val, acc
-    return ind, acc
-
-
-def a8(f):
-    corrupt = -1
-    arr = [(i.strip().split()[0], int(i.strip().split()[1])) for i in f.split("\n")]
+def a8_loop(arr, corrupt):
     ctr = 0
     for lctr, line in enumerate(arr):
         if "nop" in line or "jmp" in line:
@@ -203,13 +197,32 @@ def a8(f):
     cmds = set()
     while ind not in cmds and ind != len(arr):
         cmds.add(ind)
-        ind, acc = handleCmd(arr, ind, acc)
+        cmd = arr[ind][0]
+        val = arr[ind][1]
+        if cmd == "nop":
+            ind += 1
+        if cmd == "acc":
+            ind += 1
+            acc += val
+        if cmd == "jmp":
+            ind += val
     if ind == len(arr):
         return True, acc
     return False, acc
 
 
-def valid(arr, ind):
+def a8(f):
+    arr = [(i.strip().split()[0], int(i.strip().split()[1])) for i in f.split("\n")]
+    print(a8_loop(arr, -1)[1])
+    for i in range(350):
+        arr = [(i.strip().split()[0], int(i.strip().split()[1])) for i in f.split("\n")]
+        ret = a8_loop(arr, i)
+        if ret[0]:
+            print("b:", i, ret[1])
+            break
+
+
+def a9_valid(arr, ind):
     base = arr[ind - 25 : ind]
     val = arr[ind]
     for i in range(25):
@@ -224,8 +237,8 @@ def valid(arr, ind):
 def a9(f):
     arr = [int(i) for i in f.split("\n")]
     for i in range(25, len(arr)):
-        if valid(arr, i) is False:
-            print(i, arr[i])
+        if a9_valid(arr, i) is False:
+            print(arr[i])
             break
     target = arr[i]
     i0, i1 = 0, 0
@@ -238,8 +251,8 @@ def a9(f):
             i1 += 1
             ssum += arr[i1]
         # ssum = sum(arr[i0:i1])
-    print(i0, i1)
-    print(min(arr[i0:i1]) + max(arr[i0:i1]))
+    # print(i0, i1)
+    print("b:", min(arr[i0:i1]) + max(arr[i0:i1]))
 
 
 def a10(f):
@@ -252,7 +265,6 @@ def a10(f):
             diff[val - valid] += 1
             valid = val
     diff[3] += 1  # device
-    print(diff)
     print(diff[1] * diff[3])
 
     sarr.insert(0, 0)
@@ -276,7 +288,7 @@ def a10(f):
             total *= 4
         if i == 4:
             total *= 7
-    print(total)
+    print("b:", total)
 
 
 def a11(f):
@@ -324,9 +336,9 @@ def a11(f):
                     changes += 1
                 else:
                     occupiedNext.add(p)
-        print("iteration:", changes)
+        # print("iteration:", changes)
         occupied = occupiedNext
-    print(len(occupied))
+    print("b:", len(occupied))
 
 
 def a12(f):
@@ -350,7 +362,7 @@ def a12(f):
         if c == "L":
             direction -= num
             direction = direction % 360
-    print("p1", x, y, abs(x) + abs(y))
+    print("p1", abs(x) + abs(y))
 
     x, y = 0, 0  # E(x+); N(y+)
     wayX, wayY = 10, 1
@@ -381,8 +393,80 @@ def a12(f):
         if c == "F":
             x += wayX * num
             y += wayY * num
+    print("p2", abs(x) + abs(y))
 
-    print("p2", x, y, abs(x) + abs(y))
+
+################## After 2021 AoC ##################
+def a13(f):
+    tm = None
+    arr = []
+    for l in f.split("\n"):
+        if tm is None:
+            tm = int(l)
+        else:
+            arr = [int(i) if i != "x" else 1 for i in l.split(",")]
+    minB = (tm, 0)
+    for bus in arr:
+        if bus == 1:
+            continue
+        if minB[0] > bus - (tm % bus):
+            minB = (bus - (tm % bus), (bus - (tm % bus)) * bus)
+        # print(bus, "coming in", bus - (tm % bus))
+    print(minB[1])
+    n = 0
+    mult = 1
+    for ctr, bus in enumerate(arr):
+        if bus == 1:
+            continue
+        # print(n, mult, ctr, bus)
+        while n % bus != -ctr % bus:
+            n += mult
+        mult *= bus
+    print("b:", n)
+
+
+def a14(f):
+    M = dict()
+    lines = f.split("\n")
+    mask = "X" * 36
+    for line in lines:
+        if line.startswith("mask = "):
+            mask = line[7:]
+        if line.startswith("mem"):
+            ll = line.split(" = ")
+            val = format(int(ll[1]), "036b")
+            mVal = ""
+            for v, m in zip(val, mask):
+                if m == "X":
+                    mVal += v
+                else:
+                    mVal += m
+            M[ll[0][4:-1]] = int(mVal, 2)
+    print(sum(M.values()))
+
+    M = dict()
+    mask = "X" * 36
+    for lc, line in enumerate(lines):
+        if line.startswith("mask = "):
+            mask = line[7:]
+        if line.startswith("mem"):
+            ll = line.split(" = ")
+            val = format(int(ll[0][4:-1]), "036b")
+            n = mask.count("X")
+            for pVal in range(2 ** n):
+                perm = format(pVal, "0%db" % n)
+                mVal = ""
+                x = 0
+                for v, m in zip(val, mask):
+                    if m == "0":
+                        mVal += v
+                    elif m == "1":
+                        mVal += "1"
+                    else:
+                        mVal += perm[x]
+                        x += 1
+                M[mVal] = int(ll[1])
+    print("b:", sum(M.values()))
 
 
 AoC = {
@@ -398,8 +482,9 @@ AoC = {
     "10": a10,
     "11": a11,
     "12": a12,
-    # "13": a13,
-    # "14": a14,
+    # After 2021 AoC
+    "13": a13,
+    "14": a14,
     # "15": a15,
     # "16": a16,
     # "17": a17,
