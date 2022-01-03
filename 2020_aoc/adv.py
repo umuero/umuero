@@ -469,6 +469,93 @@ def a14(f):
     print("b:", sum(M.values()))
 
 
+def a15(f):
+    d = dict()
+    arr = [int(i) for i in f.split(",")]
+    for c, i in enumerate(arr):
+        d[i] = (c + 1, d.get(i, (None,))[0])
+    turn = len(arr) + 1
+    last = arr[-1]
+    while turn < 30000001:  # 2021
+        # pypy3 10sec - python3 30sec
+        if turn % 100000 == 0:
+            print("processing turn:", turn, last)
+        if last in d and d[last][1] is not None:
+            last = d[last][0] - d[last][1]
+        else:
+            last = 0
+        d[last] = (turn, d.get(last, (None,))[0])
+        if turn == 2020:
+            print(turn, last)
+        turn += 1
+    print("b:", turn - 1, last)
+
+
+def a16(f):
+    rules = []
+    S = defaultdict(set)  # 3 -> {'row', 'seat', ...}
+    mine = None
+    others = []
+    pA = 0
+    for line in f.split("\n"):
+        if " or " in line:
+            p = line.split(": ")
+            pp = p[1].split(" or ")
+
+            rule = (
+                p[0],
+                tuple(int(i) for i in pp[0].split("-")),
+                tuple(int(i) for i in pp[1].split("-")),
+            )
+            rules.append(rule)
+            for i in range(rule[1][0], rule[1][1] + 1):
+                S[i].add(p[0])
+            for i in range(rule[2][0], rule[2][1] + 1):
+                S[i].add(p[0])
+        if "," in line:
+            live = [int(i) for i in line.split(",")]
+            if mine is None:
+                mine = live
+                continue
+            partA = True
+            for i in live:
+                if i not in S:
+                    pA += i
+                    partA = False
+            if partA:
+                others.append(live)
+    print(pA)
+    C = [set([i[0] for i in rules]) for i in range(len(rules))]
+    for o in others:
+        for c, v in enumerate(o):
+            for ex in C[c].difference(S[v]):
+                C[c].discard(ex)
+    changed = True
+    index = dict()  # rule -> index
+    while changed:
+        changed = False
+        for c, rl in enumerate(C):
+            if len(rl) == 1:
+                changed = True
+                fixed = rl.pop()
+                index[fixed] = c
+                for rlE in C:
+                    rlE.discard(fixed)
+                C[c] = set()
+                break
+    print(
+        "b:",
+        reduce(
+            lambda x, y: x * y,
+            [
+                mine[item[1]]
+                for item in index.items()
+                if item[0].startswith("departure")
+            ],
+        ),
+    )
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -485,8 +572,8 @@ AoC = {
     # After 2021 AoC
     "13": a13,
     "14": a14,
-    # "15": a15,
-    # "16": a16,
+    "15": a15,
+    "16": a16,
     # "17": a17,
     # "18": a18,
     # "19": a19,
