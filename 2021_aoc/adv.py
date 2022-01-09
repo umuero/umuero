@@ -825,7 +825,6 @@ def a19_create_diffs(s):
 
 
 def a20(f):
-    print(f)
     m = dict()
     ie = None
     XX = 0

@@ -556,6 +556,125 @@ def a16(f):
     )
 
 
+NMx = (-1, 0, 1) * 27
+NMy = (((-1,) * 3 + (0,) * 3 + (1,) * 3) * 3) * 3
+NMz = ((-1,) * 9 + (0,) * 9 + (1,) * 9) * 3
+NMw = (-1,) * 27 + (0,) * 27 + (1,) * 27
+
+
+def a17(f):
+    S = set()
+    for y, l in enumerate(f.split("\n")):
+        for x, ch in enumerate(l.strip()):
+            if ch == "#":
+                S.add((x, y, 0, 0))
+    for loop in range(6):
+        Sn = set()
+        Nn = set()
+        for X, Y, Z, W in S:
+            ctr = 0
+            for x, y, z, w in zip(NMx, NMy, NMz, NMw):
+                if (x, y, z, w) == (0, 0, 0, 0):
+                    continue
+                if (X + x, Y + y, Z + z, W + w) not in S:
+                    Nn.add((X + x, Y + y, Z + z, W + w))
+                if (X + x, Y + y, Z + z, W + w) in S:
+                    ctr += 1
+            if ctr == 2 or ctr == 3:
+                Sn.add((X, Y, Z, W))
+
+        for X, Y, Z, W in Nn:
+            ctr = 0
+            for x, y, z, w in zip(NMx, NMy, NMz, NMw):
+                if (X + x, Y + y, Z + z, W + w) in S:
+                    ctr += 1
+            if ctr == 3:
+                Sn.add((X, Y, Z, W))
+        print(loop, len(S), len(Sn))
+        S = Sn
+    print("b:", len(S))
+
+
+def a18(f):
+    s = 0
+    for l in f.split("\n"):
+        items = l.replace("(", "( ").replace(")", " )").split(" ")
+        s += a18_eval(items)
+    print(s)
+    s = 0
+    for l in f.split("\n"):
+        items = [
+            int(i) if i.isdigit() else i
+            for i in l.replace("(", "( ").replace(")", " )").split(" ")
+        ]
+        s += a18_eval_b(items)
+    print("b:", s)
+
+
+def a18_eval(items):
+    ret = None
+    lastP = ""
+    while items:
+        active = items.pop(0)
+        if active == "(":
+            active = a18_eval(items)
+        elif active == ")":
+            return ret
+        elif active == "+" or active == "*":
+            lastP = active
+            continue
+        else:
+            active = int(active)
+        if ret is None:
+            ret = active
+        if lastP == "+":
+            ret += active
+        if lastP == "*":
+            ret *= active
+    return ret
+
+
+def a18_eval_b(items):
+    ctr = 0
+    while len(items) > 1:
+        # int + int varsa sirali topla koy;
+        # ( int ) varsa int'e gecir
+        # degisiklik yoksa ( int * int ) getir
+        print(len(items), items)
+        if ctr > 100:
+            break
+        ctr += 1
+        change = False
+        for i in range(1, len(items) - 1):
+            if (
+                type(items[i - 1]) == int
+                and items[i] == "+"
+                and type(items[i + 1]) == int
+            ):
+                fr = items.pop(i - 1)
+                items[i - 1] = fr + items.pop(i)
+                change = True
+                break
+            if items[i - 1] == "(" and type(items[i]) == int and items[i + 1] == ")":
+                items.pop(i - 1)
+                items.pop(i)
+                change = True
+                break
+        if change == False:
+            for i in range(1, len(items) - 1):
+                if (
+                    type(items[i - 1]) == int
+                    and items[i] == "*"
+                    and type(items[i + 1]) == int
+                    and (i + 2 >= len(items) or items[i + 2] != "+")
+                ):
+                    fr = items.pop(i - 1)
+                    items[i - 1] = fr * items.pop(i)
+                    change = True
+                    break
+    return items[0]
+
+
 AoC = {
     "01": a1,
     "02": a2,
@@ -574,8 +693,8 @@ AoC = {
     "14": a14,
     "15": a15,
     "16": a16,
-    # "17": a17,
-    # "18": a18,
+    "17": a17,
+    "18": a18,
     # "19": a19,
     # "20": a20,
     # "21": a21,
