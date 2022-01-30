@@ -13,6 +13,7 @@ TOKEN = ""
 HOST = "https://api.spacetraders.io"  # https://spacetraders.io/
 SAVE = "data.json"
 REQUEST_SLEEP = 1
+TIMEOUT = 60
 
 
 """ TASKS
@@ -56,7 +57,8 @@ ORDERS = [
     {"cred": 480 * 1000, "shipC": 4, "loan": True},
     {"cred": 800 * 1000, "shipC": 6, "model": "HM-MK-III"},
     {"cred": 1200 * 1000, "shipC": 16, "model": "HM-MK-III"},
-    {"cred": 1200 * 1000, "minShipC": 10, "shipC": 16, "roleSwitch": ("OE", "scout")},
+    {"cred": 1200 * 1000, "minShipC": 10,
+        "shipC": 16, "roleSwitch": ("OE", "scout")},
     {"cred": 3000 * 1000, "shipC": 24, "model": "HM-MK-III"},
     {"cred": 6000 * 1000, "shipC": 32, "model": "HM-MK-III"},
     # {'cred': 10 * 1000000, 'buildC': 0, 'minShipC':15, 'build': 'CHEMICAL_PLANT', 'location': 'OE-UC-OB'},
@@ -157,6 +159,8 @@ class State:
 st = State()
 
 ############ SAVE LOAD ############
+
+
 def loadJson():
     global st
     try:
@@ -176,13 +180,13 @@ def callApi(method, url, data={}, noToken=False):
     if not noToken:
         data["token"] = st.token
     if method == "GET":
-        js = requests.get(HOST + url, params=data).json()
+        js = requests.get(HOST + url, params=data, timeout=TIMEOUT).json()
     if method == "POST":
-        js = requests.post(HOST + url, params=data).json()
+        js = requests.post(HOST + url, params=data, timeout=TIMEOUT).json()
     if method == "PUT":
-        js = requests.put(HOST + url, params=data).json()
+        js = requests.put(HOST + url, params=data, timeout=TIMEOUT).json()
     if method == "DELETE":
-        js = requests.delete(HOST + url, params=data).json()
+        js = requests.delete(HOST + url, params=data, timeout=TIMEOUT).json()
     time.sleep(REQUEST_SLEEP)
     if "error" in js:
         print("FAIL", method, url, data, js)
@@ -366,7 +370,8 @@ def transferItem(fromShipId, toShipId, good, quantity):
 def deleteItem(shipId, good, quantity):
     print("jettison %s -> %s %d" % (shipId, good, quantity))
     return callApi(
-        "POST", "/my/ships/%s/jettison" % shipId, {"good": good, "quantity": quantity}
+        "POST", "/my/ships/%s/jettison" % shipId, {
+            "good": good, "quantity": quantity}
     )
 
 
@@ -380,7 +385,8 @@ def buildStructure(structureType, location):
 def shipToStructure(ship, structureId, good, quantity, location):
     shipId = ship["id"]
     loadSpeed = ship["loadingSpeed"]
-    print("shipToStructure from %s to %s %s %d" % (shipId, structureId, good, quantity))
+    print("shipToStructure from %s to %s %s %d" %
+          (shipId, structureId, good, quantity))
     while quantity > loadSpeed:
         js = callApi(
             "POST",
@@ -405,7 +411,8 @@ def shipToStructure(ship, structureId, good, quantity, location):
 def structureToShip(ship, structureId, good, quantity, location):
     shipId = ship["id"]
     loadSpeed = ship["loadingSpeed"]
-    print("structureToShip from %s to %s %s %d" % (shipId, structureId, good, quantity))
+    print("structureToShip from %s to %s %s %d" %
+          (shipId, structureId, good, quantity))
     while quantity > loadSpeed:
         js = callApi(
             "POST",
@@ -428,7 +435,8 @@ def structureToShip(ship, structureId, good, quantity, location):
 def setPath(shipId, destination, mkI):
     print("sending %s to %s" % (shipId, destination))
     js = callApi(
-        "POST", "/my/flight-plans", {"shipId": shipId, "destination": destination}
+        "POST", "/my/flight-plans", {"shipId": shipId,
+                                     "destination": destination}
     )
     if "error" not in js:
         st.distances[
@@ -467,7 +475,8 @@ def isSameSystem(source, dest):
 def getMaxFuelNeed(orders, shipType="MK-II"):
     if orders:
         return max(
-            map(lambda x: fuelConsumptionIntra(x["src"], x["dest"], shipType), orders)
+            map(lambda x: fuelConsumptionIntra(
+                x["src"], x["dest"], shipType), orders)
         )
     return 0
 
@@ -559,7 +568,8 @@ def createPathOrders(src, dest):
 def printLeaderboard():
     js = callApi("GET", "/game/leaderboard/net-worth")
     for node in js.get("netWorth", []):
-        print("%20s\t%10s\t%2d" % (node["username"], node["netWorth"], node["rank"]))
+        print("%20s\t%10s\t%2d" %
+              (node["username"], node["netWorth"], node["rank"]))
     current = int(time.time())
     for market, mJs in st.market.items():
         print(market, current - mJs.get("_update"))
@@ -802,7 +812,8 @@ def decideExpansion():
                                 "role", "inter"
                             )
                             if "initial" in order:
-                                st.orders[js["ship"]["id"]] = [order["initial"]]
+                                st.orders[js["ship"]["id"]] = [
+                                    order["initial"]]
             elif "build" in order:
                 # build structure
                 if order["location"] in st.my.get("_active_locations", []):
@@ -977,7 +988,8 @@ def decideTrades(trades):
                     except Exception:
                         print("expired market random patladi", expiredMarket)
                 if dest:
-                    st.orders[ship["id"]] = createPathOrders(ship["location"], dest[0])
+                    st.orders[ship["id"]] = createPathOrders(
+                        ship["location"], dest[0])
                     continue
 
             if st.orders["_rank"][ship["id"]] in st.galaxies:
@@ -1067,7 +1079,8 @@ def executeOrders():
                     activeFuel = cargo["quantity"]
             maxFuelNeeded = getMaxFuelNeed(st.orders[ship["id"]], ship["type"])
             if maxFuelNeeded - activeFuel > 0:
-                buyItem(ship, "FUEL", maxFuelNeeded - activeFuel, ship["location"])
+                buyItem(ship, "FUEL", maxFuelNeeded -
+                        activeFuel, ship["location"])
             if order.get("item"):
                 quantity = min(
                     (
@@ -1085,8 +1098,10 @@ def executeOrders():
                         ship["location"],
                     )
                 else:
-                    quantity = min(quantity, int(st.my["credits"] / (order["buy"] + 1)))
-                    retJs = buyItem(ship, order["item"], quantity, ship["location"])
+                    quantity = min(quantity, int(
+                        st.my["credits"] / (order["buy"] + 1)))
+                    retJs = buyItem(
+                        ship, order["item"], quantity, ship["location"])
                 if "error" in retJs:
                     st.orders[ship["id"]] = []
                     continue
@@ -1100,7 +1115,8 @@ def executeOrders():
                 )
 
             if (
-                len(st.orders[ship["id"]]) == 1 and order["dest"] == ship["location"]
+                len(st.orders[ship["id"]]
+                    ) == 1 and order["dest"] == ship["location"]
             ):  # zaten destinationdayiz
                 if ship["id"] in st.orders["_live"] and "item" in order:
                     # structureToShip sonrasi ayni yerde satacam;
@@ -1117,7 +1133,8 @@ def executeOrders():
                 warpPath(ship["id"], len(ship["type"].rsplit("-", 1)[-1]))
             else:
                 setPath(
-                    ship["id"], pathOrder["dest"], len(ship["type"].rsplit("-", 1)[-1])
+                    ship["id"], pathOrder["dest"], len(
+                        ship["type"].rsplit("-", 1)[-1])
                 )
 
 
@@ -1126,12 +1143,15 @@ def main():
     parser = argparse.ArgumentParser(
         description="Twitter streaming over Twitter Search API"
     )
-    parser.add_argument("--reset", help="call reset at start", action="store_true")
-    parser.add_argument("-i", "--info", help="print info and exit", action="store_true")
+    parser.add_argument(
+        "--reset", help="call reset at start", action="store_true")
+    parser.add_argument(
+        "-i", "--info", help="print info and exit", action="store_true")
     parser.add_argument(
         "-l", "--leader", help="print leaders and exit", action="store_true"
     )
-    parser.add_argument("-s", "--sleep", help="sleep seconds", default=20, type=int)
+    parser.add_argument(
+        "-s", "--sleep", help="sleep seconds", default=20, type=int)
     parser.add_argument("--username", help="set username")
     parser.add_argument("--token", help="set token")
     args = parser.parse_args()
@@ -1173,7 +1193,8 @@ def main():
                 print("status failed")
                 if status["error"]["code"] == 40101:
                     # invalid token; create user reset all;
-                    saveJson(datetime.datetime.now().strftime("%y%m%d") + ".json")
+                    saveJson(datetime.datetime.now().strftime(
+                        "%y%m%d") + ".json")
                     TOKEN = ""
                     reset()
         except Exception as e:
