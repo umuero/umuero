@@ -192,16 +192,16 @@ function downloadFollowers() {
             response.users = followers.slice(-12);
             Object.defineProperty(this, "responseText", { writable: true });
             this.responseText = JSON.stringify(response);
-
+            const targetFollowers = Math.min(
+              __initialData.data.entry_data.ProfilePage[0].graphql.user
+                .edge_followed_by.count,
+              maxFollowersPerAccount
+            );
             progressBar.progressbar({
-              max: Math.min(
-                __initialData.data.entry_data.ProfilePage[0].graphql.user
-                  .edge_followed_by.count,
-                maxFollowersPerAccount
-              ),
+              max: targetFollowers,
               value: followers.length,
             });
-            if (followers.length > maxFollowersPerAccount) {
+            if (followers.length >= targetFollowers) {
               onStopped();
             } else {
               scrollToBottom('div[aria-label="Followers"] .isgrP');
