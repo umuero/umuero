@@ -1,3 +1,4 @@
+import math
 from functools import reduce
 from collections import Counter
 try:
@@ -244,65 +245,48 @@ def gcd(x, y):
     return x
 
 
-def reflect(dimensions, d2, pos, start):
-    S = set()
-    Q = set()  # posX, posY, x_reflect, y_reflect
-    Q.add(tuple(pos) + ('', ''))
-    while Q:
-        Qnew = set()
-        for item in Q:
-            if (item[0] - start[0])**2 + (item[1] - start[1])**2 >= d2:
+def reflect2(dimensions, distance, pos, start):
+    vectors = dict()  # gcd(posX, posY) ->  mult
+    d2 = distance ** 2
+
+    for dx in range(-(distance // dimensions[0]) - 1, distance // dimensions[0] + 2):
+        if dx % 2 == 0:
+            x = dimensions[0] * dx + pos[0]
+        else:
+            x = dimensions[0] * (dx + 1) - pos[0]
+        for dy in range(-(distance // dimensions[1]) - 1, distance // dimensions[1] + 2):
+            if dy % 2 == 0:
+                y = dimensions[1] * dy + pos[1]
+            else:
+                y = dimensions[1] * (dy + 1) - pos[1]
+
+            shot_x = x - start[0]
+            shot_y = y - start[1]
+            if shot_x ** 2 + shot_y ** 2 > d2:
                 continue
-            S.add(item)
-            if not item[2].endswith('-'):  # X=0 reflect
-                Qnew.add((-item[0], item[1], item[2] + '-', item[3]))
-            if not item[2].endswith('+'):  # X=dimension reflect
-                Qnew.add((2 * dimensions[0] - item[0],
-                         item[1], item[2] + '+', item[3]))
-            if not item[3].endswith('-'):  # Y=0 reflect
-                Qnew.add((item[0], -item[1], item[2], item[3] + '-'))
-            if not item[3].endswith('+'):  # X=dimension reflect
-                Qnew.add((item[0], 2 * dimensions[1] -
-                         item[1], item[2], item[3] + '+'))
-        Q = Qnew
-    return S
+            g = gcd(shot_x, shot_y)
+            if g != 0:
+                shot = (shot_x // g, shot_y // g)
+                if shot in vectors:
+                    vectors[shot] = min(g, vectors[shot])
+                else:
+                    vectors[shot] = g
+    return vectors
 
 
 def solution42(dimensions, your_position, trainer_position, distance):
-    """
-    Test 3 failed  [Hidden]
-    Test 5 failed  [Hidden]
-    """
-    d2 = distance ** 2
+    opp = reflect2(dimensions, distance, trainer_position, your_position)
+    me = reflect2(dimensions, distance, your_position, your_position)
 
-    opp = reflect(dimensions, d2, trainer_position, your_position)
-    me = reflect(dimensions, d2, your_position, your_position)
-
-    vectors = dict()
-    for s in opp:
-        x = s[0] - your_position[0]
-        y = s[1] - your_position[1]
-        g = gcd(x, y)
-        shot = (x // g, y // g)
-        if shot in vectors:
-            vectors[shot] = min(g, vectors[shot])
-        vectors[shot] = g
-    for s in me:
-        x = s[0] - your_position[0]
-        y = s[1] - your_position[1]
-        if x == 0 and y == 0:
-            continue
-        g = gcd(x, y)
-        shot = (x // g, y // g)
-        if shot in vectors and g < vectors[shot]:
-            del vectors[shot]
-    return len(vectors)
+    hit_self = 0
+    for shot in opp.keys():
+        if shot in me and me[shot] < opp[shot]:
+            hit_self += 1
+    return len(opp) - hit_self
 
 
-print(solution42([3, 2], [1, 1], [2, 1], 4))
-#    7
-print(solution42([300, 275], [150, 150], [185, 100], 500))
-#    9
+def solution5(g):
+    pass
 
 
 # print("==s1")
@@ -381,3 +365,26 @@ print(solution42([300, 275], [150, 150], [185, 100], 500))
 # #    7
 # solution42([300, 275], [150, 150], [185, 100], 500)
 # #    9
+# print(solution42([10, 10], [4, 4], [3, 3], 100))
+# # 291
+# print(solution42([10, 10], [4, 4], [3, 3], 5000))
+# # 739323
+
+print(solution5([
+    [True, True, False, True, False, True, False, True, True, False],
+    [True, True, False, False, False, False, True, True, True, False],
+    [True, True, False, False, False, False, False, False, False, True],
+    [False, True, False, False, False, False, True, True, False, False]]))
+#    11567
+print(solution5([
+    [True, False, True],
+    [False, True, False],
+    [True, False, True]]))
+#    4
+print(solution5([
+    [True, False, True, False, False, True, True, True],
+    [True, False, True, False, False, False, True, False],
+    [True, True, True, False, False, False, True, False],
+    [True, False, True, False, False, False, True, False],
+    [True, False, True, False, False, True, True, True]]))
+#    254
