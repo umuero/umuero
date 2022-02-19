@@ -1,6 +1,8 @@
 import math
 from functools import reduce
 from collections import Counter
+from collections import defaultdict
+
 try:
     from queue import PriorityQueue
 except:
@@ -26,10 +28,10 @@ def solution21(n, b):
     while n not in S:
         S[n] = ctr
         ctr += 1
-        x = ''.join(sorted(n, reverse=True))
+        x = "".join(sorted(n, reverse=True))
         y = x[::-1]
         z = str_base(int(x, b) - int(y, b), b)
-        n = '0' * (k - len(z)) + z
+        n = "0" * (k - len(z)) + z
     return ctr - S[n]
 
 
@@ -61,12 +63,12 @@ def solution22(xs):
             if p_min_negative is None or p_min_negative < x:
                 p_min_negative = x
     if p_max is None:
-        return '0'
+        return "0"
     if p_max < 0:
         if pos_count > 0 or neg_count > 1:
             return str(p_max / p_min_negative)
         if zero_count > 0:
-            return '0'
+            return "0"
         return str(p_max)
     return str(p_max)
 
@@ -74,34 +76,34 @@ def solution22(xs):
 def solution31(n):
     binary = str_to_binary(n)
     ctr = 0
-    while binary != ['1']:
-        if binary[-1] == '0':
+    while binary != ["1"]:
+        if binary[-1] == "0":
             binary.pop()
             ctr += 1
-        elif ''.join(binary[-2:]) == '11' and len(binary) != 2:
+        elif "".join(binary[-2:]) == "11" and len(binary) != 2:
             for i in range(len(binary) - 1, -1, -1):
-                if binary[i] == '1':
-                    binary[i] = '0'
+                if binary[i] == "1":
+                    binary[i] = "0"
                 else:
-                    binary[i] = '1'
+                    binary[i] = "1"
                     break
             if i == 0:
-                binary.insert(0, '1')
+                binary.insert(0, "1")
             ctr += 1
         else:
-            binary[-1] = '0'
+            binary[-1] = "0"
             ctr += 1
     return ctr
 
 
 def str_to_binary(n):
     l = int(n)
-    ret = ''
+    ret = ""
     while l:
         if l % 2 == 0:
-            ret += '0'
+            ret += "0"
         else:
-            ret += '1'
+            ret += "1"
         l = l // 2
     return [i for i in ret[::-1]]
 
@@ -135,7 +137,7 @@ def solution33(m):
             transient.append(rctr)
             coef.append(sum(row))
             for cctr, col in enumerate(row):
-                path[(rctr, cctr)] = col * 1. / coef[-1]
+                path[(rctr, cctr)] = col * 1.0 / coef[-1]
 
     M = len(transient)
     N = len(terminal)
@@ -157,7 +159,7 @@ def solution33(m):
     ST1 = FQ[0] * R * np.prod(coef) / np.linalg.det(FQ)
     ST1 = ST1.round().astype(int).tolist()[0]
     gcd = np.gcd.reduce(ST1)
-    res = [int(i/gcd) for i in ST1]
+    res = [int(i / gcd) for i in ST1]
     res.append(sum(res))
     return res
 
@@ -198,7 +200,7 @@ def gcd(x, y):
     return x
 """
 
-#from Queue import PriorityQueue
+# from Queue import PriorityQueue
 
 
 def solution41(times, times_limit):
@@ -210,15 +212,15 @@ def solution41(times, times_limit):
     while not Q.empty():
         time_left, pos, bunnyIds = Q.get()
         time_left *= -1
-        if 0 < pos < N-1 and pos-1 not in bunnyIds:
-            bunnyIds = tuple(sorted(bunnyIds + (pos-1,)))
+        if 0 < pos < N - 1 and pos - 1 not in bunnyIds:
+            bunnyIds = tuple(sorted(bunnyIds + (pos - 1,)))
         if (pos, bunnyIds) in S:
             if S[(pos, bunnyIds)] < time_left:
                 # infinite positive loop
-                return list(range(N-2))
+                return list(range(N - 2))
             continue
         S[(pos, bunnyIds)] = time_left
-        if len(bunnyIds) == N - 1 and pos != N-1:
+        if len(bunnyIds) == N - 1 and pos != N - 1:
             continue
         for pctr, cost in enumerate(times[pos]):
             if pctr == pos:
@@ -283,10 +285,6 @@ def solution42(dimensions, your_position, trainer_position, distance):
         if shot in me and me[shot] < opp[shot]:
             hit_self += 1
     return len(opp) - hit_self
-
-
-def solution5(g):
-    pass
 
 
 # print("==s1")
@@ -370,21 +368,124 @@ def solution5(g):
 # print(solution42([10, 10], [4, 4], [3, 3], 5000))
 # # 739323
 
-print(solution5([
-    [True, True, False, True, False, True, False, True, True, False],
-    [True, True, False, False, False, False, True, True, True, False],
-    [True, True, False, False, False, False, False, False, False, True],
-    [False, True, False, False, False, False, True, True, False, False]]))
-#    11567
-print(solution5([
-    [True, False, True],
-    [False, True, False],
-    [True, False, True]]))
-#    4
-print(solution5([
-    [True, False, True, False, False, True, True, True],
-    [True, False, True, False, False, False, True, False],
-    [True, True, True, False, False, False, True, False],
-    [True, False, True, False, False, False, True, False],
-    [True, False, True, False, False, True, True, True]]))
-#    254
+
+# def solution5v1(g):
+#     S = dict()  #  x, y -> (down, me, right): count;  -> (FFF count, FFT count, FTF count, ... )
+#     X = len(g)
+#     if X == 0:
+#         return 0
+#     Y = len(g[0])
+#     rules = {
+#         True: {
+#             (0, 0): [(0, 1), (1, 0)],
+#             (0, 1): [(0, 0)],
+#             (1, 0): [(0, 0)],
+#             (1, 1): [],
+#         },
+#         False: {
+#             (0, 0): [(0, 0), (1, 1)],  # 000 001
+#             (0, 1): [(0, 1), (1, 0), (1, 1)],  # 011 010 011 011 - 2 tane 1
+#             (1, 0): [(0, 1), (1, 0), (1, 1)],  # 101 100 101 101 - 2 tane 1
+#             (1, 1): [(0, 0), (0, 1), (1, 0), (1, 1)],  # 110 111 110 111 - 110 111 2şer tane 0-1
+#         },
+#     }
+#     for x in range(X - 1, -1, -1):
+#         for y in range(Y - 1, -1, -1):
+#             S[x, y] = defaultdict(int)
+#             base = S.get((x, y + 1))
+#             extra = S.get(
+#                 (x + 1, y),
+#                 {(0, 0, 0): 1, (0, 0, 1): 1, (0, 1, 0): 1, (0, 1, 1): 1, (1, 0, 0): 0, (1, 0, 1): 0, (1, 1, 0): 0, (1, 1, 1): 0},
+#             )
+#             diag = S.get(
+#                 (x + 1, y + 1),
+#                 {(0, 0, 0): 1, (0, 0, 1): 0, (0, 1, 0): 1, (0, 1, 1): 0, (1, 0, 0): 0, (1, 0, 1): 0, (1, 1, 0): 0, (1, 1, 1): 0},
+#             )
+#             # print(x, y, base if y != Y - 1 else extra)
+#             for rl, valids in rules[g[x][y]].items():
+#                 for pr in valids:
+#                     extraC = extra[(0, rl[1], pr[1])] + extra[(1, rl[1], pr[1])]
+#                     diagC = diag[(0, pr[1], 0)] + diag[(0, pr[1], 1)] + diag[(1, pr[1], 0)] + diag[(1, pr[1], 1)]
+#                     if y != Y - 1:
+#                         baseC = base[(pr[1], pr[0], 0)] + base[(pr[1], pr[0], 1)]
+#                         if baseC and extraC:
+#                             if baseC == diagC or extraC == diagC:
+#                                 S[x, y][rl + (pr[0],)] += (baseC * extraC) // diagC
+#                                 # S[x, y][rl + (pr[0],)] += baseC + extraC - diagC
+#                             else:
+#                                 S[x, y][rl + (pr[0],)] += baseC + extraC
+#                         print((x, y), rl, pr, baseC, extraC, diagC)
+#                     else:
+#                         # vertical & start
+#                         S[x, y][rl + (pr[0],)] += extraC
+#                         # print((x, y), rl, pr, S[x, y])
+#             print(x, y, "=", sum(S[x, y].values()), S[x, y])
+
+#     return sum(S[0, 0].values())
+
+
+def solution5(g):
+    return sol5_rec(g, 0, 0, [[True] * (len(g[0]) + 1) for i in range(len(g) + 1)], {}, [])
+
+
+def sol5_rec(state, a=0, b=0, past=0, S=0, history=0):
+    if b == len(state[0]) + 1:
+        return 1
+
+    res = 0
+    index = ((a, b), tuple(history[-(len(state) + 2) :]))
+    if index in S:
+        return S[index]
+
+    for cell in [True, False]:
+        if (not a or not b) or ((past[a][b - 1] + past[a - 1][b] + past[a - 1][b - 1] + cell) == 1) == state[a - 1][b - 1]:
+            history.append(cell)
+            past[a][b] = cell
+            res += sol5_rec(
+                state,
+                (a + 1) % (len(state) + 1),
+                b + (a + 1) // (len(state) + 1),
+                past,
+                S,
+                history,
+            )
+            history.pop()
+
+    S[index] = res
+    # print(index, res)
+    return res
+
+
+print("============", 20, solution5([[False, False], [True, True]]))
+print("============", 10, solution5([[False, True]]))
+print("============", 12, solution5([[True, False], [False, True]]))
+print("============", 8, solution5([[True, False, True]]))
+print("============", 16, solution5([[False, True, False], [True, False, True]]))
+
+print("============", 4, solution5([[True, False, True], [False, True, False], [True, False, True]]))
+print(
+    "============",
+    254,
+    solution5(
+        [
+            [True, False, True, False, False, True, True, True],
+            [True, False, True, False, False, False, True, False],
+            [True, True, True, False, False, False, True, False],
+            [True, False, True, False, False, False, True, False],
+            [True, False, True, False, False, True, True, True],
+        ]
+    ),
+)
+print(
+    "==========",
+    11567,
+    solution5(
+        [
+            [True, True, False, True, False, True, False, True, True, False],
+            [True, True, False, False, False, False, True, True, True, False],
+            [True, True, False, False, False, False, False, False, False, True],
+            [False, True, False, False, False, False, True, True, False, False],
+        ]
+    ),
+)
+# #    11567
