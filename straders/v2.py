@@ -16,7 +16,7 @@ TOKEN = ""
 SAVE = "dataV2.json"
 MARKET_REFRESH_NEEDED = 60 * 60 * 2  # 2h
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s\t%(levelname)s\t%(name)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger("v2")
 
 ############ SAVE LOAD ############
@@ -85,8 +85,14 @@ def main():
             currentEpoch = int(time.time())
             currentIso = datetime.datetime.utcnow().isoformat("T", "milliseconds") + "Z"
             st.agent = v2.my_agent()
+            logger.info(f"{st.agent.symbol} - {st.agent.credits}")
             st.contracts = v2.contract_list()
+            logger.info(f"{st.contracts}")
             st.ships = v2.ship_list()
+            for ship in st.ships:
+                logger.info(
+                    f"{ship.symbol} - f:{ship.fuel} - l:{ship.location} - c:{','.join([i.tradeSymbol + ':' + str(i.units) for i in ship.cargo])}"
+                )
             if args.extra:  # or loopCtr % 60 == 0:
                 # daha seyrek cekmek lazim
                 st.systems = {s.symbol: s for s in v2.system_list()}
@@ -116,10 +122,27 @@ def main():
                     v2.ship_dock(ship.symbol)
                     st.markets[ship.location] = v2.market_view(shipSys, ship.location)
                     st.updates[ship.location] = currentEpoch
+                    contractDeliveries = [
+                        (c, g)
+                        for c in st.contracts
+                        if c.accepted and not c.fulfilled
+                        for g in c.terms.deliver
+                        if g.destination == ship.location and g.fulfilled != g.units
+                    ]
+                    for contract, delivery in contractDeliveries:
+                        for good in ship.cargo:
+                            if good.tradeSymbol == delivery.tradeSymbol:
+                                units = min(good.units, delivery.units - delivery.fulfilled)
+                                logger.info(f"contract delivery by {ship.symbol} {good.tradeSymbol} {units}")
+                                v2.contract_deliver(contract.id, ship.symbol, good.tradeSymbol, units)
+                                good.units -= units
+
                     importItems = set([mt.tradeSymbol for mt in st.markets[ship.location].imports])
                     for good in ship.cargo:
                         if good.tradeSymbol in importItems:
-                            v2.cargo_sell(ship.symbol, good.tradeSymbol, good.units)
+                            logger.info(f"{ship.symbol} selling {good.tradeSymbol} {good.units}")
+                            logger.info(v2.cargo_sell(ship.symbol, good.tradeSymbol, good.units))
+                            good.units -= good.units
                     v2.ship_refuel(ship.symbol)
                     v2.ship_orbit(ship.symbol)
 
@@ -147,24 +170,25 @@ def main():
                         logger.info(f"{ship.symbol} extracted {extraction.yields.units} {extraction.yields.tradeSymbol}")
                         st.cooldowns.append(cooldown2shipNav(ship, "extract", cooldown))
                         continue
+                if cargoSum == 0:
+                    astro = [w for w in st.waypoints.values() if w.system == shipSys and w.type == "ASTEROID_FIELD"]
+                    if astro:
+                        logger.info(f"{ship.symbol} to going to mining: {astro[0].symbol}")
+                        st.cooldowns.append(v2.ship_navigate(ship.symbol, astro[0].symbol))
+                        continue
                 else:
-                    if cargoSum == 0:
-                        astro = [w for w in st.waypoints.values() if w.system == shipSys and w.type == "ASTEROID_FIELD"]
-                        if astro:
-                            logger.info(f"{ship.symbol} to going to mining: {astro[0].symbol}")
-                            st.cooldowns.append(v2.ship_navigate(ship.symbol, astro[0].symbol))
+                    # market market gezeelim
+                    for good in ship.cargo:
+                        if good.units == 0:
                             continue
-                    else:
-                        # market market gezeelim
-                        for good in ship.cargo:
-                            marketT = v2.market_imports(good.tradeSymbol)
-                            if marketT and locToSys(marketT[0].waypointSymbol) == shipSys:
-                                logger.info(f"{ship.symbol} to going to {marketT[0].waypointSymbol} to sell: {good.tradeSymbol}")
-                                st.cooldowns.append(v2.ship_navigate(ship.symbol, marketT[0].waypointSymbol))
-                                orders[ship.symbol] = "goingMarket"
-                                break
-                        if ship.symbol in orders:
-                            continue
+                        marketT = v2.market_imports(good.tradeSymbol)
+                        if marketT and locToSys(marketT[0].waypointSymbol) == shipSys:
+                            logger.info(f"{ship.symbol} to going to {marketT[0].waypointSymbol} to sell: {good.tradeSymbol}")
+                            st.cooldowns.append(v2.ship_navigate(ship.symbol, marketT[0].waypointSymbol))
+                            orders[ship.symbol] = "goingMarket"
+                            break
+                    if ship.symbol in orders:
+                        continue
 
             # if role == command ?? -> none butun marketleri gez, save et
             # if role == solar && extractor -> OE'de extract et, sat

@@ -8,7 +8,7 @@ import requests
 from dacite import from_dict
 
 logger = logging.getLogger("v2c")
-logging.basicConfig(level=logging.INFO, format="%(asctime)s\t%(levelname)s\t%(name)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 
 
 @dataclass
@@ -285,7 +285,7 @@ class V2:
 
     def my_agent(self) -> Agent:
         js = self.callApi("GET", "my/agent")
-        logger.info("my_agent: %s", js)
+        # logger.info("my_agent: %s", js)
         return from_dict(Agent, js["data"])
 
     def my_account(self):
@@ -361,7 +361,8 @@ class V2:
     ################# CONTRACT #################
     def contract_list(self) -> list[Contract]:
         js = self.callApi("GET", "my/contracts")
-        logger.info("list_contracts: %s", js["meta"])
+        if js["meta"]["total"] > js["meta"]["limit"]:
+            logger.info("list_contracts: %s", js["meta"])
         return [from_dict(Contract, j) for j in js["data"]]
 
     def contract_view(self, contract_id) -> Contract:
@@ -375,7 +376,8 @@ class V2:
     ################# SHIP #################
     def ship_list(self) -> list[Ship]:
         js = self.callApi("GET", f"my/ships", {"limit": 100})
-        logger.info("list_ships: %s", js["meta"])
+        if js["meta"]["total"] > js["meta"]["limit"]:
+            logger.info("list_ships pagination: %s", js["meta"])
         return [from_dict(Ship, j) for j in js["data"]]
 
     def ship_view(self, ship_symbol: str) -> Ship:
