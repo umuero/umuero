@@ -1,8 +1,7 @@
 import json
 import logging
 from dataclasses import dataclass, field
-from typing import Optional, Union
-
+from typing import Optional, Union, List, Dict, Tuple
 import ratelimit
 import requests
 from dacite import from_dict
@@ -25,7 +24,7 @@ class Faction:
     name: str
     description: str
     headquarters: str
-    traits: list[str]
+    traits: List[str]
 
 
 @dataclass
@@ -46,7 +45,7 @@ class ContractDelivery:
 class Term:
     deadline: str  # "2022-03-09T05:16:59.112Z"
     payment: Payment
-    deliver: list[ContractDelivery]
+    deliver: List[ContractDelivery]
 
 
 @dataclass
@@ -63,7 +62,7 @@ class Contract:
 @dataclass
 class Survey:
     signature: str
-    deposits: list[str]
+    deposits: List[str]
     expiration: str  # "2022-03-09T05:16:59.112Z"
 
 
@@ -115,14 +114,14 @@ class Ship:
     engine: str
     fuel: int
     engine: str
-    modules: list[str]
-    mounts: list[str]
+    modules: List[str]
+    mounts: List[str]
     registration: Registration
     integrity: Integrity
     stats: Optional[ShipStats]
     status: str
     location: Optional[str]
-    cargo: list[Good]
+    cargo: List[Good]
 
 
 @dataclass
@@ -158,9 +157,9 @@ class Trade:
 
 @dataclass
 class MarketListing:
-    exports: list[MarketTrade]
-    imports: list[MarketTrade]
-    exchange: list[MarketTrade]
+    exports: List[MarketTrade]
+    imports: List[MarketTrade]
+    exchange: List[MarketTrade]
 
 
 @dataclass
@@ -170,8 +169,8 @@ class System:
     type: str
     x: int
     y: int
-    waypoints: list[str]
-    factions: list[Optional[str]]
+    waypoints: List[str]
+    factions: List[Optional[str]]
     charted: bool
     chartedBy: Optional[str]
 
@@ -183,10 +182,10 @@ class Waypoint:
     type: str
     x: int
     y: int
-    orbitals: list[str]
+    orbitals: List[str]
     faction: Optional[str]
-    features: list[str]
-    traits: list[str]
+    features: List[str]
+    traits: List[str]
     charted: bool
     chartedBy: Optional[str]
 
@@ -207,8 +206,8 @@ class ShipyardListing:
     reactor: str
     engine: str
     engine: str
-    modules: list[str]
-    mounts: list[str]
+    modules: List[str]
+    mounts: List[str]
 
 
 @dataclass
@@ -223,20 +222,20 @@ class State:
     token: str
     agent: Agent
     faction: Faction
-    contracts: list[Contract]
-    ships: list[Ship]
-    systems: dict[str, System] = field(default_factory=dict)
-    waypoints: dict[str, Waypoint] = field(default_factory=dict)
-    markets: dict[str, Optional[MarketListing]] = field(default_factory=dict)
-    availableShips: list[ShipyardListing] = field(default_factory=list)
+    contracts: List[Contract]
+    ships: List[Ship]
+    systems: Dict[str, System] = field(default_factory=dict)
+    waypoints: Dict[str, Waypoint] = field(default_factory=dict)
+    markets: Dict[str, Optional[MarketListing]] = field(default_factory=dict)
+    availableShips: List[ShipyardListing] = field(default_factory=list)
     # 'X1-OE-PM:X1-OE-PM01': 0 # fuel
     # 'X1-OE-PM:X1-OE-25X': 50 fuel
     # 'X1-OE-PM02:X1-OE-A005': 28 fuel
-    distances: dict[str, int] = field(default_factory=dict)
+    distances: Dict[str, int] = field(default_factory=dict)
     # last market update @ X1-OE-PM: epoch ?? (hersey isoformat time olsun mu ??)
-    updates: dict[str, int] = field(default_factory=dict)
-    cooldowns: list[ShipNavigation] = field(default_factory=list)  # cooldownlari da buna cevireyim, gezip kontrol edem
-    surveys: list[Survey] = field(default_factory=list)
+    updates: Dict[str, int] = field(default_factory=dict)
+    cooldowns: List[ShipNavigation] = field(default_factory=list)  # cooldownlari da buna cevireyim, gezip kontrol edem
+    surveys: List[Survey] = field(default_factory=list)
 
 
 class V2:
@@ -294,7 +293,7 @@ class V2:
         return js
 
     ################# SYSTEMS #################
-    def system_list(self, page: int = 1, limit: int = 200) -> list[System]:
+    def system_list(self, page: int = 1, limit: int = 200) -> List[System]:
         js = self.callApi("GET", "systems", {"page": page, "limit": limit})
         logger.info("system_list: %s", js["meta"])
         return [from_dict(System, j) for j in js["data"]]
@@ -304,7 +303,7 @@ class V2:
         logger.info("system_view: %s", js)
         return from_dict(System, js["data"])
 
-    def waypoint_list(self, system_symbol: str) -> list[Waypoint]:
+    def waypoint_list(self, system_symbol: str) -> List[Waypoint]:
         js = self.callApi("GET", f"systems/{system_symbol}/waypoints")
         logger.info("waypoint_list: %s", js["meta"])
         return [from_dict(Waypoint, j) for j in js["data"]]
@@ -314,7 +313,7 @@ class V2:
         return from_dict(Waypoint, js["data"])
 
     ################# SHIPYARD #################
-    def shipyard_list(self, system_symbol: str) -> list[Shipyard]:
+    def shipyard_list(self, system_symbol: str) -> List[Shipyard]:
         js = self.callApi("GET", f"systems/{system_symbol}/shipyards")
         logger.info("shipyard_list: %s", js["meta"])
         return [from_dict(Shipyard, j) for j in js["data"]]
@@ -323,18 +322,18 @@ class V2:
         js = self.callApi("GET", f"systems/{system_symbol}/shipyards/{waypoint_symbol}")
         return from_dict(Shipyard, js["data"])
 
-    def shipyard_listing(self, system_symbol: str, waypoint_symbol: str) -> list[ShipyardListing]:
+    def shipyard_listing(self, system_symbol: str, waypoint_symbol: str) -> List[ShipyardListing]:
         js = self.callApi("GET", f"systems/{system_symbol}/shipyards/{waypoint_symbol}/ships")
         logger.info("shipyard_listing: %s", js.get("meta"))
         return [from_dict(ShipyardListing, j) for j in js["data"]]
 
-    def shipyard_buy(self, id: str) -> list[str]:
+    def shipyard_buy(self, id: str) -> List[str]:
         js = self.callApi("POST", f"my/ships", {"id": id})
         logger.info("shipyard_buy: %d", js["data"]["credits"])
         return from_dict(Ship, js["data"]["ship"])
 
     ################# MARKET #################
-    def market_list(self, system_symbol: str) -> list[str]:
+    def market_list(self, system_symbol: str) -> List[str]:
         js = self.callApi("GET", f"systems/{system_symbol}/markets")
         logger.info("market_list: %s", js["meta"])
         return js["data"]
@@ -343,23 +342,23 @@ class V2:
         js = self.callApi("GET", f"systems/{system_symbol}/markets/{waypoint_symbol}")
         return from_dict(MarketListing, js["data"])
 
-    def market_imports(self, trade_symbol: str) -> list[MarketTrade]:
+    def market_imports(self, trade_symbol: str) -> List[MarketTrade]:
         js = self.callApi("GET", f"trade/{trade_symbol}/imports")
         logger.info("market_imports: %s", js["meta"])
         return [from_dict(MarketTrade, j) for j in js["data"]]
 
-    def market_exports(self, trade_symbol: str) -> list[MarketTrade]:
+    def market_exports(self, trade_symbol: str) -> List[MarketTrade]:
         js = self.callApi("GET", f"trade/{trade_symbol}/exports")
         logger.info("market_exports: %s", js["meta"])
         return [from_dict(MarketTrade, j) for j in js["data"]]
 
-    def market_exchange(self, trade_symbol: str) -> list[MarketTrade]:
+    def market_exchange(self, trade_symbol: str) -> List[MarketTrade]:
         js = self.callApi("GET", f"trade/{trade_symbol}/exchange")
         logger.info("market_exchange: %s", js["meta"])
         return [from_dict(MarketTrade, j) for j in js["data"]]
 
     ################# CONTRACT #################
-    def contract_list(self) -> list[Contract]:
+    def contract_list(self) -> List[Contract]:
         js = self.callApi("GET", "my/contracts")
         if js["meta"]["total"] > js["meta"]["limit"]:
             logger.info("list_contracts: %s", js["meta"])
@@ -374,7 +373,7 @@ class V2:
         return from_dict(Contract, js["data"])
 
     ################# SHIP #################
-    def ship_list(self) -> list[Ship]:
+    def ship_list(self) -> List[Ship]:
         js = self.callApi("GET", f"my/ships", {"limit": 100})
         if js["meta"]["total"] > js["meta"]["limit"]:
             logger.info("list_ships pagination: %s", js["meta"])
@@ -422,7 +421,7 @@ class V2:
         logger.info("orbit_ship %s", js)
         return js["data"]["status"]
 
-    def ship_jump(self, ship_symbol: str, destination: str) -> tuple[Cooldown, Jump]:
+    def ship_jump(self, ship_symbol: str, destination: str) -> Tuple[Cooldown, Jump]:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/jump", {"destination": destination})
         cooldown = from_dict(Cooldown, js["data"]["cooldown"])
         logger.info("jump_ship %s", cooldown)
@@ -435,7 +434,7 @@ class V2:
         return from_dict(ShipNavigation, js["data"]["navigation"])
 
     ################# SHIP ACTIONS #################
-    def chart_waypoint(self, ship_symbol: str) -> list[str]:
+    def chart_waypoint(self, ship_symbol: str) -> List[str]:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/chart")
         logger.info("chart_waypoint: %s", js)
         return js["data"]
@@ -445,7 +444,7 @@ class V2:
         logger.info("deploy_asset: %s", js)
         return js
 
-    def activate_scan(self, ship_symbol: str, mode: str) -> tuple[Cooldown, Union[Waypoint, System, list[Ship]]]:
+    def activate_scan(self, ship_symbol: str, mode: str) -> Tuple[Cooldown, Union[Waypoint, System, List[Ship]]]:
         # mode: APPROACHING_SHIPS DEPARTING_SHIPS SYSTEM WAYPOINT
         js = self.callApi("POST", f"my/ships/{ship_symbol}/scan", {"mode": mode})
         cooldown = from_dict(Cooldown, js["data"]["cooldown"])
@@ -457,7 +456,7 @@ class V2:
         if "ships" in js["data"]:
             return cooldown, [from_dict(Cooldown, j) for j in js["data"]["ships"]]
 
-    def extract_resources(self, ship_symbol: str, survey: Optional[Survey] = None) -> tuple[Cooldown, Extraction]:
+    def extract_resources(self, ship_symbol: str, survey: Optional[Survey] = None) -> Tuple[Cooldown, Extraction]:
         if survey:
             js = self.callApi("POST", f"my/ships/{ship_symbol}/extract", {"survey": survey})
         else:
@@ -467,7 +466,7 @@ class V2:
         js["data"]["extraction"]["yields"] = js["data"]["extraction"]["yield"]
         return cooldown, from_dict(Extraction, js["data"]["extraction"])
 
-    def survey_waypoint(self, ship_symbol: str, survey: Optional[Survey] = None) -> tuple[Cooldown, list[Survey]]:
+    def survey_waypoint(self, ship_symbol: str, survey: Optional[Survey] = None) -> Tuple[Cooldown, List[Survey]]:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/survey", {"survey": survey})
         cooldown = from_dict(Cooldown, js["data"]["cooldown"])
         logger.info("survey_waypoint %s", cooldown)
