@@ -121,7 +121,7 @@ class Ship:
     integrity: Integrity
     stats: Optional[ShipStats]
     status: str
-    location: str
+    location: Optional[str]
     cargo: list[Good]
 
 
@@ -227,6 +227,7 @@ class State:
     ships: list[Ship]
     systems: dict[str, System]
     markets: dict[str, Optional[MarketListing]]
+    availableShips: list[ShipyardListing]
     # 'X1-OE-PM:X1-OE-PM01': 0 # fuel || time
     # 'X1-OE-PM02:X1-OE-A005': 28 fuel, 55 time # fuel || time
     distances: dict[str, int]
@@ -322,12 +323,12 @@ class V2:
 
     def shipyard_listing(self, system_symbol: str, waypoint_symbol: str) -> list[ShipyardListing]:
         js = self.callApi("GET", f"systems/{system_symbol}/shipyards/{waypoint_symbol}/ships")
-        logger.info("shipyard_listing: %s", js["meta"])
+        logger.info("shipyard_listing: %s", js.get("meta"))
         return [from_dict(ShipyardListing, j) for j in js["data"]]
 
-    def purchase_ship(self, id: str) -> list[str]:
-        js = self.callApi("POST", f"my/ships", {id: id})
-        logger.info("purchase_ship: %d", js["data"]["credits"])
+    def shipyard_buy(self, id: str) -> list[str]:
+        js = self.callApi("POST", f"my/ships", {"id": id})
+        logger.info("shipyard_buy: %d", js["data"]["credits"])
         return from_dict(Ship, js["data"]["ship"])
 
     ################# MARKET #################
@@ -478,7 +479,7 @@ class V2:
             "POST", f"my/ships/{ship_symbol}/deliver", {"contractId": contract_id, "tradeSymbol": trade_symbol, "units": units}
         )
         logger.info("deliver_contract %s", js)
-        return from_dict(ContractDelivery, js["data"])  # ["data"]["data"] ??
+        return from_dict(ContractDelivery, js["data"])
 
     def purchase_cargo(self, ship_symbol: str, trade_symbol: str, units: int) -> Trade:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/purchase", {"tradeSymbol": trade_symbol, "units": units})

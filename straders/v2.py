@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s\t%(levelname)s\t%(na
 logger = logging.getLogger("v2")
 
 ############ SAVE LOAD ############
-def loadJson(fileName: str) -> State:
+def loadJson(fileName: str = SAVE) -> State:
     try:
         with open(fileName, "r") as f:
             loadJson = json.load(f)
@@ -26,9 +26,91 @@ def loadJson(fileName: str) -> State:
     return None
 
 
-def saveJson(fileName: str, st: State):
+def saveJson(st: State, fileName: str = SAVE):
     with open(fileName, "w") as f:
         json.dump(asdict(st), f, indent=2)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="SpaceTradersV2")
+    parser.add_argument("-i", "--info", help="print json and exit", action="store_true")
+    parser.add_argument("-x", "--extra", help="print extra info and exit", action="store_true")
+    parser.add_argument("-l", "--leader", help="print leaders and exit", action="store_true")
+    parser.add_argument("-s", "--sleep", help="sleep seconds", default=60, type=int)
+    parser.add_argument("--username", help="set username")
+    args = parser.parse_args()
+    if args.username:
+        USERNAME = args.username
+
+    st = loadJson()
+    if st is None:
+        v2 = V2("")
+        st = v2.agent_register(USERNAME)
+        v2.token = st.token
+    v2 = V2(st.token)
+
+    if args.info:
+        logger.info(asdict(st.agent))
+        logger.info("== SHIPS ==")
+        for ship in st.ships:
+            logger.info(asdict(ship))
+        logger.info("== CONTRACTS ==")
+        for contract in st.contracts:
+            logger.info(asdict(contract))
+        if args.extra:
+            logger.info("== SYSTEMS ==")
+            for system in st.systems.values():
+                logger.info(asdict(system))
+        return
+
+    if args.leader:
+        v2.leaderboard()
+        return
+
+    loopCtr = 1
+    while loopCtr > 0:
+        try:
+            st.agent = v2.my_agent()
+            st.contracts = v2.contract_list()
+            st.ships = v2.ship_list()
+            if args.extra:  # or loopCtr % 60 == 0:
+                # daha seyrek cekmek lazim
+                st.systems = {s.symbol: s for s in v2.system_list()}
+                st.availableShips = []
+                for system in st.systems.values():
+                    if system.charted:
+                        for marketNode in v2.market_list(system.symbol):
+                            if marketNode not in st.markets:
+                                st.markets[marketNode] = None
+                        for shipyardNode in v2.shipyard_list(system.symbol):
+                            try:
+                                st.availableShips.extend(v2.shipyard_listing(system.symbol, shipyardNode.symbol))
+                            except Exception:
+                                logger.info("not charted waypoint ??")
+
+            # if role == command ?? -> none butun marketleri gez, save et
+            # if role == solar && extractor -> OE'de extract et, sat
+
+            # contract delivery icin orbit kafi,
+            # market icin dock olacak
+
+            # if in marketNode --> refuel
+
+            # X1-OE de gez, survey extract -> sat ??
+            # her navigate result -> st.cooldowns.append
+            # her survey extract scan result -> st.cooldowns.append
+
+            saveJson(st)
+        except Exception as e:
+            logger.exception("main loop failed")
+
+        loopCtr += 1
+        print("sleeping", args.sleep)
+        time.sleep(args.sleep)
+
+
+if __name__ == "__main__":
+    main()
 
 
 """
@@ -75,75 +157,6 @@ def updateGalaxy(galaxy="OE"):
                         st.galaxies[g][newW] = st.galaxies[g][currentG].copy()
                         st.galaxies[g][newW].append(warp["symbol"])
 """
-
-
-def main():
-    parser = argparse.ArgumentParser(description="SpaceTradersV2")
-    parser.add_argument("-i", "--info", help="print json and exit", action="store_true")
-    parser.add_argument("-x", "--extra", help="print extra info and exit", action="store_true")
-    parser.add_argument("-l", "--leader", help="print leaders and exit", action="store_true")
-    parser.add_argument("-s", "--sleep", help="sleep seconds", default=60, type=int)
-    parser.add_argument("--username", help="set username")
-    args = parser.parse_args()
-    if args.username:
-        USERNAME = args.username
-
-    st = loadJson(SAVE)
-    if st is None:
-        v2 = V2("")
-        st = v2.agent_register(USERNAME)
-        v2.token = st.token
-    v2 = V2(st.token)
-
-    if args.info:
-        logger.info(asdict(st.agent))
-        logger.info("== SHIPS ==")
-        for ship in st.ships:
-            logger.info(asdict(ship))
-        logger.info("== CONTRACTS ==")
-        for contract in st.contracts:
-            logger.info(asdict(contract))
-        if args.extra:
-            logger.info("== SYSTEMS ==")
-            for system in st.systems.values():
-                logger.info(asdict(system))
-        return
-
-    if args.leader:
-        v2.leaderboard()
-        return
-
-    loopCtr = 1
-    while loopCtr > 0:
-        try:
-            st.agent = v2.my_agent()
-            st.contracts = v2.contract_list()
-            st.ships = v2.ship_list()
-            if loopCtr % 10 == 0:
-                # daha seyrek cekmek lazim
-                st.systems = {s.symbol: s for s in v2.system_list()}
-                st.systems = {s.symbol: s for s in v2.system_list()}
-
-            # X1-OE de gez, survey extract -> sat ??
-            # her navigate result -> st.cooldowns.append
-            # her survey extract scan result -> st.cooldowns.append
-
-            # sellAndDeposit()
-            # decideExpansion()
-            # trades = findTrades()
-            # decideTrades(trades)
-            # executeOrders()
-            saveJson(SAVE, st)
-        except Exception as e:
-            logger.exception("main loop failed")
-
-        loopCtr += 1
-        print("sleeping", args.sleep)
-        time.sleep(args.sleep)
-
-
-if __name__ == "__main__":
-    main()
 
 
 """
@@ -214,6 +227,42 @@ Out[37]:
  Survey(signature='X1-OE-C0F1EC', deposits=['ALUMINUM_ORE', 'ALUMINUM_ORE', 'COPPER_ORE', 'QUARTZ'], expiration='2022-04-19T18:33:22.698Z'),
  Survey(signature='X1-OE-4EBBD4', deposits=['ALUMINUM_ORE', 'COPPER_ORE', 'COPPER_ORE'], expiration='2022-04-19T18:32:08.698Z'),
  Survey(signature='X1-OE-2D7A68', deposits=['COPPER_ORE'], expiration='2022-04-19T18:43:08.698Z')]
+
+
+
+
+In [6]: v2.survey_waypoint(st.ships[0].symbol, None)
+2022-04-19 22:47:04	INFO	v2c: survey_waypoint Cooldown(duration=899, expiration='2022-04-19T20:02:04.611Z')
+Out[6]:
+[Survey(signature='X1-OE-42BFF9', deposits=['ALUMINUM_ORE', 'SILICON'], expiration='2022-04-19T19:56:55.614Z'),
+ Survey(signature='X1-OE-532712', deposits=['ALUMINUM_ORE', 'ALUMINUM_ORE', 'QUARTZ'], expiration='2022-04-19T20:04:38.615Z'),
+ Survey(signature='X1-OE-10A4D0', deposits=['ALUMINUM_ORE', 'ALUMINUM_ORE', 'IRON_ORE', 'QUARTZ'], expiration='2022-04-19T19:54:35.615Z'),
+ Survey(signature='X1-OE-EDED67', deposits=['IRON_ORE', 'QUARTZ', 'SILICON', 'SILICON'], expiration='2022-04-19T20:14:14.615Z'),
+ Survey(signature='X1-OE-CD9821', deposits=['IRON_ORE'], expiration='2022-04-19T19:59:28.615Z'),
+ Survey(signature='X1-OE-C1D21E', deposits=['COPPER_ORE', 'QUARTZ', 'QUARTZ', 'SILICON'], expiration='2022-04-19T19:51:27.616Z')]
+
+
+
+In [8]: v2.extract_resources(st.ships[0].symbol, asdict(_6[4]))
+2022-04-19 22:47:32	INFO	v2c: extract_resources Cooldown(duration=119, expiration='2022-04-19T19:49:33.046Z')
+Out[8]: Extraction(shipSymbol='UMUERO-1', yields=Good(tradeSymbol='IRON_ORE', units=20))
+
+
+In [11]: v2.ship_dock('UMUERO-1')
+2022-04-19 23:04:18	INFO	v2c: dock_ship {'data': {'status': 'DOCKED'}}
+Out[11]: 'DOCKED'
+
+In [12]: v2.sell_cargo('UMUERO-1', 'SILICON', 26)
+Out[12]: Trade(waypointSymbol='X1-OE-PM', tradeSymbol='SILICON', credits=3692, units=-26)
+
+In [15]: v2.sell_cargo('UMUERO-1', 'QUARTZ', 24)
+Out[15]: Trade(waypointSymbol='X1-OE-PM', tradeSymbol='QUARTZ', credits=6816, units=-24)
+
+In [16]: st.ships = v2.ship_list()
+2022-04-19 23:05:01	INFO	v2c: list_ships: {'total': 2, 'page': 1, 'limit': 100}
+
+In [17]: st.agent = v2.my_agent()
+2022-04-19 23:05:05	INFO	v2c: my_agent: {'data': {'accountId': 'cl263cjpz000301s6h1e5uxju', 'symbol': 'UMUERO', 'headquarters': 'X1-OE-PM', 'credits': 82693}}
 
 
 """
