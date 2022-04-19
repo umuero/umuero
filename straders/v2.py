@@ -1,16 +1,20 @@
 import argparse
+import ast
+import datetime
 import logging
 import json
 import time
 import math
 from dataclasses import asdict
 from dacite import from_dict
+from regex import P
 from v2base import *
 
 
 USERNAME = "umuero"
 TOKEN = ""
 SAVE = "dataV2.json"
+MARKET_REFRESH_NEEDED = 60 * 60 * 2  # 2h
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s\t%(levelname)s\t%(name)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger("v2")
@@ -29,6 +33,14 @@ def loadJson(fileName: str = SAVE) -> State:
 def saveJson(st: State, fileName: str = SAVE):
     with open(fileName, "w") as f:
         json.dump(asdict(st), f, indent=2)
+
+
+def locToSys(location: str) -> str:
+    return "-".join(location.split("-")[:2])
+
+
+def cooldown2shipNav(ship: Ship, cooldownType: str, cooldown: Cooldown) -> ShipNavigation:
+    return ShipNavigation(ship.symbol, cooldownType, "", cooldown.duration, cooldown.expiration)
 
 
 def main():
@@ -70,6 +82,8 @@ def main():
     loopCtr = 1
     while loopCtr > 0:
         try:
+            currentEpoch = int(time.time())
+            currentIso = datetime.datetime.utcnow().isoformat("T", "milliseconds") + "Z"
             st.agent = v2.my_agent()
             st.contracts = v2.contract_list()
             st.ships = v2.ship_list()
@@ -79,22 +93,88 @@ def main():
                 st.availableShips = []
                 for system in st.systems.values():
                     if system.charted:
-                        for marketNode in v2.market_list(system.symbol):
-                            if marketNode not in st.markets:
-                                st.markets[marketNode] = None
-                        for shipyardNode in v2.shipyard_list(system.symbol):
-                            try:
-                                st.availableShips.extend(v2.shipyard_listing(system.symbol, shipyardNode.symbol))
-                            except Exception:
-                                logger.info("not charted waypoint ??")
+                        for waypoint in v2.waypoint_list(system.symbol):
+                            if waypoint.symbol not in st.waypoints:
+                                st.waypoints[waypoint.symbol] = waypoint
+                            if "MARKETPLACE" in waypoint.features:
+                                if waypoint.symbol not in st.markets:
+                                    st.markets[waypoint.symbol] = None
+                            if "SHIPYARD" in waypoint.features:
+                                try:
+                                    st.availableShips.extend(v2.shipyard_listing(system.symbol, waypoint.symbol))
+                                except Exception:
+                                    logger.info("not charted waypoint ??")
+
+            st.cooldowns = [cd for cd in st.cooldowns if cd.arrivedAt is not None and cd.arrivedAt > currentIso]
+            orders = {}
+            for ship in st.ships:
+                if ship.location is None:
+                    continue
+                shipSys = locToSys(ship.location)
+
+                if ship.location in st.markets:
+                    v2.ship_dock(ship.symbol)
+                    st.markets[ship.location] = v2.market_view(shipSys, ship.location)
+                    st.updates[ship.location] = currentEpoch
+                    importItems = set([mt.tradeSymbol for mt in st.markets[ship.location].imports])
+                    for good in ship.cargo:
+                        if good.tradeSymbol in importItems:
+                            v2.cargo_sell(ship.symbol, good.tradeSymbol, good.units)
+                    v2.ship_refuel(ship.symbol)
+                    v2.ship_orbit(ship.symbol)
+
+                if ship.registration.role == "COMMAND":
+                    for marketNode in st.markets.keys():
+                        if not marketNode.startswith(shipSys):
+                            continue
+                        if currentEpoch - st.updates.get(marketNode, 0) > MARKET_REFRESH_NEEDED:
+                            logger.info(
+                                f"{ship.symbol} to update market: {marketNode} @{currentEpoch - st.updates.get(marketNode, 0)}"
+                            )
+                            st.cooldowns.append(v2.ship_navigate(ship.symbol, marketNode))
+                            orders[ship.symbol] = "marketUpdate"
+                            break
+                    if ship.symbol in orders:
+                        continue
+                cargoSum = sum([g.units for g in ship.cargo])
+                if st.waypoints[ship.location].type == "ASTEROID_FIELD":
+                    if cargoSum < ship.stats.cargoLimit:
+                        cd = [cd for cd in st.cooldowns if cd.shipSymbol == ship.symbol and cd.departure == "extract"]
+                        if cd:
+                            logger.info(f"{ship.symbol} waiting cd {cd[0].arrivedAt}")
+                            continue
+                        cooldown, extraction = v2.extract_resources(ship.symbol)
+                        logger.info(f"{ship.symbol} extracted {extraction.yields.units} {extraction.yields.tradeSymbol}")
+                        st.cooldowns.append(cooldown2shipNav(ship, "extract", cooldown))
+                        continue
+                else:
+                    if cargoSum == 0:
+                        astro = [w for w in st.waypoints.values() if w.system == shipSys and w.type == "ASTEROID_FIELD"]
+                        if astro:
+                            logger.info(f"{ship.symbol} to going to mining: {astro[0].symbol}")
+                            st.cooldowns.append(v2.ship_navigate(ship.symbol, astro[0].symbol))
+                            continue
+                    else:
+                        # market market gezeelim
+                        for good in ship.cargo:
+                            marketT = v2.market_imports(good.tradeSymbol)
+                            if marketT and locToSys(marketT[0].waypointSymbol) == shipSys:
+                                logger.info(f"{ship.symbol} to going to {marketT[0].waypointSymbol} to sell: {good.tradeSymbol}")
+                                st.cooldowns.append(v2.ship_navigate(ship.symbol, marketT[0].waypointSymbol))
+                                orders[ship.symbol] = "goingMarket"
+                                break
+                        if ship.symbol in orders:
+                            continue
 
             # if role == command ?? -> none butun marketleri gez, save et
             # if role == solar && extractor -> OE'de extract et, sat
 
+            # astroid_field e git; None survey et :P
+            # kargo full ise - git dock et sat, refuel;
+
             # contract delivery icin orbit kafi,
             # market icin dock olacak
-
-            # if in marketNode --> refuel
+            # if in marketNode --> refuel (@dock)
 
             # X1-OE de gez, survey extract -> sat ??
             # her navigate result -> st.cooldowns.append
@@ -106,6 +186,8 @@ def main():
 
         loopCtr += 1
         print("sleeping", args.sleep)
+        if args.extra:
+            break
         time.sleep(args.sleep)
 
 
@@ -264,5 +346,52 @@ In [16]: st.ships = v2.ship_list()
 In [17]: st.agent = v2.my_agent()
 2022-04-19 23:05:05	INFO	v2c: my_agent: {'data': {'accountId': 'cl263cjpz000301s6h1e5uxju', 'symbol': 'UMUERO', 'headquarters': 'X1-OE-PM', 'credits': 82693}}
 
+In [21]: v2.ship_dock('UMUERO-1')
+2022-04-19 23:19:41	INFO	v2c: dock_ship {'data': {'status': 'DOCKED'}}
+Out[21]: 'DOCKED'
 
+In [22]: v2.ship_refuel('UMUERO-1')
+2022-04-19 23:19:42	INFO	v2c: refuel_ship: {'data': {'credits': -240, 'fuel': 56}}
+{'credits': -240, 'fuel': 100}
+
+Out[22]: {'credits': -240, 'fuel': 56}
+
+
+
+In [40]: v2.survey_waypoint('UMUERO-2', 'X1-OE-25X')
+2022-04-19 23:23:31	INFO	v2c: FAIL: POST my/ships/UMUERO-2/survey {'survey': 'X1-OE-25X'} {'error': {'message': 'Ship survey failed. Ship UMUERO-2 is not at a valid location, such as an asteroid field.', 'code': 4225}}
+
+
+[System(symbol='X1-OE', sector='X1', type='RED_STAR', x=0, y=0, waypoints=['X1-OE-25X', 'X1-OE-A005', 'X1-OE-PM', 'X1-OE-PM01', 'X1-OE-PM02'], factions=['SPACERS_GUILD', 'MINERS_COLLECTIVE', 'COMMERCE_REPUBLIC'], charted=True, chartedBy=None),
+ System(symbol='X1-EV', sector='X1', type='ORANGE_STAR', x=2, y=3, waypoints=['X1-EV-A004'], factions=['COMMERCE_REPUBLIC'], charted=True, chartedBy=None),
+ System(symbol='X1-ZZ', sector='X1', type='BLUE_STAR', x=-5, y=11, waypoints=['X1-ZZ-7', 'X1-ZZ-7-EE'], factions=['ZANZIBAR_TRIKES'], charted=True, chartedBy='EMBER-1'),
+ System(symbol='X1-SJ5', sector='X1', type='YOUNG_STAR', x=-15, y=3, waypoints=['X1-SJ5-89481F', 'X1-SJ5-92302B', 'X1-SJ5-22350A'], factions=[None], charted=True, chartedBy='VIRIDIS-1'),
+ System(symbol='X1-SM8', sector='X1', type='BLUE_STAR', x=-13, y=-12, waypoints=['X1-SM8-29141A', 'X1-SM8-02072A', 'X1-SM8-13033C', 'X1-SM8-75624X', 'X1-SM8-33005A', 'X1-SM8-28590Z'], factions=[None], charted=True, chartedBy='VIRIDIS-1')]
+
+
+ [Waypoint(system='X1-OE', symbol='X1-OE-PM', type='PLANET', x=2, y=10, orbitals=['X1-OE-PM01', 'X1-OE-PM02'], faction='COMMERCE_REPUBLIC', features=['MARKETPLACE', 'SHIPYARD'], traits=['OVERCROWDED', 'HIGH_TECH', 'BUREAUCRATIC', 'TRADING_HUB', 'TEMPERATE', 'COMM_RELAY_I'], charted=True, chartedBy=None),
+ Waypoint(system='X1-OE', symbol='X1-OE-PM01', type='MOON', x=2, y=10, orbitals=[], faction='COMMERCE_REPUBLIC', features=['MARKETPLACE'], traits=['WEAK_GRAVITY', 'COMM_RELAY_I'], charted=True, chartedBy=None),
+ Waypoint(system='X1-OE', symbol='X1-OE-A005', type='ASTEROID_FIELD', x=-26, y=15, orbitals=[], faction='MINERS_COLLECTIVE', features=[], traits=['COMMON_METAL_DEPOSITS'], charted=True, chartedBy=None),
+ Waypoint(system='X1-OE', symbol='X1-OE-25X', type='JUMP_GATE', x=-5, y=60, orbitals=[], faction='SPACERS_GUILD', features=[], traits=[], charted=True, chartedBy=None),
+ Waypoint(system='X1-OE', symbol='X1-OE-PM02', type='MOON', x=2, y=10, orbitals=[], faction='COMMERCE_REPUBLIC', features=['MARKETPLACE'], traits=['WEAK_GRAVITY', 'COMM_RELAY_I'], charted=True, chartedBy=None)]
+
+
+ [Waypoint(system='X1-EV', symbol='X1-EV-A004', type='PLANET', x=-8, y=5, orbitals=[], faction='COMMERCE_REPUBLIC', features=['MARKETPLACE', 'SHIPYARD'], traits=['SPRAWLING_CITIES', 'INDUSTRIAL', 'SALT_FLATS', 'CANYONS', 'SCARCE_LIFE', 'BREATHABLE_ATMOSPHERE', 'ROCKY', 'COMM_RELAY_I'], charted=True, chartedBy=None)]
+
+
+ [Waypoint(system='X1-ZZ', symbol='X1-ZZ-7', type='GAS_GIANT', x=-30, y=85, orbitals=['X1-ZZ-7-EE'], faction='ZANZIBAR_TRIKES', features=[], traits=['CORROSIVE_ATMOSPHERE', 'STRONG_GRAVITY', 'VIBRANT_AURORAS', 'COMM_RELAY_I'], charted=True, chartedBy='EMBER-1'),
+ Waypoint(system='X1-ZZ', symbol='X1-ZZ-7-EE', type='ORBITAL_STATION', x=-30, y=85, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None)]
+
+
+ [Waypoint(system='X1-SJ5', symbol='X1-SJ5-22350A', type='PLANET', x=-9, y=10, orbitals=['X1-SJ5-89481F'], faction=None, features=['MARKETPLACE'], traits=['VOLCANIC', 'SCATTERED_SETTLEMENTS'], charted=True, chartedBy='VIRIDIS-1'),
+ Waypoint(system='X1-SJ5', symbol='X1-SJ5-89481F', type='MOON', x=-9, y=10, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None),
+ Waypoint(system='X1-SJ5', symbol='X1-SJ5-92302B', type='PLANET', x=37, y=-15, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None)]
+
+
+[Waypoint(system='X1-SM8', symbol='X1-SM8-28590Z', type='PLANET', x=-18, y=-2, orbitals=['X1-SM8-29141A'], faction=None, features=['MARKETPLACE'], traits=['SWAMP', 'SPRAWLING_CITIES', 'BLACK_MARKET', 'BUREAUCRATIC', 'COMM_RELAY_I'], charted=True, chartedBy='VIRIDIS-1'),
+ Waypoint(system='X1-SM8', symbol='X1-SM8-29141A', type='MOON', x=-18, y=-2, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None),
+ Waypoint(system='X1-SM8', symbol='X1-SM8-02072A', type='PLANET', x=-2, y=-40, orbitals=['X1-SM8-13033C', 'X1-SM8-75624X'], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None),
+ Waypoint(system='X1-SM8', symbol='X1-SM8-13033C', type='MOON', x=-2, y=-40, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None),
+ Waypoint(system='X1-SM8', symbol='X1-SM8-75624X', type='MOON', x=-2, y=-40, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None),
+ Waypoint(system='X1-SM8', symbol='X1-SM8-33005A', type='PLANET', x=-8, y=59, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None)]
 """

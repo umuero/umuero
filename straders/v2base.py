@@ -1,6 +1,6 @@
 import json
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Union
 
 import ratelimit
@@ -184,7 +184,7 @@ class Waypoint:
     x: int
     y: int
     orbitals: list[str]
-    faction: str
+    faction: Optional[str]
     features: list[str]
     traits: list[str]
     charted: bool
@@ -225,15 +225,18 @@ class State:
     faction: Faction
     contracts: list[Contract]
     ships: list[Ship]
-    systems: dict[str, System]
-    markets: dict[str, Optional[MarketListing]]
-    availableShips: list[ShipyardListing]
-    # 'X1-OE-PM:X1-OE-PM01': 0 # fuel || time
-    # 'X1-OE-PM02:X1-OE-A005': 28 fuel, 55 time # fuel || time
-    distances: dict[str, int]
+    systems: dict[str, System] = field(default_factory=dict)
+    waypoints: dict[str, Waypoint] = field(default_factory=dict)
+    markets: dict[str, Optional[MarketListing]] = field(default_factory=dict)
+    availableShips: list[ShipyardListing] = field(default_factory=list)
+    # 'X1-OE-PM:X1-OE-PM01': 0 # fuel
+    # 'X1-OE-PM:X1-OE-25X': 50 fuel
+    # 'X1-OE-PM02:X1-OE-A005': 28 fuel
+    distances: dict[str, int] = field(default_factory=dict)
     # last market update @ X1-OE-PM: epoch ?? (hersey isoformat time olsun mu ??)
-    updates: dict[str, int]
-    cooldowns: list[ShipNavigation]  # cooldownlari da buna cevireyim, gezip kontrol edem
+    updates: dict[str, int] = field(default_factory=dict)
+    cooldowns: list[ShipNavigation] = field(default_factory=list)  # cooldownlari da buna cevireyim, gezip kontrol edem
+    surveys: list[Survey] = field(default_factory=list)
 
 
 class V2:
@@ -277,7 +280,6 @@ class V2:
         js["data"]["contracts"] = [js["data"]["contract"]]
         js["data"]["ships"] = [js["data"]["ship"]]
         js["data"]["systems"] = {s.symbol: s for s in self.system_list()}
-        js["data"]["markets"] = []
         st = from_dict(State, js["data"])
         return st
 
@@ -418,11 +420,11 @@ class V2:
         logger.info("orbit_ship %s", js)
         return js["data"]["status"]
 
-    def ship_jump(self, ship_symbol: str, destination: str) -> Jump:
+    def ship_jump(self, ship_symbol: str, destination: str) -> tuple[Cooldown, Jump]:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/jump", {"destination": destination})
         cooldown = from_dict(Cooldown, js["data"]["cooldown"])
         logger.info("jump_ship %s", cooldown)
-        return from_dict(Jump, js["data"]["jump"])
+        return cooldown, from_dict(Jump, js["data"]["jump"])
 
     def ship_navigate(self, ship_symbol: str, destination: str) -> ShipNavigation:
         # mode=CRUISE ...
@@ -441,19 +443,19 @@ class V2:
         logger.info("deploy_asset: %s", js)
         return js
 
-    def activate_scan(self, ship_symbol: str, mode: str) -> Union[Waypoint, System, list[Ship]]:
+    def activate_scan(self, ship_symbol: str, mode: str) -> tuple[Cooldown, Union[Waypoint, System, list[Ship]]]:
         # mode: APPROACHING_SHIPS DEPARTING_SHIPS SYSTEM WAYPOINT
         js = self.callApi("POST", f"my/ships/{ship_symbol}/scan", {"mode": mode})
         cooldown = from_dict(Cooldown, js["data"]["cooldown"])
         logger.info("activate_scan %s", cooldown)
         if "waypoint" in js["data"]:
-            return from_dict(Waypoint, js["data"]["waypoint"])
+            return cooldown, from_dict(Waypoint, js["data"]["waypoint"])
         if "system" in js["data"]:
-            return from_dict(System, js["data"]["system"])
+            return cooldown, from_dict(System, js["data"]["system"])
         if "ships" in js["data"]:
-            return [from_dict(Cooldown, j) for j in js["data"]["ships"]]
+            return cooldown, [from_dict(Cooldown, j) for j in js["data"]["ships"]]
 
-    def extract_resources(self, ship_symbol: str, survey: Optional[Survey]) -> Extraction:
+    def extract_resources(self, ship_symbol: str, survey: Optional[Survey] = None) -> tuple[Cooldown, Extraction]:
         if survey:
             js = self.callApi("POST", f"my/ships/{ship_symbol}/extract", {"survey": survey})
         else:
@@ -461,16 +463,16 @@ class V2:
         cooldown = from_dict(Cooldown, js["data"]["cooldown"])
         logger.info("extract_resources %s", cooldown)
         js["data"]["extraction"]["yields"] = js["data"]["extraction"]["yield"]
-        return from_dict(Extraction, js["data"]["extraction"])
+        return cooldown, from_dict(Extraction, js["data"]["extraction"])
 
-    def survey_waypoint(self, ship_symbol: str, survey: Optional[Survey]) -> list[Survey]:
+    def survey_waypoint(self, ship_symbol: str, survey: Optional[Survey] = None) -> tuple[Cooldown, list[Survey]]:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/survey", {"survey": survey})
         cooldown = from_dict(Cooldown, js["data"]["cooldown"])
         logger.info("survey_waypoint %s", cooldown)
-        return [from_dict(Survey, j) for j in js["data"]["surveys"]]
+        return cooldown, [from_dict(Survey, j) for j in js["data"]["surveys"]]
 
     ################# SHIP CARGO ACTIONS #################
-    def jettison_cargo(self, ship_symbol: str, trade_symbol: str, units: int) -> Good:
+    def cargo_jettison(self, ship_symbol: str, trade_symbol: str, units: int) -> Good:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/jettison", {"tradeSymbol": trade_symbol, "units": units})
         return from_dict(Good, js["data"])
 
@@ -481,10 +483,10 @@ class V2:
         logger.info("deliver_contract %s", js)
         return from_dict(ContractDelivery, js["data"])
 
-    def purchase_cargo(self, ship_symbol: str, trade_symbol: str, units: int) -> Trade:
+    def cargo_purchase(self, ship_symbol: str, trade_symbol: str, units: int) -> Trade:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/purchase", {"tradeSymbol": trade_symbol, "units": units})
         return from_dict(Trade, js["data"])
 
-    def sell_cargo(self, ship_symbol: str, trade_symbol: str, units: int) -> Trade:
+    def cargo_sell(self, ship_symbol: str, trade_symbol: str, units: int) -> Trade:
         js = self.callApi("POST", f"my/ships/{ship_symbol}/sell", {"tradeSymbol": trade_symbol, "units": units})
         return from_dict(Trade, js["data"])
