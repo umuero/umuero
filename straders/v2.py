@@ -88,6 +88,11 @@ def main():
             logger.info(f"{st.agent.symbol} - {st.agent.credits}")
             st.contracts = v2.contract_list()
             logger.info(f"{st.contracts}")
+            for contract in st.contracts:
+                if contract.accepted and not contract.fulfilled:
+                    if sum([g.units - g.fulfilled for g in contract.terms.deliver]) == 0:
+                        v2.contract_fulfill(contract.id)
+
             st.ships = v2.ship_list()
             for ship in st.ships:
                 logger.info(
@@ -117,6 +122,9 @@ def main():
                 if ship.location is None:
                     continue
                 shipSys = locToSys(ship.location)
+
+                if ship.registration.role == "HAULER":
+                    continue
 
                 if ship.location in st.markets:
                     v2.ship_dock(ship.symbol)
@@ -157,8 +165,10 @@ def main():
                             st.cooldowns.append(v2.ship_navigate(ship.symbol, marketNode))
                             orders[ship.symbol] = "marketUpdate"
                             break
-                    if ship.symbol in orders:
-                        continue
+
+                if ship.symbol in orders:
+                    continue
+
                 cargoSum = sum([g.units for g in ship.cargo])
                 if st.waypoints[ship.location].type == "ASTEROID_FIELD":
                     if cargoSum < ship.stats.cargoLimit:
@@ -418,4 +428,42 @@ In [40]: v2.survey_waypoint('UMUERO-2', 'X1-OE-25X')
  Waypoint(system='X1-SM8', symbol='X1-SM8-13033C', type='MOON', x=-2, y=-40, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None),
  Waypoint(system='X1-SM8', symbol='X1-SM8-75624X', type='MOON', x=-2, y=-40, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None),
  Waypoint(system='X1-SM8', symbol='X1-SM8-33005A', type='PLANET', x=-8, y=59, orbitals=[], faction='UNCHARTED', features=['UNCHARTED'], traits=['UNCHARTED'], charted=False, chartedBy=None)]
+
+
+CHEMICALS
+CONSTRUCTION_MATERIALS
+DRONES
+ELECTRONICS
+EXPLOSIVES
+FOOD
+FUEL
+MACHINERY
+METALS
+RARE_METALS
+SHIP_PARTS
+SHIP_PLATING
+
+BIOMETRIC_FIREARMS
+CONSUMER_GOODS
+EXOTIC_PLASMA
+FUSION_REACTORS
+NANOBOTS
+NARCOTICS
+PRECISION_INSTRUMENTS
+PROTEIN_SYNTHESIZERS
+TEXTILES
+UNSTABLE_COMPOUNDS
+ZUCO_CRYSTALS
+
+CHEMICAL_PLANT        <- DRONES                               -> CHEMICALS
+DRONE_FACTORY         <- METALS ELECTRONICS                   -> DRONES
+ELECTRONICS_FACTORY   <- RARE_METALS CHEMICALS                -> ELECTRONICS
+EXPLOSIVES_FACILITY   <- CHEMICALS                            -> EXPLOSIVES
+FABRICATION_PLANT     <- METALS CHEMICALS DRONES              -> MACHINERY CONSTRUCTION_MATERIALS
+FARM                  <- MACHINERY                            -> FOOD
+FUEL_REFINERY         <- DRONES MACHINERY                     -> FUEL
+MINE                  <- MACHINERY EXPLOSIVES                 -> METALS
+RARE_EARTH_MINE       <- MACHINERY EXPLOSIVES                 -> RARE_METALS
+RESEARCH_OUTPOST      <- ELECTRONICS MACHINERY DRONES         -> RESEARCH
+SHIPYARD              <- METALS MACHINERY ELECTRONICS DRONES  -> SHIP_PARTS SHIP_PLATING
 """

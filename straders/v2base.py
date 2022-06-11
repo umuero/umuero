@@ -361,7 +361,7 @@ class V2:
     def contract_list(self) -> List[Contract]:
         js = self.callApi("GET", "my/contracts")
         if js["meta"]["total"] > js["meta"]["limit"]:
-            logger.info("list_contracts: %s", js["meta"])
+            logger.info("contract_list: %s", js["meta"])
         return [from_dict(Contract, j) for j in js["data"]]
 
     def contract_view(self, contract_id) -> Contract:
@@ -371,6 +371,11 @@ class V2:
     def contract_accept(self, contract_id) -> Contract:
         js = self.callApi("POST", f"my/contracts/{contract_id}/accept")
         return from_dict(Contract, js["data"])
+
+    def contract_fulfill(self, contract_id) -> Contract:
+        js = self.callApi("POST", f"my/contracts/{contract_id}/fulfill")
+        logger.info("contract_fulfill: %s", js)
+        return js
 
     ################# SHIP #################
     def ship_list(self) -> List[Ship]:
