@@ -124,20 +124,22 @@ def a5(f):
 
 
 def a6(f):
-    arr = [int(i) for i in f.strip().split(",")]
-    c = Counter(arr)
-    for d in range(256):
-        cN = Counter()
-        for k, v in c.items():
-            if k == 0:
-                cN[8] += v
-                cN[6] += v
-            else:
-                cN[k - 1] += v
-        c = cN
-        if d == 79:
-            print("a:", d, sum(cN.values()))
-    print("b:", d, sum(cN.values()))
+    l = []
+    for i, c in enumerate(f):
+        l.append(c)
+        if len(l) > 4:
+            l.pop(0)
+        if len(set(l)) == 4:
+            print("a:", i + 1)
+            break
+    l = []
+    for i, c in enumerate(f):
+        l.append(c)
+        if len(l) > 14:
+            l.pop(0)
+        if len(set(l)) == 14:
+            print("b:", i + 1)
+            break
 
 
 def a7(f):
