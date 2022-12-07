@@ -143,16 +143,52 @@ def a6(f):
 
 
 def a7(f):
-    arr = [int(i) for i in f.strip().split(",")]
-    minCtr = None
-    for goal in range(min(arr), max(arr) + 1):
-        # les, ortadan girip kuculen tarafa gitmeli
-        ctr = 0
-        for i in arr:
-            ctr += int(abs(goal - i) * (abs(goal - i) + 1) / 2)
-        if minCtr is None or minCtr > ctr:
-            minCtr = ctr
-    print("a:", minCtr)
+    arr = [i for i in f.strip().split("\n")]
+    path = []
+    sizes = {}
+    dirs = set("/")
+    for cmd in arr:
+        # print(cmd[0], cmd[2:4])
+        if cmd[0] == "$":
+            if cmd[2:4] == "cd":
+                if cmd[5:] == "/":
+                    path = []
+                elif cmd[5:] == "..":
+                    path.pop()
+                else:
+                    path.append(cmd[5:])
+            elif cmd[2:4] == "ls":
+                pass
+        else:
+            size, name = cmd.split(" ", 1)
+            if size == "dir":
+                if path:
+                    sizes["/" + "/".join(path) + "/" + name] = 0
+                    dirs.add("/" + "/".join(path) + "/" + name)
+                else:
+                    sizes["/" + name] = 0
+                    dirs.add("/" + name)
+            else:
+                if path:
+                    sizes["/" + "/".join(path) + "/" + name] = int(size)
+                else:
+                    sizes["/" + name] = int(size)
+    p1 = 0
+    usage = 0
+    for dir in dirs:
+        s = sum([v for k, v in sizes.items() if k.startswith(dir)])
+        if dir == "/":
+            usage = s
+        if s < 100000:
+            p1 += s
+    print("1:", p1)
+    toDelete = usage - 40000000
+    p2 = 70000000
+    for dir in dirs:
+        s = sum([v for k, v in sizes.items() if k.startswith(dir)])
+        if toDelete < s:
+            p2 = min(p2, s)
+    print("2:", p2)
 
 
 def a8(f):
