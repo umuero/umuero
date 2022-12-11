@@ -11,6 +11,12 @@ import math
 import argparse
 import aocd
 
+DD = {
+    "R": (0, 1),
+    "L": (0, -1),
+    "U": (1, 0),
+    "D": (-1, 0),
+}
 Nx = [1, 0, -1, 0]
 Ny = [0, 1, 0, -1]
 NDx = [1, 0, -1, 0, 1, 1, -1, -1]
@@ -191,188 +197,178 @@ def a7(f):
     print("2:", p2)
 
 
+def a8b_score(arr, X, Y, xx, yy):
+    S = 1
+    H = arr[xx][yy]
+    for dx, dy in zip(Nx, Ny):
+        C, x, y = 0, xx + dx, yy + dy
+        while 0 <= x < X and 0 <= y < Y:
+            C += 1
+            if arr[x][y] >= H:
+                break
+            x += dx
+            y += dy
+        S *= C
+    return S
+
+
 def a8(f):
-    arr = [[[i for i in k.strip().split(" ")] for k in l.split(" | ")] for l in f.split("\n")]
-    pA = 0
-    pB = 0
-    for guide, out in arr:
-        m = a8_deduce(guide)
-        outN = 0
-        for n in out:
-            if len(n) in [2, 3, 4, 7]:
-                pA += 1
-            outN *= 10
-            outN += m["".join(sorted(n))]
-        pB += outN
-    print("a:", pA)
-    print("b:", pB)
+    arr = [[int(i) for i in l] for l in f.strip().split("\n")]
+    X = len(arr)
+    Y = len(arr[0])
+    vis = set()
+    for x in range(X):
+        cMax = -1
+        for y in range(Y):
+            if arr[x][y] > cMax:
+                vis.add((x, y))
+                cMax = arr[x][y]
+        cMax = -1
+        for y in range(Y - 1, -1, -1):
+            if arr[x][y] > cMax:
+                vis.add((x, y))
+                cMax = arr[x][y]
+    for y in range(Y):
+        cMax = -1
+        for x in range(X):
+            if arr[x][y] > cMax:
+                vis.add((x, y))
+                cMax = arr[x][y]
+        cMax = -1
+        for x in range(X - 1, -1, -1):
+            if arr[x][y] > cMax:
+                vis.add((x, y))
+                cMax = arr[x][y]
+    print("a:", len(vis))
+
+    bMax = -1
+    for x in range(1, X - 1):
+        for y in range(1, Y - 1):
+            bMax = max(bMax, a8b_score(arr, X, Y, x, y))
+    print("b:", bMax)
 
 
-def a8_deduce(guide):
-    m = {"abcdefg": 8}
-    h = {}
-    c = Counter()
-    for g in guide:
-        for char in g:
-            c[char] += 1
-        if len(g) == 2:  # 1
-            m[1] = sorted(g)
-            m["".join(m[1])] = 1
-        if len(g) == 3:  # 7
-            m[7] = sorted(g)
-            m["".join(m[7])] = 7
-        if len(g) == 4:  # 4
-            m[4] = sorted(g)
-            m["".join(m[4])] = 4
-    # {'e': 4, 'b': 6, 'g': 7, 'd': 7, 'a': 8, 'c': 8, 'f': 9}
-    h["e"] = [i[0] for i in c.items() if i[1] == 4][0]
-    h["b"] = [i[0] for i in c.items() if i[1] == 6][0]
-    h["f"] = [i[0] for i in c.items() if i[1] == 9][0]
-    h["c"] = (set(m[1]) - set(h["f"])).pop()
-    h["a"] = (set(m[7]) - set(m[1])).pop()
-    h["d"] = [i[0] for i in c.items() if i[1] == 7 and i[0] in m[4]][0]
-    h["g"] = [i[0] for i in c.items() if i[1] == 7 and i[0] != h["d"]][0]
-    for g in guide:
-        if len(g) == 6:  # 0 6 9
-            if h["d"] not in g:
-                m["".join(sorted(g))] = 0
-            elif h["c"] not in g:
-                m["".join(sorted(g))] = 6
-            else:
-                m["".join(sorted(g))] = 9
-        if len(g) == 5:  # 2 3 5
-            if h["c"] not in g:
-                m["".join(sorted(g))] = 5
-            elif h["e"] not in g:
-                m["".join(sorted(g))] = 3
-            else:
-                m["".join(sorted(g))] = 2
-    return m
+def a9_solve(moves, knots):
+    X = [[0, 0] for _ in range(knots)]
+    visited = set()
+    for a, b in moves:
+        for _ in range(int(b)):
+            X[0][0] += {"R": 1, "L": -1}.get(a, 0)
+            X[0][1] += {"D": 1, "U": -1}.get(a, 0)
+            for j in range(1, knots):
+                if (X[j - 1][0] - X[j][0]) ** 2 + (X[j - 1][1] - X[j][1]) ** 2 > 2:
+                    X[j][0] += max(-1, min(1, X[j - 1][0] - X[j][0]))
+                    X[j][1] += max(-1, min(1, X[j - 1][1] - X[j][1]))
+            visited.add(tuple(X[-1]))
+    return len(visited)
 
 
 def a9(f):
-    arr = [[int(i) for i in l.strip()] for l in f.split("\n")]
-    risks = []
-    lows = []
-    X = len(arr)
-    Y = len(arr[0])
-    for x in range(X):
-        for y in range(Y):
-            low = True
-            for nx, ny in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
-                if 0 <= nx < X and 0 <= ny < Y and arr[nx][ny] <= arr[x][y]:
-                    low = False
-            if low:
-                risks.append(arr[x][y])
-                lows.append((x, y))
-    print("a:", sum(risks) + len(risks))
-    basins = []
-    for lx, ly in lows:
-        Q = [(lx, ly)]
-        s = set()
-        while len(Q) > 0:
-            ax, ay = Q.pop()
-            if (ax, ay) in s:
-                continue
-            s.add((ax, ay))
-            for nx, ny in [(ax + 1, ay), (ax - 1, ay), (ax, ay + 1), (ax, ay - 1)]:
-                if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in s and arr[nx][ny] != 9 and arr[nx][ny] >= arr[ax][ay]:
-                    Q.append((nx, ny))
-        basins.append(len(s))
-    maxB = sorted(basins)[-3:]
-    print("b:", maxB[0] * maxB[1] * maxB[2])
+    arr = [l.split(" ") for l in f.strip().split("\n")]
+    print("a:", a9_solve(arr, 2))
+    print("b:", a9_solve(arr, 10))
 
 
 def a10(f):
     arr = [i.strip() for i in f.split("\n")]
-    Ps = {"(": ")", "{": "}", "[": "]", "<": ">"}
-    P2 = {")": 1, "]": 2, "}": 3, ">": 4}
-    auto = []
-    E = Counter()
-    for l in arr:
-        p = deque()
-        errors = Counter()
-        for i in l:
-            if i in Ps.keys():
-                p.append(Ps[i])
-            if i in Ps.values():
-                if p[-1] == i:
-                    p.pop()
-                else:
-                    errors[i] += 1
-                    break
-        if errors:
-            E.update(errors)
+    X = 1
+    c = 1
+    M = (0, 0)
+    p1 = 0
+    for ord in arr:
+        if ord == "noop":
+            pass
+        elif ord.startswith("addx"):
+            M = (c + 2, int(ord.split(" ")[1]))
+
+        if abs(((c - 1) % 40) - X) < 2:
+            print("#", end="")
         else:
-            p2 = 0
-            while len(p) > 0:
-                p2 *= 5
-                p2 += P2[p.pop()]
-            auto.append(p2)
-    print(E)
-    print(3 * E[")"] + 57 * E["]"] + 1197 * E["}"] + 25137 * E[">"])
-    print(sorted(auto)[int(len(auto) / 2)])
+            print(".", end="")
+        if (c + 20) % 40 == 0:
+            p1 += c * X
+        if c % 40 == 0:
+            print("")
+        c += 1
+        if ord.startswith("addx"):
+            if abs(((c - 1) % 40) - X) < 2:
+                print("#", end="")
+            else:
+                print(".", end="")
+            if (c + 20) % 40 == 0:
+                p1 += c * X
+            if c % 40 == 0:
+                print("")
+            c += 1
+            if c == M[0]:
+                X += M[1]
+    print("a: ", p1)
 
 
 def a11(f):
-    arr = [[int(i) for i in l.strip()] for l in f.split("\n")]
-    X = len(arr)
-    Y = len(arr[0])
-    fl = 0
-    for step in range(1, 1000):
-        Q = deque()
-        for x in range(X):
-            for y in range(Y):
-                arr[x][y] += 1
-                if arr[x][y] > 9:
-                    Q.append((x, y))
-
-        S = set()
-        while len(Q) > 0:
-            x, y = Q.pop()
-            if (x, y) in S:
-                continue
-            S.add((x, y))
-            arr[x][y] = 0
-            for dx, dy in zip(NDx, NDy):
-                nx = x + dx
-                ny = y + dy
-                if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in S:
-                    arr[nx][ny] += 1
-                    if arr[nx][ny] > 9:
-                        Q.append((nx, ny))
-        fl += len(S)
-        if step == 100:
-            print("a:", fl)
-        if len(S) == X * Y:
-            print("b:", step)
-            return
+    arr = [l for l in f.split("\n")]
+    # M = {"0": {items: [], op: lambda x: x * 19, test: 23, t: "2", f: "3"}}
+    M = []
+    mCtr = 0
+    divs = 1
+    for line in arr:
+        line = line.strip()
+        if line.startswith("Monkey "):
+            mCtr = int(line.split(" ")[1].strip(":"))
+            M.append({"items": []})
+        elif line.startswith("Starting items"):
+            M[mCtr]["items"] = [int(i.strip()) for i in line.split(":")[1].split(",")]
+        elif line.startswith("Operation"):
+            rule = line.split(":")[1].strip()
+            ruleInt = rule.split(" ")[-1]
+            if ruleInt.isnumeric():
+                ruleInt = int(ruleInt)
+            if "*" in rule:
+                if type(ruleInt) == int:
+                    M[mCtr]["op"] = (lambda y: (lambda x: x * y))(ruleInt)
+                else:
+                    M[mCtr]["op"] = lambda x: x * x
+            if "+" in rule:
+                M[mCtr]["op"] = (lambda y: (lambda x: x + y))(ruleInt)
+        elif line.startswith("Test:"):
+            rule = line.split(":")[1].strip()
+            if rule.startswith("divisible"):
+                ruleInt = int(rule.split(" ")[-1])
+                divs *= ruleInt
+                M[mCtr]["test"] = (lambda y: (lambda x: x % y == 0))(ruleInt)
+            else:
+                print("non divisible rule")
+        elif line.startswith("If true:"):
+            rule = line.split(":")[1].strip()
+            if rule.startswith("throw to monkey"):
+                M[mCtr]["tr"] = int(rule.split(" ")[-1])
+            else:
+                print("non throw to monkey rule")
+        elif line.startswith("If false:"):
+            rule = line.split(":")[1].strip()
+            if rule.startswith("throw to monkey"):
+                M[mCtr]["fl"] = int(rule.split(" ")[-1])
+            else:
+                print("non throw to monkey rule")
+    c = Counter()
+    for r in range(10000):
+        if r % 100 == 0:
+            print(r)
+        for mctr, m in enumerate(M):
+            for it in m["items"]:
+                c[mctr] += 1
+                w = m["op"](it) % divs
+                if m["test"](w):
+                    M[m["tr"]]["items"].append(w)
+                else:
+                    M[m["fl"]]["items"].append(w)
+                # print(it, w, m["test"](w), m["tr"], m["fl"])
+            m["items"] = []
+    print("b:", c.most_common()[0][1] * c.most_common()[1][1])
 
 
 def a12(f):
-    m = defaultdict(list)
-    for k, v in [[i for i in l.strip().split("-")] for l in f.split("\n")]:
-        m[k].append(v)
-        m[v].append(k)
-
-    FIN = set()
-    Q = deque([("start",)])
-    while len(Q) > 0:
-        path = Q.popleft()
-        for p in m[path[-1]]:
-            if p == "start":
-                continue
-            if p == "end":
-                FIN.add(path + (p,))
-                continue
-            if p.lower() == p:
-                if p not in path:
-                    Q.append(path + (p,))
-                elif path[0] == "start":
-                    Q.append(("U",) + path + (p,))
-            if p.lower() != p:
-                Q.append(path + (p,))
-    print("b:", len(FIN))
+    pass
 
 
 def a13(f):
