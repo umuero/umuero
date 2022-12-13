@@ -1,5 +1,6 @@
 # https://adventofcode.com/2022
 from collections import defaultdict, deque, Counter
+import functools
 from itertools import permutations, combinations, product
 from functools import reduce
 from queue import PriorityQueue
@@ -368,38 +369,94 @@ def a11(f):
 
 
 def a12(f):
-    pass
+    arr = [[i for i in l.strip()] for l in f.strip().split("\n")]
+    X = len(arr)
+    Y = len(arr[0])
+    S = set()
+    Q = PriorityQueue()  # score, x, y
+    for x in range(X):
+        for y in range(Y):
+            if arr[x][y] == "S":
+                Q.put((0, x, y))
+                arr[x][y] = "a"
+            if arr[x][y] == "E":
+                Goal = (x, y)
+                arr[x][y] = "z"
+    while not Q.empty():
+        r, x, y = Q.get()
+        if x == Goal[0] and y == Goal[1]:
+            print("a:", r)
+            break
+        if (x, y) in S:
+            continue
+        S.add((x, y))
+        for dx, dy in zip(Nx, Ny):
+            nx = x + dx
+            ny = y + dy
+            if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in S and ord(arr[nx][ny]) <= ord(arr[x][y]) + 1:
+                Q.put((r + 1, nx, ny))
+
+    Q = PriorityQueue()  # score, x, y
+    S = set()
+    Q.put((0, Goal[0], Goal[1]))
+    while not Q.empty():
+        r, x, y = Q.get()
+        if arr[x][y] == "a":
+            print("b:", r)
+            break
+        if (x, y) in S:
+            continue
+        S.add((x, y))
+        for dx, dy in zip(Nx, Ny):
+            nx = x + dx
+            ny = y + dy
+            if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in S and ord(arr[nx][ny]) >= ord(arr[x][y]) - 1:
+                Q.put((r + 1, nx, ny))
+
+
+def a13_comp(p1, p2):
+    if type(p1) == int and type(p2) == int:
+        return p2 - p1  # >0 true
+    if type(p1) == list and type(p2) == list:
+        for i in range(len(p1)):
+            if i >= len(p2):
+                return -1
+            res = a13_comp(p1[i], p2[i])
+            if res > 0:
+                return 1
+            elif res < 0:
+                return -1
+        if len(p1) < len(p2):
+            return 1
+        return 0
+    if type(p1) == int:
+        return a13_comp([p1], p2)
+    else:
+        return a13_comp(p1, [p2])
 
 
 def a13(f):
-    m = {}
+    p1, p2 = None, None
+    correct = 0
+    ind = 1
+    lines = [[[2]], [[6]]]
     for line in f.split("\n"):
-        if "," in line:
-            x, y = line.strip().split(",", 1)
-            m[(int(x), int(y))] = "#"
-        if line.startswith("fold along"):
-            fold = int(line.strip().split("=")[-1])
-            m2 = dict()
-            for item in m.keys():
-                if "y=" in line:
-                    if item[1] < fold:
-                        m2[item] = "#"
-                    else:
-                        m2[(item[0], 2 * fold - item[1])] = "#"
-                else:
-                    if item[0] < fold:
-                        m2[item] = "#"
-                    else:
-                        m2[(2 * fold - item[0], item[1])] = "#"
-            m = m2
-            print(len(m))
-    X = 0
-    Y = 0
-    for item in m.keys():
-        X = max(X, item[0] + 1)
-        Y = max(Y, item[1] + 1)
-    for y in range(Y):
-        print("".join([m.get((x, y), " ") for x in range(100)]))
+        if len(line.strip()) == 0:
+            p1, p2 = None, None
+            ind += 1
+            continue
+        l = ast.literal_eval(line)
+        if p1 is None:
+            p1 = l
+            lines.append(p1)
+            continue
+        p2 = l
+        lines.append(p2)
+        if a13_comp(p1, p2) > 0:
+            correct += ind
+    print("a:", correct)
+    sl = sorted(lines, key=functools.cmp_to_key(a13_comp), reverse=True)
+    print("b:", (sl.index([[2]]) + 1) * (sl.index([[6]]) + 1))
 
 
 def a14(f):
