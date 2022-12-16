@@ -369,6 +369,7 @@ def a11(f):
 
 
 def a12(f):
+    # Part A, clean BFS
     arr = [[i for i in l.strip()] for l in f.strip().split("\n")]
     X = len(arr)
     Y = len(arr[0])
@@ -459,127 +460,173 @@ def a13(f):
     print("b:", (sl.index([[2]]) + 1) * (sl.index([[6]]) + 1))
 
 
+def a14_fall(M, maxY, sX, sY):
+    # if sY > maxY: # partA
+    #     return None
+    if sY > maxY:  # partB
+        return (sX, sY)
+    if (sX, sY + 1) not in M:
+        return a14_fall(M, maxY, sX, sY + 1)
+    if (sX - 1, sY + 1) not in M:
+        return a14_fall(M, maxY, sX - 1, sY + 1)
+    if (sX + 1, sY + 1) not in M:
+        return a14_fall(M, maxY, sX + 1, sY + 1)
+    return (sX, sY)
+
+
 def a14(f):
-    arr = [i.strip() for i in f.split("\n")]
-    rules = dict()
+    arr = [i for i in f.strip().split("\n")]
+    maxY = 0
+    G = (500, 0)
+    M = dict()
+    sCtr = 0
     for line in arr:
-        if " -> " in line:
-            rules[line.split(" -> ")[0]] = line.split(" -> ")[-1].strip()
-    E = Counter(["".join(i) for i in zip(arr[0], arr[0][1:])])
-    for step in range(40):
-        next = Counter()
-        for pair in E:
-            if pair in rules:
-                next[pair[0] + rules[pair]] += E[pair]
-                next[rules[pair] + pair[1]] += E[pair]
-            else:
-                next[pair] += E[pair]
-        E = next
-    C = Counter()
-    for k, v in E.items():
-        C[k[0]] += v
-        C[k[1]] += v
-    c = sorted(C.values())
-    print(math.ceil(c[-1] / 2) - math.ceil(c[0] / 2))
+        parts = line.split(" -> ")
+        for p1, p2 in zip(parts, parts[1:]):
+            p1x, p1y = (int(i) for i in p1.split(","))
+            p2x, p2y = (int(i) for i in p2.split(","))
+            maxY = max(maxY, p1y, p2y)
+            for x in range(min(p1x, p2x), max(p1x, p2x) + 1):
+                for y in range(min(p1y, p2y), max(p1y, p2y) + 1):
+                    M[x, y] = "#"
+    while maxY > 0:
+        sand = a14_fall(M, maxY, 500, 0)
+        if sand is None:
+            break
+        M[sand] = "o"
+        sCtr += 1
+        if sand == (500, 0):
+            break
+    print("a:", sCtr)
+
+
+def manh_dist(x1, y1, x2, y2):
+    return abs(x1 - x2) + abs(y1 - y2)
+
+
+def manh_distP(p):
+    return abs(p[0] - p[2]) + abs(p[1] - p[3])
 
 
 def a15(f):
-    # Part A, clean BFS
-    arr = [[int(i) for i in l.strip()] for l in f.split("\n")]
-    X = len(arr)
-    Y = len(arr[0])
-    S = set()
-    Q = PriorityQueue()  # score, x, y
-    Q.put((0, 0, 0))
-    while not Q.empty():
-        r, x, y = Q.get()
-        if x == X - 1 and y == Y - 1:
-            print("a:", r)
-            break
-        if (x, y) in S:
-            continue
-        S.add((x, y))
-        for dx, dy in zip(Nx, Ny):
-            nx = x + dx
-            ny = y + dy
-            if 0 <= nx < X and 0 <= ny < Y and (nx, ny) not in S:
-                Q.put((r + arr[nx][ny], nx, ny))
+    arr = [tuple([int(i.split(",")[0]) for i in l.replace(":", ",").split("=")[1:]]) for l in f.strip().split("\n")]
+    Y = 2000000
+    M = 4000000
+    if len(arr) == 14:
+        Y = 10
+        M = 20
+    intervals = []
+    for sx, sy, bx, by in arr:
+        dist = manh_dist(sx, sy, bx, by)
+        areaDist = dist - abs(sy - Y)
+        if areaDist >= 0:
+            intervals.append((sx - areaDist, 0))  # start
+            intervals.append((sx + areaDist, 1))  # end
+        if by == Y:
+            intervals.append((bx, 1, "B"))
+    ctr = 0
+    overlap = 0
+    overlapStart = None
+    lastB = -1
+    for iv in sorted(intervals):
+        if iv[1] == 0:
+            if overlapStart is None:
+                overlapStart = iv[0]
+            overlap += 1
+        if iv[1] == 1:
+            if len(iv) == 3:
+                if lastB != iv[0]:
+                    ctr -= 1
+                lastB = iv[0]
+            else:
+                overlap -= 1
+                if overlap == 0:
+                    ctr += iv[0] + 1 - overlapStart
+                    overlapStart = None
+    print("a:", ctr)
+    posX = set()
+    negX = set()
+    for p in arr:
+        posX.add(p[0] + p[1] + manh_distP(p) + 1)  # y = (X+Y+D) + x
+        posX.add(p[0] + p[1] - manh_distP(p) - 1)
+        negX.add(-p[0] + p[1] + manh_distP(p) + 1)
+        negX.add(-p[0] + p[1] - manh_distP(p) - 1)
 
-    S = set()
-    Q = PriorityQueue()  # score, x, y
-    Q.put((0, 0, 0))
-    while not Q.empty():
-        r, x, y = Q.get()
-        if x == 5 * X - 1 and y == 5 * Y - 1:
-            print("b:", r)
-            break
-        if (x, y) in S:
-            continue
-        S.add((x, y))
-        for dx, dy in zip(Nx, Ny):
-            nx = x + dx
-            ny = y + dy
-            if 0 <= nx < 5 * X and 0 <= ny < 5 * Y and (nx, ny) not in S:
-                val = arr[nx % X][ny % Y] + nx // X + ny // Y
-                if val > 9:
-                    val -= 9
-                Q.put((r + val, nx, ny))
+    for a in negX:
+        for b in posX:
+            p = ((b - a) // 2, (a + b) // 2)
+            if not (0 < p[0] < M and 0 < p[1] < M):
+                continue
+            match = None
+            for s in arr:
+                if manh_dist(p[0], p[1], s[0], s[1]) <= manh_distP(s):
+                    match = True
+                    break
+            if match is None:
+                print("b:", p[0] * M + p[1])
+                return
 
 
 def a16(f):
-    arr = ["".join(["{0:04b}".format(int(c, 16)) for c in l.strip()]) for l in f.split("\n")]
-    for line in arr:
-        # print("processing", line)
-        ret = a16_process_packet(line, 0)
-        print(ret[0])
+    M = {l.split(" ")[1]: (int(l[23:26].replace(";", "")), l.replace(",", "").split(" ")[9:]) for l in f.strip().split("\n")}
+    vals = len([i for i in M.keys() if M[i][0] > 0])
+    S = set()
+    Q = PriorityQueue()
+    Q.put((0, 0, "AA", ()))
+    while not Q.empty():
+        m, rel, p, op = Q.get()
+        if m == 30:
+            print("a:", (m, rel))
+            break
+        flow = sum([M[l][0] for l in op])
+        if vals == len(op):
+            Q.put((m + 1, rel - flow, p, op))
+            continue
+        if (p, op) in S:
+            continue
+        S.add((p, op))
+        print(m, flow, p, op)
+        for n in M[p][1]:
+            Q.put((m + 1, rel - flow, n, op))
+        if p not in op and M[p][0] > 0:
+            Q.put((m + 1, rel - flow, p, tuple(sorted(op + (p,)))))
 
-
-def a16_process_packet(line, index):
-    pVersion = int(line[index : index + 3], 2)
-    pType = int(line[index + 3 : index + 6], 2)
-    index += 6
-    if pType == 4:
-        lastLiteral = False
-        literal = ""
-        while not lastLiteral:
-            lastLiteral = line[index] == "0"
-            literal += line[index + 1 : index + 5]
-            index += 5
-        return int(literal, 2), index
-    else:
-        childVersions = []
-        pLen = line[index]
-        if pLen == "0":
-            pTotalLen = int(line[index + 1 : index + 16], 2)
-            index += 16
-            stopIndex = index + pTotalLen
-            # print("pLen 0", pTotalLen)
-            while index < stopIndex:
-                cVersion, index = a16_process_packet(line, index)
-                # print(cVersion, index, "dondu 0")
-                childVersions.append(cVersion)
-        else:
-            pCount = int(line[index + 1 : index + 12], 2)
-            index += 12
-            # print("pLen 1", pCount)
-            for _ in range(pCount):
-                cVersion, index = a16_process_packet(line, index)
-                # print(cVersion, index, "dondu 1")
-                childVersions.append(cVersion)
-        if pType == 0:
-            return sum(childVersions), index
-        if pType == 1:
-            return reduce((lambda x, y: x * y), childVersions), index
-        if pType == 2:
-            return min(childVersions), index
-        if pType == 3:
-            return max(childVersions), index
-        if pType == 5:
-            return 1 if childVersions[0] > childVersions[1] else 0, index
-        if pType == 6:
-            return 1 if childVersions[0] < childVersions[1] else 0, index
-        if pType == 7:
-            return 1 if childVersions[0] == childVersions[1] else 0, index
+    # S = set()
+    # Q = PriorityQueue()
+    # ctr = 0
+    # mMax = (0, 0)
+    # Q.put((0, 0, "AA", "AA", ()))
+    # while not Q.empty():
+    #     m, rel, p, e, op = Q.get()
+    #     ctr += 1
+    #     if ctr % 1000 == 0:
+    #         print(m, rel, p, e, Q.qsize())
+    #     if m == 26:
+    #         print("b:", (m, rel))
+    #         break
+    #     flow = sum([M[l][0] for l in op])
+    #     check = (p, e, op)
+    #     if p > e:
+    #         check = (e, p, op)
+    #     if check in S:
+    #         continue
+    #     S.add(check)
+    #     # if mMax[0] != m:
+    #     #     mMax = (m, rel)
+    #     # else:
+    #     #     if Q.qsize() > 10000 and mMax[1] * 0.5 < rel:
+    #     #         break
+    #     if p not in op and M[p][0] > 0:
+    #         if p != e and e not in op and M[e][0] > 0:
+    #             nop = sorted(op+ (p,e,)))
+    #             Q.put((m + 1, rel - flow, p, e, tuple(nop)))
+    #         for n in M[e][1]:
+    #             Q.put((m + 1, rel - flow, p, n, tuple(sorted(op + (p,)))))
+    #     for n in M[p][1]:
+    #         if p != e and e not in op and M[e][0] > 0:
+    #             Q.put((m + 1, rel - flow, n, e, tuple(sorted(op + (e,)))))
+    #         for nn in M[e][1]:
+    #             Q.put((m + 1, rel - flow, n, nn, op))
 
 
 def a17(f):
