@@ -585,16 +585,28 @@ def a16(f):
         if (p, op) in S:
             continue
         S.add((p, op))
-        print(m, flow, p, op)
-        for n in M[p][1]:
-            Q.put((m + 1, rel - flow, n, op))
         if p not in op and M[p][0] > 0:
             Q.put((m + 1, rel - flow, p, tuple(sorted(op + (p,)))))
+        for n in M[p][1]:
+            Q.put((m + 1, rel - flow, n, op))
 
+    print(M)
+    M2 = {k: {n: 1 for n in v[1]} for k, v in M.items() if v[0] > 0 or k == "AA"}
+    for n in M2.keys():
+        keys = M2[n][1].keys()
+        for n2 in keys:
+            if M2[n2][0] > 0:
+                continue
+            v2 = M2[n2][1][n2]
+            del M2[n2][1][n2]
+            for n3 in M[n2][1]:
+                if n3 not in M2[n2][1]:
+                    M2[n2][1][n3] = v2 + 1
+    print(M2)
     # S = set()
+    # P = dict()
     # Q = PriorityQueue()
     # ctr = 0
-    # mMax = (0, 0)
     # Q.put((0, 0, "AA", "AA", ()))
     # while not Q.empty():
     #     m, rel, p, e, op = Q.get()
@@ -605,20 +617,16 @@ def a16(f):
     #         print("b:", (m, rel))
     #         break
     #     flow = sum([M[l][0] for l in op])
-    #     check = (p, e, op)
+    #     check = (p, e)
     #     if p > e:
-    #         check = (e, p, op)
-    #     if check in S:
+    #         check = (e, p)
+    #     prev = P.get(check)
+    #     if prev is not None and flow < prev[0] and len(op) < prev[1]:
     #         continue
-    #     S.add(check)
-    #     # if mMax[0] != m:
-    #     #     mMax = (m, rel)
-    #     # else:
-    #     #     if Q.qsize() > 10000 and mMax[1] * 0.5 < rel:
-    #     #         break
+    #     P[check] = (flow, len(op))
     #     if p not in op and M[p][0] > 0:
     #         if p != e and e not in op and M[e][0] > 0:
-    #             nop = sorted(op+ (p,e,)))
+    #             nop = sorted(op + (p, e))
     #             Q.put((m + 1, rel - flow, p, e, tuple(nop)))
     #         for n in M[e][1]:
     #             Q.put((m + 1, rel - flow, p, n, tuple(sorted(op + (p,)))))
@@ -629,39 +637,74 @@ def a16(f):
     #             Q.put((m + 1, rel - flow, n, nn, op))
 
 
+def a17_avail(M, x, y, item):
+    if x < 0 or x > 6 or y < 0:
+        return False
+    for ix, iy in item:
+        if x + ix > 6:
+            return False
+        if (x + ix, y + iy) in M:
+            return False
+    return True
+
+
 def a17(f):
-    l = f.split("=")
-    X = [int(i) for i in l[1].strip(" ,y").split("..")]
-    Y = [int(i) for i in l[2].split("..")]
-    print(">> ", X, Y)
-    maxY = 0
-    p2 = 0
-    for x in range(int(math.sqrt(2 * X[0])), X[1] + 1):
-        for y in range(Y[0] - 1, X[1]):
-            vx = x
-            vy = y
-            success = False
-            px = 0
-            py = 0
-            my = 0
-            while px <= X[1] and py >= Y[0]:
-                px += vx
-                py += vy
-                my = max(my, py)
-                if vx == 0 and not X[0] <= px <= X[1]:
-                    break
-                if X[0] <= px <= X[1] and Y[0] <= py <= Y[1]:
-                    success = True
-                    break
-                if vx > 0:
-                    vx -= 1
-                vy -= 1
-            if success:
-                # print("finished", x, y, px, py, X, Y)
-                p2 += 1
-                maxY = max(maxY, my)
-    print(maxY)
-    print(p2)
+    commands = [i for i in f.strip()]
+    cLen = len(commands)
+    order = ["-", "+", "L", "I", "O"]
+    shape = {
+        "-": ((0, 0), (1, 0), (2, 0), (3, 0)),
+        "+": ((0, 1), (1, 1), (1, 0), (1, 2), (2, 1)),
+        "L": ((0, 0), (1, 0), (2, 0), (2, 1), (2, 2)),
+        "I": ((0, 0), (0, 1), (0, 2), (0, 3)),
+        "O": ((0, 0), (1, 0), (0, 1), (1, 1)),
+    }
+    M = set()
+    maxY = -1
+    itemC = 0
+    cmdC = 0
+    item = None
+    loop = dict()
+    ITER = 102022
+    offset = 0
+    while itemC <= ITER:
+        if item is None:
+            x, y = 2, maxY + 4
+            item = shape[order[itemC % 5]]
+            itemC += 1
+            if itemC == 2022:
+                print("a:", maxY + 1)
+            loopKey = (order[itemC % 5], cmdC % cLen)
+            if loopKey in loop and offset == 0:
+                # print("loop", loopKey, maxY, loop[loopKey])
+                if maxY - loop[loopKey][0] == loop[loopKey][2]:
+                    print("looped", (maxY, itemC, maxY - loop[loopKey][2]), loop[loopKey])
+                    # ITER = 1000000000000 - 1514285714288
+                    # prev - loop[loopKey] -> (77, 51, 53)
+                    # (maxY, itemC, maxY - loop[loopKey][2]) ->  (130, 86, 53)
+                    loopHeight = loop[loopKey][2]
+                    loopItemCount = itemC - loop[loopKey][1]
+                    print(f"{loopHeight}h in {loopItemCount} items")
+                    offset = (1000000000000 - itemC) // loopItemCount * loopHeight
+                    ITER = itemC + 1 + ((1000000000000 - itemC) % loopItemCount)
+                else:
+                    loop[loopKey] = (maxY, itemC, maxY - loop[loopKey][2])
+            else:
+                loop[loopKey] = (maxY, itemC, maxY)
+        cmd = commands[cmdC % cLen]
+        cmdC += 1
+        if cmd == "<" and a17_avail(M, x - 1, y, item):
+            x -= 1
+        if cmd == ">" and a17_avail(M, x + 1, y, item):
+            x += 1
+        if a17_avail(M, x, y - 1, item):
+            y -= 1
+        else:
+            for ix, iy in item:
+                M.add((x + ix, y + iy))
+                maxY = max(maxY, y + iy)
+            item = None
+    print("b:", maxY + offset)
 
 
 def a18(f):
