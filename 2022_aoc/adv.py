@@ -24,6 +24,9 @@ NDx = [1, 0, -1, 0, 1, 1, -1, -1]
 NDy = [0, 1, 0, -1, 1, -1, 1, -1]
 NMx = [-1, 0, 1, -1, 0, 1, -1, 0, 1]
 NMy = [-1, -1, -1, 0, 0, 0, 1, 1, 1]
+N3x = [1, 0, 0, -1, 0, 0]
+N3y = [0, 1, 0, 0, -1, 0]
+N3z = [0, 0, 1, 0, 0, -1]
 
 
 def a1(f):
@@ -708,117 +711,56 @@ def a17(f):
 
 
 def a18(f):
-    nums = [ast.literal_eval(l) for l in f.split("\n")]
-    res = nums[0]
-    for n in nums[1:]:
-        # print(res, "<-", n)
-        ne = copy.deepcopy([res, n])
-        reduced = True
-        while reduced:
-            ne, reduced = a18_reduce(ne)
-        res = ne
-    print("a:", a18_magn(res))
-    maxN = 0
-    for c1 in range(len(nums)):
-        for c2 in range(len(nums)):
-            if c1 == c2:
+    nums = [tuple([int(i) for i in l.split(",")]) for l in f.strip().split("\n")]
+    M = set()
+    minx, miny, minz = nums[0]
+    maxx, maxy, maxz = nums[0]
+    for n in nums:
+        M.add((n[0], n[1], n[2]))
+        minx = min(minx, n[0])
+        maxx = max(maxx, n[0])
+        miny = min(miny, n[1])
+        maxy = max(maxy, n[1])
+        minz = min(minz, n[2])
+        maxz = max(maxz, n[2])
+    ctr = 0
+    Check = set()
+    for n in nums:
+        for dx, dy, dz in zip(N3x, N3y, N3z):
+            if (n[0] + dx, n[1] + dy, n[2] + dz) not in M:
+                ctr += 1
+                Check.add((n[0] + dx, n[1] + dy, n[2] + dz))
+    print("a:", ctr)
+    Out = set()
+    In = set()
+    for ch in Check:
+        S = set()
+        Q = PriorityQueue()  # score, x, y
+        Q.put((0, ch))
+        isOut = False
+        while not Q.empty():
+            r, n = Q.get()
+            if n in S:
                 continue
-            ne = copy.deepcopy([nums[c1], nums[c2]])
-            reduced = True
-            while reduced:
-                ne, reduced = a18_reduce(ne)
-            maxN = max(maxN, a18_magn(ne))
-    print("b:", maxN)
-
-
-def a18_magn(l):
-    if type(l) == int:
-        return l
-    return 3 * a18_magn(l[0]) + 2 * a18_magn(l[1])
-
-
-def a18_reduce(ne):
-    reduced = False
-    # depth > 4 - explode
-    lastNo = None
-    nextNo = None
-    for c1, l1 in enumerate(ne):
-        if type(l1) == int:
-            lastNo = c1
-            if nextNo is not None:
-                ne[c1] += nextNo
-                return ne, reduced
-            continue
-        for c2, l2 in enumerate(l1):
-            if type(l2) == int:
-                lastNo = (c1, c2)
-                if nextNo is not None:
-                    ne[c1][c2] += nextNo
-                    return ne, reduced
-                continue
-            for c3, l3 in enumerate(l2):
-                if type(l3) == int:
-                    lastNo = (c1, c2, c3)
-                    if nextNo is not None:
-                        ne[c1][c2][c3] += nextNo
-                        return ne, reduced
+            S.add(n)
+            if minx >= n[0] + dx or n[0] + dx >= maxx or n in Out:
+                isOut = True
+                Out = Out.union(S)
+                break
+            if n in In:
+                break
+            for dx, dy, dz in zip(N3x, N3y, N3z):
+                if (n[0] + dx, n[1] + dy, n[2] + dz) in M:
                     continue
-                for c4, l4 in enumerate(l3):
-                    if type(l4) == int:
-                        lastNo = (c1, c2, c3, c4)
-                        if nextNo is not None:
-                            ne[c1][c2][c3][c4] += nextNo
-                            return ne, reduced
-                        continue
-                    if nextNo is not None:
-                        ne[c1][c2][c3][c4][0] += nextNo
-                        return ne, reduced
-                    # print(ne, "explode", l4)
-                    if lastNo:
-                        if len(lastNo) == 1:
-                            ne[lastNo[0]] += l4[0]
-                        if len(lastNo) == 2:
-                            ne[lastNo[0]][lastNo[1]] += l4[0]
-                        if len(lastNo) == 3:
-                            ne[lastNo[0]][lastNo[1]][lastNo[2]] += l4[0]
-                        if len(lastNo) == 4:
-                            ne[lastNo[0]][lastNo[1]][lastNo[2]][lastNo[3]] += l4[0]
-                    nextNo = l4[1]
-                    ne[c1][c2][c3][c4] = 0
-                    reduced = True
-    if reduced is True:
-        # nextNo aradim bulamadim
-        return ne, True
-
-    # c > 9 split
-    for c1, l1 in enumerate(ne):
-        if type(l1) == int:
-            if l1 > 9:
-                # print(ne, "split", l1)
-                ne[c1] = [l1 // 2, math.ceil(l1 / 2)]
-                return ne, True
-            continue
-        for c2, l2 in enumerate(l1):
-            if type(l2) == int:
-                if l2 > 9:
-                    # print(ne, "split", l2)
-                    ne[c1][c2] = [l2 // 2, math.ceil(l2 / 2)]
-                    return ne, True
-                continue
-            for c3, l3 in enumerate(l2):
-                if type(l3) == int:
-                    if l3 > 9:
-                        # print(ne, "split", l3)
-                        ne[c1][c2][c3] = [l3 // 2, math.ceil(l3 / 2)]
-                        return ne, True
-                    continue
-                for c4, l4 in enumerate(l3):
-                    if l4 > 9:
-                        # print(ne, "split", l4)
-                        ne[c1][c2][c3][c4] = [l4 // 2, math.ceil(l4 / 2)]
-                        return ne, True
-
-    return ne, reduced
+                Q.put((r + 1, (n[0] + dx, n[1] + dy, n[2] + dz)))
+        if isOut is False:
+            In = In.union(S)
+    ctr = 0
+    for n in nums:
+        for dx, dy, dz in zip(N3x, N3y, N3z):
+            if (n[0] + dx, n[1] + dy, n[2] + dz) not in M and (n[0] + dx, n[1] + dy, n[2] + dz) not in In:
+                ctr += 1
+    print("b:", ctr)
 
 
 def a19(f):
