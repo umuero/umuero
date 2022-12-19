@@ -27,6 +27,7 @@ NMy = [-1, -1, -1, 0, 0, 0, 1, 1, 1]
 N3x = [1, 0, 0, -1, 0, 0]
 N3y = [0, 1, 0, 0, -1, 0]
 N3z = [0, 0, 1, 0, 0, -1]
+reNUMS = re.compile("\d+")
 
 
 def a1(f):
@@ -764,115 +765,95 @@ def a18(f):
 
 
 def a19(f):
-    S = []  # 359 - 12292
-    for l in f.split("\n"):
-        if "---" in l:
-            S.append([])
-        if "," in l:
-            S[-1].append(tuple(int(i) for i in l.strip().split(",")))
-    M = defaultdict(dict)
-    for c, s in enumerate(S):
-        M[c] = a19_create_diffs(s)
-        print(c, len(s), len(M[c]))
-
-    merged = 1
-    beacons = [(0, 0, 0)]
-    while merged < len(S):
-        for c in range(1, len(S)):
-            match = set(M[c].keys()).intersection(M[0].keys())
-            nodes0 = set([node for key in match for item in M[0][key] for node in item[1]])
-            if len(nodes0) >= 12:
-                pos = Counter()
-                for key in list(match):
-                    for orSUB in M[0][key]:
-                        for toSUB in M[c][key]:
-                            origKey = orSUB[0]
-                            toKey = toSUB[0]
-                            orient = [[0, 1], [1, 1], [2, 1]]  # pos, orient
-                            for z1, z2 in zip(origKey, toKey):
-                                if int(z1) % 3 != int(z2) % 3:
-                                    orient[int(z1) % 3][0] = int(z2) % 3
-                            for ch in origKey:
-                                if ch not in toKey:
-                                    orient[int(ch) % 3][1] = -1
-                            for node0 in orSUB[1]:
-                                for nodeC in toSUB[1]:
-                                    pos[
-                                        (
-                                            node0[0] + orient[0][1] * nodeC[orient[0][0]],
-                                            node0[1] + orient[1][1] * nodeC[orient[1][0]],
-                                            node0[2] + orient[2][1] * nodeC[orient[2][0]],
-                                            str(orient),
-                                            1,
-                                        )
-                                    ] += 1
-                print(c, len(nodes0), pos.most_common()[:4])
-                sensor = pos.most_common()[0][0]
-                if pos.most_common()[0][1] < 20:
-                    for p in pos.most_common():
-                        sensor = p[0]
-                        orient = ast.literal_eval(sensor[3])
-                        direction = sensor[4]
-                        newNodes = set()
-                        nodesC = set([node for key in match for item in M[c][key] for node in item[1]])
-                        for nodeC in nodesC:
-                            newNodes.add(
-                                (
-                                    sensor[0] - direction * orient[0][1] * nodeC[orient[0][0]],
-                                    sensor[1] - direction * orient[1][1] * nodeC[orient[1][0]],
-                                    sensor[2] - direction * orient[2][1] * nodeC[orient[2][0]],
-                                )
-                            )
-                        print(
-                            sensor,
-                            len(nodes0),
-                            len(newNodes),
-                            len(nodes0.intersection(newNodes)),
-                        )
-                        if len(nodes0.intersection(newNodes)) == 12:
-                            break
-                beacons.append((sensor[0], sensor[1], sensor[2]))
-
-                orient = ast.literal_eval(sensor[3])
-                direction = sensor[4]
-                for nodeC in S[c]:
-                    S[0].append(
-                        (
-                            sensor[0] - direction * orient[0][1] * nodeC[orient[0][0]],
-                            sensor[1] - direction * orient[1][1] * nodeC[orient[1][0]],
-                            sensor[2] - direction * orient[2][1] * nodeC[orient[2][0]],
-                        )
-                    )
-                S[0] = list(set(S[0]))
-                M[0] = a19_create_diffs(S[0])
-                M[c] = {}
-                merged += 1
-    print(len(S[0]))
-    maxD = 0
-    for x in beacons:
-        for y in beacons:
-            maxD = max(maxD, abs(x[0] - y[0]) + abs(x[1] - y[1]) + abs(x[2] - y[2]))
-    print("b:", maxD)
-
-
-def a19_create_diffs(s):
-    ret = defaultdict(list)
-    for n in s:
-        for m in s:
-            if m == n:
+    # b = [bpNo, OreO, ClayO, ObsO, ObsC, GeoO, GeoObs]
+    # ore, clay, obs, geo
+    B = [tuple([int(i) for i in reNUMS.findall(l)]) for l in f.strip().split("\n")]
+    bMax = {}
+    # for blue in B:
+    for blue in B[:3]:
+        print(blue)
+        Q = PriorityQueue()  # score, x, y
+        Q.put((1, (1, 0, 0, 0), (0, 0, 0, 0), blue))
+        S = dict()
+        mPrint = 10
+        while not Q.empty():
+            minute, robots, inventory, bluep = Q.get()
+            if minute == mPrint:
+                print(minute, robots, inventory, bluep[0])
+                mPrint += 1
+            if minute == 32:
+                # bMax[bluep[0]] = max(bMax.get(bluep[0], -1), (robots[3] - inventory[3]) * bluep[0])
+                bMax[bluep[0]] = max(bMax.get(bluep[0], -1), robots[3] - inventory[3])
                 continue
-            p = [[n[0] - m[0], "0"], [n[1] - m[1], "1"], [n[2] - m[2], "2"]]
-            for cx in range(len(p)):
-                if p[cx][0] < 0:
-                    p[cx][1] = str(int(p[cx][1]) + 3)
-                    p[cx][0] = abs(p[cx][0])
-            sp = sorted(p)
-            ret[" ".join([str(i[0]) for i in sp])].append(("".join([i[1] for i in sp]), (n, m)))
-            if sp[0][0] == sp[1][0]:
-                ret[" ".join([str(i[0]) for i in sp])].append(("".join([i[1] for i in [sp[1], sp[0], sp[2]]]), (n, m)))
-            if sp[1][0] == sp[2][0]:
-                ret[" ".join([str(i[0]) for i in sp])].append(("".join([i[1] for i in [sp[0], sp[2], sp[1]]]), (n, m)))
-    return ret
+            if val := S.get((minute, robots, bluep[0])):
+                if all(v <= i for v, i in zip(val, inventory)):
+                    continue
+            S[(minute, robots, bluep[0])] = inventory
+            # print(minute, robots, inventory, bluep[0])
+            Q.put((minute + 1, robots, tuple([i - r for r, i in zip(robots, inventory)]), bluep))
+            if -inventory[0] >= bluep[5] and -inventory[2] >= bluep[6]:
+                # Build Geo
+                Q.put(
+                    (
+                        minute + 1,
+                        (robots[0], robots[1], robots[2], robots[3] + 1),
+                        (
+                            inventory[0] - robots[0] + bluep[5],
+                            inventory[1] - robots[1],
+                            inventory[2] - robots[2] + bluep[6],
+                            inventory[3] - robots[3],
+                        ),
+                        bluep,
+                    )
+                )
+            if -inventory[0] >= bluep[3] and -inventory[1] >= bluep[4] and robots[2] <= bluep[6]:
+                # Build Obs
+                Q.put(
+                    (
+                        minute + 1,
+                        (robots[0], robots[1], robots[2] + 1, robots[3]),
+                        (
+                            inventory[0] - robots[0] + bluep[3],
+                            inventory[1] - robots[1] + bluep[4],
+                            inventory[2] - robots[2],
+                            inventory[3] - robots[3],
+                        ),
+                        bluep,
+                    )
+                )
+            if -inventory[0] >= bluep[2] and robots[1] <= bluep[4]:
+                # Build Clay
+                Q.put(
+                    (
+                        minute + 1,
+                        (robots[0], robots[1] + 1, robots[2], robots[3]),
+                        (
+                            inventory[0] - robots[0] + bluep[2],
+                            inventory[1] - robots[1],
+                            inventory[2] - robots[2],
+                            inventory[3] - robots[3],
+                        ),
+                        bluep,
+                    )
+                )
+            if -inventory[0] >= bluep[1] and robots[0] <= max(bluep[1], bluep[2], bluep[3], bluep[5]):
+                # Build Ore
+                Q.put(
+                    (
+                        minute + 1,
+                        (robots[0] + 1, robots[1], robots[2], robots[3]),
+                        (
+                            inventory[0] - robots[0] + bluep[1],
+                            inventory[1] - robots[1],
+                            inventory[2] - robots[2],
+                            inventory[3] - robots[3],
+                        ),
+                        bluep,
+                    )
+                )
+    print(bMax)
+    # print("a:", sum(bMax.values()))
+    print("b:", bMax[1] * bMax[2] * bMax[3])
 
 
 def a20(f):
