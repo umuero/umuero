@@ -857,49 +857,40 @@ def a19(f):
 
 
 def a20(f):
-    m = dict()
-    ie = None
-    XX = 0
-    YY = 0
-    for l in f.split("\n"):
-        l = l.strip()
-        if ie is None:
-            ie = l
-            continue
-        if l:
-            for c, ch in enumerate(l):
-                if ch == "#":
-                    m[(c, YY)] = 1
-            XX = len(l)
-            YY += 1
+    n = [(int(n), c) for c, n in enumerate(f.strip().split("\n"))]
+    D = {v: k for k, v in n}
+    N = len(n)
+    order0 = None
+    for order in range(N):
+        ind = n.index((D[order], order))
+        val = n.pop(ind)
+        newInd = (ind + D[order]) % (N - 1)
+        if D[order] == 0:
+            order0 = order
+        if newInd == 0 and D[order] < 0:
+            n.append(val)
+        else:
+            n.insert(newInd, val)
+    ind = n.index((D[order0], order0))
+    print("a:", n[(ind + 1000) % N][0] + n[(ind + 2000) % N][0] + n[(ind + 3000) % N][0])
 
-    for c in range(50):
-        mNext = dict()
-        X = [0 - 110, XX + 110]
-        Y = [0 - 110, YY + 110]
-        # for x, y in m.keys():
-        #     if x < X[0]:
-        #         X[0] = x
-        #     if x > X[1]:
-        #         X[1] = x
-        #     if y < Y[0]:
-        #         Y[0] = y
-        #     if y > Y[1]:
-        #         Y[1] = y
-        for x in range(X[0], X[1] + 1):
-            for y in range(Y[0], Y[1] + 1):
-                if ie[a20_getIndex(m, x, y)] == "#":
-                    mNext[(x, y)] = 1
-        print(sum([1 if -55 <= i[0] <= XX + 55 and -55 <= i[1] <= YY + 55 else 0 for i in mNext.keys()]))
-        print(c, X, Y, len(mNext))
-        m = mNext
-
-
-def a20_getIndex(m, x, y):
-    ret = ""
-    for dx, dy in zip(NMx, NMy):
-        ret += "1" if (m.get((x + dx, y + dy)) == 1) else "0"
-    return int(ret, 2)
+    n = [(int(n) * 811589153, c) for c, n in enumerate(f.strip().split("\n"))]
+    D = {v: k for k, v in n}
+    N = len(n)
+    order0 = None
+    for i in range(10):
+        for order in range(N):
+            ind = n.index((D[order], order))
+            val = n.pop(ind)
+            newInd = (ind + D[order]) % (N - 1)
+            if D[order] == 0:
+                order0 = order
+            if newInd == 0 and D[order] < 0:
+                n.append(val)
+            else:
+                n.insert(newInd, val)
+    ind = n.index((D[order0], order0))
+    print("b:", n[(ind + 1000) % N][0] + n[(ind + 2000) % N][0] + n[(ind + 3000) % N][0])
 
 
 def a21(f):
