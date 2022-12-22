@@ -894,110 +894,145 @@ def a20(f):
 
 
 def a21(f):
-    P1 = 6
-    P2 = 1
-    p = [P1, P2]
-    s = [0, 0]
-    ctr = True
-    dice = 0
-    while True:
-        dice += 3
-        ctr = not ctr
-        p[ctr] = (p[ctr] + 3 * (dice - 1)) % 10
-        if p[ctr] == 0:
-            p[ctr] = 10
-        s[ctr] += p[ctr]
-        if s[0] >= 1000 or s[1] >= 1000:
-            print(s, dice)
-            print(min(s) * dice)
-            break
-    p1 = 0
-    p2 = 0
-    C = Counter([(P1, P2, 0, 0, False)])
-    mult = [(3, 1), (4, 3), (5, 6), (6, 7), (7, 6), (8, 3), (9, 1)]
-    while len(C):
-        CN = Counter()
-        for item, val in C.items():
-            for num, ctr in mult:
-                qp = [item[0], item[1]]
-                qs = [item[2], item[3]]
-                qp[item[4]] = (qp[item[4]] + num) % 10
-                if qp[item[4]] == 0:
-                    qp[item[4]] = 10
-                qs[item[4]] += qp[item[4]]
-                if qs[0] >= 21:
-                    p1 += val * ctr
-                elif qs[1] >= 21:
-                    p2 += val * ctr
-                else:
-                    CN[(qp[0], qp[1], qs[0], qs[1], not item[4])] += val * ctr
-        C = CN
-    print(p1, p2)
+    arr = [tuple(l.split(" ")) for l in f.strip().split("\n")]
+    V = {}
+    F = {}
+    for l in arr:
+        if len(l) == 2:
+            V[l[0].strip(":")] = int(l[1])
+        elif l[2] == "+":
+            F[l[0].strip(":")] = (lambda x, y: x + y, l[1], l[3])
+        elif l[2] == "*":
+            F[l[0].strip(":")] = (lambda x, y: x * y, l[1], l[3])
+        elif l[2] == "-":
+            F[l[0].strip(":")] = (lambda x, y: x - y, l[1], l[3])
+        elif l[2] == "/":
+            F[l[0].strip(":")] = (lambda x, y: x // y, l[1], l[3])
+    V["humn"] = 3221245824363
+    # humn: 0 -> V0
+    # humn: 3000000000000 -> V3
+    # B: = (V3 - VG) * 3000 / (V0 - V3) ~+-1
+    while len(F) > 0:
+        delKeys = []
+        for k in F.keys():
+            f = F[k]
+            if f[1] in V and f[2] in V:
+                V[k] = f[0](V[f[1]], V[f[2]])
+                if k == "root":
+                    print("a:", V[k])
+                    print("b:", V[f[1]], V[f[2]])  # VG
+                    F = {}
+                delKeys.append(k)
+        for k in delKeys:
+            if k in F:
+                del F[k]
+
+
+def a22_move(M, X, Y, R, ord, mX, mY):
+    if ord == 0:
+        return (X, Y, R)
+    x = X + Nx[R]
+    y = Y + Ny[R]
+    if (x, y) not in M:
+        if R == 0:
+            x = 0
+            while (x, y) not in M:
+                x += 1
+        if R == 2:
+            x = mX
+            while (x, y) not in M:
+                x -= 1
+        if R == 1:
+            y = 0
+            while (x, y) not in M:
+                y += 1
+        if R == 3:
+            y = mY
+            while (x, y) not in M:
+                y -= 1
+    if M[(x, y)] == ".":
+        return a22_move(M, x, y, R, ord - 1, mX, mY)
+    if M[(x, y)] == "#":
+        return (X, Y, R)
+
+
+def a22_moveB(M, X, Y, R, ord, mX, mY):
+    if ord == 0:
+        return (X, Y, R)
+    x, y, r = X + Nx[R], Y + Ny[R], R
+    if (x, y) not in M:
+        Qx = X // 50
+        Qy = Y // 50
+        x50 = x % 50
+        y50 = y % 50
+        print("==", Qx, Qy, R)
+        if Qx == 1 and Qy == 0 and R == 2:  # 1 left
+            x, y, r = 0, 3 * 50 - 1 - y50, 0
+        if Qx == 1 and Qy == 0 and R == 3:  # 1 up
+            x, y, r = 0, 3 * 50 + x50, 0
+        if Qx == 2 and Qy == 0 and R == 0:  # 2 right
+            x, y, r = 2 * 50 - 1, 3 * 50 - 1 - y50, 2
+        if Qx == 2 and Qy == 0 and R == 1:  # 2 down
+            x, y, r = 2 * 50 - 1, 50 + x50, 2
+        if Qx == 2 and Qy == 0 and R == 3:  # 2 up
+            x, y, r = x50, 4 * 50 - 1, 3
+        if Qx == 1 and Qy == 1 and R == 0:  # 3 right
+            x, y, r = 2 * 50 + y50, 50 - 1, 3
+        if Qx == 1 and Qy == 1 and R == 2:  # 3 left
+            x, y, r = y50, 2 * 50, 1
+        if Qx == 0 and Qy == 2 and R == 2:  # 4 left
+            x, y, r = 50, 50 - 1 - y50, 0
+        if Qx == 0 and Qy == 2 and R == 3:  # 4 up
+            x, y, r = 50, 50 + x50, 0
+        if Qx == 1 and Qy == 2 and R == 0:  # 5 right
+            x, y, r = 3 * 50 - 1, 50 - 1 - y50, 2
+        if Qx == 1 and Qy == 2 and R == 1:  # 5 down
+            x, y, r = 50 - 1, 3 * 50 + x50, 2
+        if Qx == 0 and Qy == 3 and R == 0:  # 6 right
+            x, y, r = 50 + y50, 3 * 50 - 1, 3
+        if Qx == 0 and Qy == 3 and R == 1:  # 6 down
+            x, y, r = 2 * 50 + x50, 0, 1
+        if Qx == 0 and Qy == 3 and R == 2:  # 6 left
+            x, y, r = 50 + y50, 0, 1
+    if M[(x, y)] == ".":
+        return a22_moveB(M, x, y, r, ord - 1, mX, mY)
+    if M[(x, y)] == "#":
+        return (X, Y, R)
 
 
 def a22(f):
-    orders = []
-    S = set()
-    X = dict()
-    Y = dict()
-    Z = dict()
-    for line in f.split("\n"):
-        l = line.replace(" ", ",").replace("..", ",").replace("=", ",").split(",")
-        if len(l) < 8:
-            print(l)
+    M = {}
+    Orders = ""
+    X, Y, R = None, None, 0
+    maxX, maxY = 0, 0
+    for y, l in enumerate(f.split("\n")):
+        if Orders is None:
+            Orders = re.split(r"(\d+)", l)
+            break
+        if l == "":
+            Orders = None
+        for x, c in enumerate(l):
+            if c == "." and X is None:
+                X = x
+                Y = y
+            if c == "." or c == "#":
+                M[(x, y)] = c
+            maxX = max(maxX, x)
+        maxY = max(maxY, y)
+    for ord in Orders:
+        if ord == "":
             continue
-        orders.append(
-            (
-                int(l[2]),
-                int(l[3]) + 1,
-                int(l[5]),
-                int(l[6]) + 1,
-                int(l[8]),
-                int(l[9]) + 1,
-                l[0] == "on",
-            )
-        )
-        X[orders[-1][0]] = ""
-        X[orders[-1][1]] = ""
-        Y[orders[-1][2]] = ""
-        Y[orders[-1][3]] = ""
-        Z[orders[-1][4]] = ""
-        Z[orders[-1][5]] = ""
-    print(len(X.keys()), len(Y.keys()), len(Z.keys()))
-    L = dict()
-    last = ""
-    for c, x in enumerate(sorted(X.keys())):
-        X[x] = c
-        if last:
-            L["x" + str(last[0])] = x - last[1]
-        last = (c, x)
-    last = ""
-    for c, y in enumerate(sorted(Y.keys())):
-        Y[y] = c
-        if last:
-            L["y" + str(last[0])] = y - last[1]
-        last = (c, y)
-    last = ""
-    for c, z in enumerate(sorted(Z.keys())):
-        Z[z] = c
-        if last:
-            L["z" + str(last[0])] = z - last[1]
-        last = (c, z)
-    for co, o in enumerate(orders):
-        if co % 10 == 0:
-            print(co, len(orders))
-        for x in range(X[o[0]], X[o[1]]):
-            for y in range(Y[o[2]], Y[o[3]]):
-                for z in range(Z[o[4]], Z[o[5]]):
-                    if o[6]:
-                        S.add((x, y, z))
-                    else:
-                        S.discard((x, y, z))
-    print(len(S))
-    s = 0
-    for node in S:
-        s += L["x" + str(node[0])] * L["y" + str(node[1])] * L["z" + str(node[2])]
-    print("b:", s)
+        elif ord == "R":
+            R += 1
+            R %= 4
+        elif ord == "L":
+            R -= 1
+            R %= 4
+        else:
+            print(X, Y, R, ord)
+            # X, Y, R = a22_move(M, X, Y, R, int(ord), maxX, maxY)
+            X, Y, R = a22_moveB(M, X, Y, R, int(ord), maxX, maxY)
+    print("b:", X, Y, R, 1000 * (Y + 1) + 4 * (X + 1) + R)
 
 
 def a23(f):
