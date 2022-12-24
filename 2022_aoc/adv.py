@@ -1087,39 +1087,70 @@ def a23(f):
 
 
 def a24(f):
-    # INP = list("12996997829399")
-    INP = list("11841231117189")
-    R4 = [1, 1, 1, 1, 26, 1, 1, 26, 26, 26, 1, 26, 26, 26]
-    R5 = [14, 15, 12, 11, -5, 14, 15, -13, -16, -8, 15, -8, 0, -4]
-    R15 = [12, 7, 1, 2, 4, 15, 11, 5, 3, 9, 2, 3, 3, 11]
-
-    w, x, z = (0, 0, 0)
-    for i in range(len(INP)):
-        w = int(INP[i])
-        goal = (z % 26) + R5[i]
-        z = z // R4[i]
-        if goal != w:
-            z = (26 * z) + w + R15[i]
-        print(f"d:{R4[i]}\tg+:{R5[i]}\tm:{R15[i]}\tg:{goal}\tw:{w}\tx:{x}\tz:{z}")
-
-    arr = [i.strip() for i in f.split("\n")]
-    VAR = {"w": 0, "x": 0, "y": 0, "z": 0}
-    for line in arr:
-        order = line.split(" ")
-        if order[0] == "inp":
-            VAR[order[1]] = int(INP.pop(0))
-            print("processed", 13 - len(INP), order, VAR)
-        if order[0] == "add":
-            VAR[order[1]] = VAR[order[1]] + VAR.get(order[2], int(order[2]) if not order[2].isalpha() else 0)
-        if order[0] == "mul":
-            VAR[order[1]] = VAR[order[1]] * VAR.get(order[2], int(order[2]) if not order[2].isalpha() else 0)
-        if order[0] == "div":
-            VAR[order[1]] = VAR[order[1]] // VAR.get(order[2], int(order[2]) if not order[2].isalpha() else 0)
-        if order[0] == "mod":
-            VAR[order[1]] = VAR[order[1]] % VAR.get(order[2], int(order[2]) if not order[2].isalpha() else 0)
-        if order[0] == "eql":
-            VAR[order[1]] = 1 if VAR[order[1]] == VAR.get(order[2], int(order[2]) if not order[2].isalpha() else 0) else 0
-    print("valid", VAR["z"] == 0, VAR)
+    M = dict()
+    T = []
+    P = set()
+    mX, mY = 0, 0
+    for y, l in enumerate(f.split("\n")):
+        for x, c in enumerate(l):
+            if c == "." and len(P) == 0:
+                P.add((x, y, ""))
+            if c == "#":
+                continue
+            if c == "<":
+                T.append((x, y, -1, 0))
+            if c == ">":
+                T.append((x, y, 1, 0))
+            if c == "^":
+                T.append((x, y, 0, -1))
+            if c == "v":
+                T.append((x, y, 0, 1))
+            M[(x, y)] = 0 if c == "." else 1
+            mX = max(mX, x)
+            mY = max(mY, y)
+    round = 1
+    aTriggered = False
+    while round:
+        T2 = []
+        P2 = set()
+        for tor in T:
+            p = (tor[0] + tor[2], tor[1] + tor[3])
+            if p not in M:
+                if tor[2] == -1:
+                    p = (mX, tor[1] + tor[3])
+                if tor[3] == -1:
+                    p = (tor[0] + tor[2], mY - 1)
+                if tor[2] == 1:
+                    p = (1, tor[1] + tor[3])
+                if tor[3] == 1:
+                    p = (tor[0] + tor[2], 1)
+            T2.append((p[0], p[1], tor[2], tor[3]))
+            M[p] = M[p] + 1
+            M[tor[0], tor[1]] = M[tor[0], tor[1]] - 1
+        # for y in range(1, mY):
+        #     print("".join([str(M.get((x, y))) for x in range(1, mX + 1)]))
+        for x, y, j in P:
+            if M.get((x, y)) == 0:
+                P2.add((x, y, j))
+            for dx, dy in zip(Nx, Ny):
+                if M.get((x + dx, y + dy)) == 0:
+                    if y + dy == mY:
+                        if aTriggered is False:
+                            print("a:", round)
+                            aTriggered = True
+                        if j == "GS":
+                            print("b:", round)
+                            return
+                        P2.add((x + dx, y + dy, "G"))
+                    elif y + dy == 0 and j == "G":
+                        P2.add((x + dx, y + dy, "GS"))
+                    else:
+                        P2.add((x + dx, y + dy, j))
+        P = P2
+        T = T2
+        if len(P) == 0:
+            break
+        round += 1
 
 
 def a25(f):
