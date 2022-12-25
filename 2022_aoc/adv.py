@@ -571,74 +571,109 @@ def a15(f):
                 return
 
 
-def a16(f):
-    M = {l.split(" ")[1]: (int(l[23:26].replace(";", "")), l.replace(",", "").split(" ")[9:]) for l in f.strip().split("\n")}
-    vals = len([i for i in M.keys() if M[i][0] > 0])
-    S = set()
-    Q = PriorityQueue()
-    Q.put((0, 0, "AA", ()))
+def a16_dfs(M, Q, MAX):
+    S = {}
     while not Q.empty():
         m, rel, p, op = Q.get()
-        if m == 30:
-            print("a:", (m, rel))
-            break
-        flow = sum([M[l][0] for l in op])
-        if vals == len(op):
-            Q.put((m + 1, rel - flow, p, op))
+        if m == MAX:
+            return (m, rel, p, op)
+        if len(M) == len(op):
+            Q.put((m + 1, rel, p, op))
             continue
-        if (p, op) in S:
+        if S.get((p, op), -1) >= -rel:
             continue
-        S.add((p, op))
-        if p not in op and M[p][0] > 0:
-            Q.put((m + 1, rel - flow, p, tuple(sorted(op + (p,)))))
-        for n in M[p][1]:
-            Q.put((m + 1, rel - flow, n, op))
+        S[(p, op)] = -rel
+        if p not in op:
+            Q.put((m + 1, rel - M[p][0] * (MAX - 1 - m), p, tuple(sorted(op + (p,)))))
+        for n, t in M[p][1].items():
+            Q.put((m + t, rel, n, op))
 
-    print(M)
-    M2 = {k: {n: 1 for n in v[1]} for k, v in M.items() if v[0] > 0 or k == "AA"}
-    for n in M2.keys():
-        keys = M2[n][1].keys()
-        for n2 in keys:
-            if M2[n2][0] > 0:
-                continue
-            v2 = M2[n2][1][n2]
-            del M2[n2][1][n2]
-            for n3 in M[n2][1]:
-                if n3 not in M2[n2][1]:
-                    M2[n2][1][n3] = v2 + 1
-    print(M2)
-    # S = set()
-    # P = dict()
-    # Q = PriorityQueue()
-    # ctr = 0
-    # Q.put((0, 0, "AA", "AA", ()))
-    # while not Q.empty():
-    #     m, rel, p, e, op = Q.get()
-    #     ctr += 1
-    #     if ctr % 1000 == 0:
-    #         print(m, rel, p, e, Q.qsize())
-    #     if m == 26:
-    #         print("b:", (m, rel))
-    #         break
-    #     flow = sum([M[l][0] for l in op])
-    #     check = (p, e)
-    #     if p > e:
-    #         check = (e, p)
-    #     prev = P.get(check)
-    #     if prev is not None and flow < prev[0] and len(op) < prev[1]:
-    #         continue
-    #     P[check] = (flow, len(op))
-    #     if p not in op and M[p][0] > 0:
-    #         if p != e and e not in op and M[e][0] > 0:
-    #             nop = sorted(op + (p, e))
-    #             Q.put((m + 1, rel - flow, p, e, tuple(nop)))
-    #         for n in M[e][1]:
-    #             Q.put((m + 1, rel - flow, p, n, tuple(sorted(op + (p,)))))
-    #     for n in M[p][1]:
-    #         if p != e and e not in op and M[e][0] > 0:
-    #             Q.put((m + 1, rel - flow, n, e, tuple(sorted(op + (e,)))))
-    #         for nn in M[e][1]:
-    #             Q.put((m + 1, rel - flow, n, nn, op))
+
+def a16(f):
+    MM = {l.split(" ")[1]: (int(l[23:26].replace(";", "")), l.replace(",", "").split(" ")[9:]) for l in f.strip().split("\n")}
+    M = {k: (v[0], {n: 1 for n in v[1]}) for k, v in MM.items()}
+    toDel = []
+    for k in M.keys():
+        if k != "AA" and M[k][0] == 0:
+            toDel.append(k)
+            for node in M[k][1].keys():
+                cost = M[node][1][k]
+                del M[node][1][k]
+                for tonode in M[k][1].keys():
+                    if node != tonode:
+                        tocost = M[k][1][tonode]
+                        if tonode in M[node][1]:
+                            M[node][1][tonode] = min(cost + tocost, M[node][1][tonode])
+                        else:
+                            M[node][1][tonode] = cost + tocost
+    for d in toDel:
+        del M[d]
+
+    # A # -e 1651 -r 1767 (XX29)
+    Q = PriorityQueue()
+    Q.put((0, 0, "AA", ("AA",)))  # minute released position openedVs
+    print("a:", -a16_dfs(M, Q, 30)[1])
+
+    # IT IS NOT THE OPTIMAL PATH
+    Q = PriorityQueue()
+    Q.put((0, 0, "AA", ("AA",)))  # minute released position openedVs
+    p1 = a16_dfs(M, Q, 26)
+    Q = PriorityQueue()
+    Q.put((0, p1[1], "AA", p1[3]))
+    print("b:", -a16_dfs(M, Q, 26)[1])
+
+    """
+    # THIS SHOULD BE THE OPTIMAL
+    # B # -e 1707 (1715)  2528 (8min)
+    S = {}
+    Q = PriorityQueue()
+    MAX = 26
+    ctr = 1
+    Q.put((0, 0, "AA", "AA", ("AA",), 0, 0))  # minute released position openedVs waitHuman waitElephant
+    while not Q.empty():
+        m, rel, p, e, op, th, te = Q.get()
+        ctr += 1
+        if ctr % 5000 == 0:
+            print(m, rel, p, e, Q.qsize())
+        if m == MAX:
+            print("b:", -rel)
+            break
+        if len(M) == len(op):
+            Q.put((m + 1, rel, p, e, op, 0, 0))
+            continue
+        check = (p, e, op)
+        if p > e:
+            check = (e, p, op)
+        if S.get(check, -1) >= -rel:
+            continue
+        S[check] = -rel
+        if th > 0:
+            if e not in op:
+                Q.put((m + 1, rel - M[e][0] * (MAX - 1 - m), p, e, tuple(sorted(op + (e,))), th - 1, 0))
+            for nn, tt in M[e][1].items():
+                mt = min(th, tt)
+                Q.put((m + mt, rel, p, nn, op, th - mt, tt - mt))
+        elif te > 0:
+            if p not in op:
+                Q.put((m + 1, rel - M[p][0] * (MAX - 1 - m), p, e, tuple(sorted(op + (p,))), 0, te - 1))
+            for nn, tt in M[p][1].items():
+                mt = min(te, tt)
+                Q.put((m + mt, rel, nn, e, op, tt - mt, te - mt))
+        else:
+            if p not in op:
+                opGain = M[p][0] * (MAX - 1 - m)
+                if p != e and e not in op:
+                    eopGain = M[e][0] * (MAX - 1 - m)
+                    Q.put((m + 1, rel - opGain - eopGain, p, e, tuple(sorted(op + (p, e))), 0, 0))
+                for nn, tt in M[p][1].items():
+                    Q.put((m + 1, rel - opGain, p, nn, tuple(sorted(op + (p,))), 0, tt - 1))
+            for n, t in M[p][1].items():
+                if e not in op:
+                    Q.put((m + 1, rel - M[e][0] * (MAX - 1 - m), n, e, tuple(sorted(op + (e,))), t - 1, 0))
+                for nn, tt in M[p][1].items():
+                    mt = min(t, tt)
+                    Q.put((m + mt, rel, n, nn, op, t - mt, tt - mt))
+    """
 
 
 def a17_avail(M, x, y, item):
@@ -1154,41 +1189,25 @@ def a24(f):
 
 
 def a25(f):
-    print(f)
-    mE = set()
-    mS = set()
-    for Y, l in enumerate(f.split("\n")):
-        for X, ch in enumerate(l.strip()):
-            if ch == ">":
-                mE.add((X, Y))
-            if ch == "v":
-                mS.add((X, Y))
-    X = X + 1
-    Y = Y + 1
-    step = 0
-    diff = 1
-    while diff > 0:
-        if step % 10 == 0:
-            print(step, diff)
-        step += 1
-        diff = 0
-        nE = set()
-        nS = set()
-        for x, y in mE:
-            if ((x + 1) % X, y) not in mS and ((x + 1) % X, y) not in mE:
-                nE.add(((x + 1) % X, y))
-                diff += 1
-            else:
-                nE.add((x, y))
-        for x, y in mS:
-            if (x, (y + 1) % Y) not in mS and (x, (y + 1) % Y) not in nE:
-                nS.add((x, (y + 1) % Y))
-                diff += 1
-            else:
-                nS.add((x, y))
-        mE = nE
-        mS = nS
-    print(step)
+    c = 0
+    snafu = {"=": -2, "-": -1, "0": 0, "1": 1, "2": 2}
+    toint = {-2: "=", -1: "-", 0: "0", 1: "1", 2: "2"}
+
+    for line in f.split("\n"):
+        if line.strip() == "":
+            continue
+        c += sum([(5 ** i) * snafu[c] for i, c in enumerate(reversed(line))])
+
+    value = []
+    while c > 0:
+        rema = c % 5
+        if rema > 2:
+            c += rema
+            value.append(toint[rema - 5])
+        else:
+            value.append(str(rema))
+        c //= 5
+    print("".join(reversed(value)))
 
 
 AoC = {
